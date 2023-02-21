@@ -3,7 +3,7 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Title (display)
-title: Japan CSS Support SQL Cloud Blog
+title: Japan SQL Cloud Support Blog
 # Sub Title (display)
 subtitle: 日本マイクロソフト SQL Cloud チームによるサポートブログです。
 # Description
@@ -14,7 +14,7 @@ keywords:
   - Information
   - Example
 
-author: CSS Japan
+author: Microsoft SQL Cloud Support Team
 
 # Tag (hexo helper)
 root_tag_generator:
