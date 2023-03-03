@@ -6,7 +6,7 @@
   <link href="https://jp-azuresql.github.io/blog/atom.xml" rel="self"/>
   
   <link href="https://jp-azuresql.github.io/blog/"/>
-  <updated>2023-02-21T06:39:30.529Z</updated>
+  <updated>2023-03-03T06:30:03.194Z</updated>
   <id>https://jp-azuresql.github.io/blog/</id>
   
   <author>
@@ -17,11 +17,33 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Azure SQL Database / SQL Managed Instance のお問い合わせを起票いただく際に</title>
+    <link href="https://jp-azuresql.github.io/blog/support-request-guidance/"/>
+    <id>https://jp-azuresql.github.io/blog/support-request-guidance/</id>
+    <published>2023-03-02T06:00:00.000Z</published>
+    <updated>2023-03-03T06:30:03.194Z</updated>
+    
+    <content type="html"><![CDATA[<p>こんにちは。SQL Cloud サポート チームの川野辺です。</p><p>今回の投稿では、Azure SQL Database (SQL DB), SQL Managed Instance (SQL MI) に関連するお問い合わせを起票いただく際に、速やかな解決のため、ご協力いただきたい点に関してご案内します。</p><span id="more"></span><h2 id="お問い合わせの発行に関しては最初にこちらをご一読ください"><a href="#お問い合わせの発行に関しては最初にこちらをご一読ください" class="headerlink" title="お問い合わせの発行に関しては最初にこちらをご一読ください"></a>お問い合わせの発行に関しては最初にこちらをご一読ください</h2><hr><div class="alert is-important"><p class="alert-title">重要</p><p>サポートリクエスト全般において、起票前にご留意いただきたい点に関して、こちらにご案内しております。</p><p>起票前にご一読ください。</p><p><a href="https://jpaztech.github.io/blog/information/How-to-inquiry-to-the-Azure-Support/">お問い合わせの発行方法について</a></p></div><h2 id="お問い合わせ時には以下の情報を添えてください"><a href="#お問い合わせ時には以下の情報を添えてください" class="headerlink" title="お問い合わせ時には以下の情報を添えてください"></a>お問い合わせ時には以下の情報を添えてください</h2><hr><p>SQL DB, SQL MI に関するお問い合わせの場合は、正確な調査のため、起票時に以下の情報を添えてください。<br>なお、起票時に対象となるリソースを選択いただきますと、自動的にサブスクリプション ID、リソースグループ名、サーバー名・インスタンス名、データベース名が取得されますので、こちらの選択にご協力ください。</p><ul><li>サブスクリプション ID (例 xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)</li><li>リソースグループ名</li><li>(SQL DB の場合) サーバー名 or (SQL MI の場合) インスタンス名</li><li>データベース名</li><li>事象の発生時刻 (例 日本時間 2023-03-01 15:13)</li><li>エラーメッセージの全文</li></ul><h2 id="適切な製品をご選択ください"><a href="#適切な製品をご選択ください" class="headerlink" title="適切な製品をご選択ください"></a>適切な製品をご選択ください</h2><hr><p>Azure 上のリレーショナルデータベースにおきましても、SQL Server や OSS のデータベースなど様々な種類が存在します。<br>その中で、SQL Server に限定しましても、SQL DB、SQL MI、SQL Server on Azure VM など様々なご利用形態をご提供しております。<br>それぞれの製品によって、ご案内内容や担当チームが異なる可能性がありますので、適切な回答をスムースに提供するためにも、起票時には適切な製品の選択にご協力ください。</p><h2 id="事象発生からできるだけ早いタイミングでお問い合わせください"><a href="#事象発生からできるだけ早いタイミングでお問い合わせください" class="headerlink" title="事象発生からできるだけ早いタイミングでお問い合わせください"></a>事象発生からできるだけ早いタイミングでお問い合わせください</h2><hr><p>データベースで発生した事象の調査をご依頼の場合、データセンターのログによっては保持期間が短く、詳細をご案内できない場合があります。<br>そのため、事象が発生しましたら一両日中にお問い合わせください。</p>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;こんにちは。SQL Cloud サポート チームの川野辺です。&lt;/p&gt;
+&lt;p&gt;今回の投稿では、Azure SQL Database (SQL DB), SQL Managed Instance (SQL MI) に関連するお問い合わせを起票いただく際に、速やかな解決のため、ご協力いただきたい点に関してご案内します。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="Information" scheme="https://jp-azuresql.github.io/blog/tags/Information/"/>
+    
+    <category term="Support Request" scheme="https://jp-azuresql.github.io/blog/tags/Support-Request/"/>
+    
+  </entry>
+  
+  <entry>
     <title>サンプル記事 - タイトル</title>
     <link href="https://jp-azuresql.github.io/blog/information/example/"/>
     <id>https://jp-azuresql.github.io/blog/information/example/</id>
     <published>2021-01-01T03:00:00.000Z</published>
-    <updated>2023-02-21T06:39:30.529Z</updated>
+    <updated>2023-03-03T06:30:03.194Z</updated>
     
     <content type="html"><![CDATA[<p>記事概要</p><span id="more"></span><p>記事本文</p><!-- 文字修飾 --><p><strong>太字</strong></p><p><del>訂正せん</del></p><p><em>斜め文字</em></p><!-- 引用 --><blockquote><p>引用</p><blockquote><p>引用</p></blockquote></blockquote><!-- 見出し --><h2 id="見出し-大"><a href="#見出し-大" class="headerlink" title="見出し (大)"></a>見出し (大)</h2><h3 id="見出し-中"><a href="#見出し-中" class="headerlink" title="見出し (中)"></a>見出し (中)</h3><h4 id="見出し-小"><a href="#見出し-小" class="headerlink" title="見出し (小)"></a>見出し (小)</h4><!-- リスト --><ul><li>リスト<ul><li>リスト</li><li>リスト</li></ul></li><li>リスト</li></ul><!-- 数字リスト --><ol><li>数字リスト<ol><li>数字リスト</li><li>数字リスト</li></ol></li><li>数字リスト</li><li>数字リスト</li></ol><!-- 区切り線 --><hr><!-- リンク --><p><a href="https://jpaztech.github.io/blog/">Japan Azure IaaS Core Support Blog</a></p><!-- 画像 (リポジトリ内ファイルを参照 --><p><img src="/blog/information/example/example01.png"></p><!-- 画像 (外部 URL を参照) --><p><img src="https://jpaztech.github.io/blog/vm/re-install-windows-azure-guest-agent/service.png"></p><!-- コード ブロック --><figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">net</span> stop rdagent</span><br><span class="line"><span class="built_in">net</span> stop WindowsAzureGuestAgent</span><br><span class="line"><span class="built_in">net</span> stop WindowsAzureTelemetryService</span><br></pre></td></tr></table></figure><!-- 表 --><table><thead><tr><th>見出し</th><th>見出し</th></tr></thead><tbody><tr><td>セル</td><td>セル</td></tr><tr><td>セル</td><td>セル</td></tr></tbody></table><!-- ノート --><div class="alert is-info"><p class="alert-title">Note</p><p>THIS IS NOTE</p><p><code>[!NOTE]</code> と書くと <code>Note</code> になります。</p><p>これだけ MS 公式ドキュメントと異なります。 (公式ドキュメントだと <code>NOTE</code> も <code>注意</code> に変換される…)</p></div><!-- ヒント --><div class="alert is-success"><p class="alert-title">ヒント</p><p>THIS IS TIP</p><p><code>[!TIP]</code> とかくと <code>ヒント</code> になります。</p></div><!-- 重要 --><div class="alert is-important"><p class="alert-title">重要</p><p>THIS IS IMPORTANT</p><p><code>[!IMPORTANT]</code> とかくと <code>重要</code> になります。</p></div><!-- 注意事項 --><blockquote><p>[!CAUTION]<br>THIS IS CAUTION<br><code>[!CAUTION]</code> と書くと <code>注意事項</code> になります。</p></blockquote><!-- 注意 --><div class="alert is-warning"><p class="alert-title">警告</p><p>THIS IS WARNING</p><p><code>[!WARNING]</code> と書くと <code>警告</code> になります。</p></div>]]></content>
     
@@ -42,7 +64,7 @@
     <link href="https://jp-azuresql.github.io/blog/information/test/"/>
     <id>https://jp-azuresql.github.io/blog/information/test/</id>
     <published>2020-12-21T06:00:00.000Z</published>
-    <updated>2023-02-21T06:39:30.529Z</updated>
+    <updated>2023-03-03T06:30:03.194Z</updated>
     
     <content type="html"><![CDATA[<p>hello, world!</p>]]></content>
     
