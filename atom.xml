@@ -6,7 +6,7 @@
   <link href="https://jp-azuresql.github.io/blog/atom.xml" rel="self"/>
   
   <link href="https://jp-azuresql.github.io/blog/"/>
-  <updated>2023-03-03T08:47:17.385Z</updated>
+  <updated>2023-03-03T09:13:09.505Z</updated>
   <id>https://jp-azuresql.github.io/blog/</id>
   
   <author>
@@ -21,13 +21,13 @@
     <link href="https://jp-azuresql.github.io/blog/Information/support-request-guidance/"/>
     <id>https://jp-azuresql.github.io/blog/Information/support-request-guidance/</id>
     <published>2023-03-03T06:00:00.000Z</published>
-    <updated>2023-03-03T08:47:17.385Z</updated>
+    <updated>2023-03-03T09:13:09.505Z</updated>
     
-    <content type="html"><![CDATA[<p>こんにちは。SQL Cloud サポート チームの川野辺です。</p><p>今回の投稿では、Azure SQL Database (SQL DB), SQL Managed Instance (SQL MI) に関連するお問い合わせを起票いただく際に、速やかな解決のため、ご協力いただきたい点に関してご案内します。</p><span id="more"></span><h2 id="お問い合わせの発行に関しては最初にこちらをご一読ください"><a href="#お問い合わせの発行に関しては最初にこちらをご一読ください" class="headerlink" title="お問い合わせの発行に関しては最初にこちらをご一読ください"></a>お問い合わせの発行に関しては最初にこちらをご一読ください</h2><hr><div class="alert is-important"><p class="alert-title">重要</p><p>サポートリクエスト全般において、起票前にご留意いただきたい点に関して、こちらにご案内しております。</p><p>起票前にご一読ください。</p><p><a href="https://jpaztech.github.io/blog/information/How-to-inquiry-to-the-Azure-Support/">お問い合わせの発行方法について</a></p></div><h2 id="お問い合わせ時には以下の情報を添えてください"><a href="#お問い合わせ時には以下の情報を添えてください" class="headerlink" title="お問い合わせ時には以下の情報を添えてください"></a>お問い合わせ時には以下の情報を添えてください</h2><hr><p>SQL DB, SQL MI に関するお問い合わせの場合は、正確な調査のため、起票時に以下の情報を添えてください。<br>なお、起票時に対象となるリソースを選択いただきますと、自動的にサブスクリプション ID、リソースグループ名、サーバー名・インスタンス名、データベース名が取得されますので、こちらの選択にご協力ください。</p><ul><li>サブスクリプション ID (例 xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)</li><li>リソースグループ名</li><li>(SQL DB の場合) サーバー名 or (SQL MI の場合) インスタンス名</li><li>データベース名</li><li>事象の発生時刻 (例 日本時間 2023-03-01 15:13)</li><li>エラーメッセージの全文</li></ul><h2 id="適切な製品をご選択ください"><a href="#適切な製品をご選択ください" class="headerlink" title="適切な製品をご選択ください"></a>適切な製品をご選択ください</h2><hr><p>Azure 上のリレーショナルデータベースにおきましても、SQL Server や OSS のデータベースなど様々な種類が存在します。<br>その中で、SQL Server に限定しましても、SQL DB、SQL MI、SQL Server on Azure VM など様々なご利用形態をご提供しております。<br>それぞれの製品によって、ご案内内容や担当チームが異なる可能性がありますので、適切な回答をスムースに提供するためにも、起票時には適切な製品の選択にご協力ください。</p><h2 id="事象発生からできるだけ早いタイミングでお問い合わせください"><a href="#事象発生からできるだけ早いタイミングでお問い合わせください" class="headerlink" title="事象発生からできるだけ早いタイミングでお問い合わせください"></a>事象発生からできるだけ早いタイミングでお問い合わせください</h2><hr><p>データベースで発生した事象の調査をご依頼の場合、データセンターのログによっては保持期間が短く、詳細をご案内できない場合があります。<br>そのため、事象が発生しましたら一両日中にお問い合わせください。</p>]]></content>
+    <content type="html"><![CDATA[<p>こんにちは。SQL Cloud サポート チームの川野辺です。</p><p>今回の投稿では、Azure SQL Database (SQL DB)、SQL Managed Instance (SQL MI) に関連するお問い合わせを起票いただく際に、速やかな解決のため、ご協力いただきたい点に関してご案内します。</p><span id="more"></span><h2 id="お問い合わせの発行に関しては最初にこちらをご一読ください"><a href="#お問い合わせの発行に関しては最初にこちらをご一読ください" class="headerlink" title="お問い合わせの発行に関しては最初にこちらをご一読ください"></a>お問い合わせの発行に関しては最初にこちらをご一読ください</h2><hr><div class="alert is-important"><p class="alert-title">重要</p><p>サポートリクエスト全般において、起票前にご留意いただきたい点に関して、こちらにご案内しております。</p><p>起票前にご一読ください。</p><p><a href="https://jpaztech.github.io/blog/information/How-to-inquiry-to-the-Azure-Support/">お問い合わせの発行方法について</a></p></div><h2 id="お問い合わせ時には以下の情報を添えてください"><a href="#お問い合わせ時には以下の情報を添えてください" class="headerlink" title="お問い合わせ時には以下の情報を添えてください"></a>お問い合わせ時には以下の情報を添えてください</h2><hr><p>SQL DB、SQL MI に関するお問い合わせの場合は、正確な調査のため、起票時に以下の情報を添えてください。<br>なお、起票時に対象となるリソースを選択いただきますと、自動的にサブスクリプション ID、リソースグループ名、サーバー名・インスタンス名、データベース名が取得されますので、こちらの選択にご協力ください。</p><ul><li>サブスクリプション ID (例 xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)</li><li>リソースグループ名</li><li>(SQL DB の場合) サーバー名 or (SQL MI の場合) インスタンス名</li><li>データベース名</li><li>事象の発生時刻 (例 日本時間 2023-03-01 15:13)</li><li>エラーメッセージの全文</li></ul><h2 id="適切な製品をご選択ください"><a href="#適切な製品をご選択ください" class="headerlink" title="適切な製品をご選択ください"></a>適切な製品をご選択ください</h2><hr><p>Azure 上のリレーショナルデータベースにおきましても、SQL Server や OSS のデータベースなど様々な種類が存在します。<br>その中で、SQL Server に限定しましても、SQL DB、SQL MI、SQL Server on Azure VM など様々なご利用形態をご提供しております。<br>それぞれの製品によって、ご案内内容や担当チームが異なる可能性がありますので、適切な回答をスムーズに提供するためにも、起票時には適切な製品の選択にご協力ください。</p><h2 id="事象発生からできるだけ早いタイミングでお問い合わせください"><a href="#事象発生からできるだけ早いタイミングでお問い合わせください" class="headerlink" title="事象発生からできるだけ早いタイミングでお問い合わせください"></a>事象発生からできるだけ早いタイミングでお問い合わせください</h2><hr><p>データベースで発生した事象の調査をご依頼の場合、データセンターのログによっては保持期間が短く、詳細をご案内できない場合があります。<br>そのため、事象が発生しましたら一両日中にお問い合わせください。</p>]]></content>
     
     
     <summary type="html">&lt;p&gt;こんにちは。SQL Cloud サポート チームの川野辺です。&lt;/p&gt;
-&lt;p&gt;今回の投稿では、Azure SQL Database (SQL DB), SQL Managed Instance (SQL MI) に関連するお問い合わせを起票いただく際に、速やかな解決のため、ご協力いただきたい点に関してご案内します。&lt;/p&gt;</summary>
+&lt;p&gt;今回の投稿では、Azure SQL Database (SQL DB)、SQL Managed Instance (SQL MI) に関連するお問い合わせを起票いただく際に、速やかな解決のため、ご協力いただきたい点に関してご案内します。&lt;/p&gt;</summary>
     
     
     
