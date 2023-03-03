@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://jp-azuresql.github.io/blog/Information/support-request-guidance/</loc>
+    
+    <lastmod>2023-03-03</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://jp-azuresql.github.io/blog/information/example/</loc>
     
     <lastmod>2023-03-03</lastmod>
@@ -26,6 +33,13 @@
   
   <url>
     <loc>https://jp-azuresql.github.io/blog/tags/Information/</loc>
+    <lastmod>2023-03-03</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jp-azuresql.github.io/blog/tags/Support-Request/</loc>
     <lastmod>2023-03-03</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
