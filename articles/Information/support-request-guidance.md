@@ -1,6 +1,6 @@
 ---
 title: Azure SQL Database / SQL Managed Instance のお問い合わせを起票いただく際に
-date: 2023-03-2 15:00:00
+date: 2023-03-03 15:00:00
 tags:
   - Information
   - Support Request
