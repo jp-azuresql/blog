@@ -8,20 +8,6 @@
     
   </url>
   
-  <url>
-    <loc>https://jp-azuresql.github.io/blog/information/example/</loc>
-    
-    <lastmod>2023-03-03</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://jp-azuresql.github.io/blog/information/test/</loc>
-    
-    <lastmod>2023-03-03</lastmod>
-    
-  </url>
-  
 
   <url>
     <loc>https://jp-azuresql.github.io/blog</loc>
@@ -40,13 +26,6 @@
   
   <url>
     <loc>https://jp-azuresql.github.io/blog/tags/Support-Request/</loc>
-    <lastmod>2023-03-03</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://jp-azuresql.github.io/blog/tags/Example/</loc>
     <lastmod>2023-03-03</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
