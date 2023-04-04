@@ -6,7 +6,7 @@
   <link href="https://jp-azuresql.github.io/blog/atom.xml" rel="self"/>
   
   <link href="https://jp-azuresql.github.io/blog/"/>
-  <updated>2023-03-03T09:13:09.505Z</updated>
+  <updated>2023-04-04T09:24:30.803Z</updated>
   <id>https://jp-azuresql.github.io/blog/</id>
   
   <author>
@@ -17,11 +17,33 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Azure SQL Database / SQL Managed Instance の自動バックアップに関して</title>
+    <link href="https://jp-azuresql.github.io/blog/Management/autobackup/"/>
+    <id>https://jp-azuresql.github.io/blog/Management/autobackup/</id>
+    <published>2023-04-04T06:00:00.000Z</published>
+    <updated>2023-04-04T09:24:30.803Z</updated>
+    
+    <content type="html"><![CDATA[<p>こんにちは。SQL Cloud サポート チームの川野辺です。</p><p>今回の投稿では、Azure SQL Database (SQL DB)、SQL Managed Instance (SQL MI) における自動バックアップに関してご案内します。</p><span id="more"></span><h2 id="自動バックアップとは"><a href="#自動バックアップとは" class="headerlink" title="自動バックアップとは"></a>自動バックアップとは</h2><hr><p>SQL DB、SQL MI におきまして、お客様は特別意識していただく必要なく、自動でバックアップが定期的に取得されております。<br>こちらの自動バックアップによって取得されたバックアップファイルを用いて、ポイントインタイムリストア (PITR) やバックアップの長期保有 (LTR) の機能で、柔軟にデータベースの復元が可能です。</p><p>自動バックアップ<br><a href="https://learn.microsoft.com/ja-jp/azure/azure-sql/database/automated-backups-overview?view=azuresql">Azure SQL Database の自動バックアップ</a></p><p><a href="https://learn.microsoft.com/ja-jp/azure/azure-sql/managed-instance/automated-backups-overview?view=azuresql">Azure SQL Managed Instance での自動バックアップ</a></p><p>ポイントインタイムリストア (PITR)<br><a href="https://learn.microsoft.com/ja-jp/azure/azure-sql/database/recovery-using-backups?view=azuresql&tabs=azure-portal">Azure SQL Database のバックアップからデータベースを復元する</a></p><p><a href="https://learn.microsoft.com/ja-jp/azure/azure-sql/managed-instance/recovery-using-backups?view=azuresql&tabs=azure-portal">Azure SQL Managed Instance のバックアップからデータベースを復元する</a></p><p>長期保有 (LTR)<br><a href="https://learn.microsoft.com/ja-jp/azure/azure-sql/database/long-term-retention-overview?view=azuresql">長期リテンション - Azure SQL Database と Azure SQL Managed Instance</a></p><h2 id="バックアップの管理に関して"><a href="#バックアップの管理に関して" class="headerlink" title="バックアップの管理に関して"></a>バックアップの管理に関して</h2><hr><p>自動バックアップによって取得されたバックアップファイルは、お客様のデータが保存されているストレージとは異なるバックアップストレージに保存されます。こちらのストレージに関しては、お客様がアクセスいただくことはできず、バックアップファイルを直接確認することや、削除することはできませんが、弊社によって責任を持って管理を行っております。<br>お客様はいつでもバックアップストレージの冗長性（ローカル冗長、ゾーン冗長、geo 冗長）を変更することができ、バックアップストレージの冗長性の変更に際し、データベースの再起動などは発生しません。<br>なお、自動バックアップを停止することもできかねますが、バックアップの取得に関しては、内部プロセスに割り当てられたコンピューティング リソースが使用されますので、お客様のワークロードに影響はございません。</p><h2 id="SQL-DB-にてバックアップをお客様で管理されたい場合"><a href="#SQL-DB-にてバックアップをお客様で管理されたい場合" class="headerlink" title="SQL DB にてバックアップをお客様で管理されたい場合"></a>SQL DB にてバックアップをお客様で管理されたい場合</h2><hr><p>SQL DB におきましては、お客様にてバックアップを取得することはできかねます。PITR や LTR によって、バックアップのリストアは可能ですので、多くのご要望にお応えすることが可能ですが、お客様のお手元で管理されたい場合にご案内できる代替策としましては、データベースを BACPAC ファイルにエクスポートする方法となります。<br>エクスポートを実施することで、BACPAC ファイルを取得可能であり、こちらを基にデータベースをインポートすることも可能ですので、こちらをお客様のお手元で管理される場合もあります。<br>詳細に関しては、以下の公開情報をご参照いただけますと幸いです。</p><p><a href="https://learn.microsoft.com/ja-jp/azure/azure-sql/database/database-export?source=recommendations&view=azuresql">BACPAC ファイルへのエクスポート - Azure SQL Database および Azure SQL Managed Instance</a></p><p><a href="https://learn.microsoft.com/ja-jp/azure/azure-sql/database/database-import?view=azuresql&tabs=azure-powershell">クイックスタート: Azure SQL Database または Azure SQL Managed Instance 内のデータベースに .bacpac ファイルをインポートする</a></p><h2 id="SQL-MI-にてバックアップをお客様で管理されたい場合"><a href="#SQL-MI-にてバックアップをお客様で管理されたい場合" class="headerlink" title="SQL MI にてバックアップをお客様で管理されたい場合"></a>SQL MI にてバックアップをお客様で管理されたい場合</h2><hr><p>SQL MI におきましては、COPY のみのバックアップの実施が可能ですので、こちらを実施いただくことで、お手元でバックアップファイルの管理が可能です。</p><p><a href="https://learn.microsoft.com/ja-jp/sql/relational-databases/backup-restore/copy-only-backups-sql-server?view=sql-server-ver16">コピーのみのバックアップ</a></p>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;こんにちは。SQL Cloud サポート チームの川野辺です。&lt;/p&gt;
+&lt;p&gt;今回の投稿では、Azure SQL Database (SQL DB)、SQL Managed Instance (SQL MI) における自動バックアップに関してご案内します。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="Management" scheme="https://jp-azuresql.github.io/blog/tags/Management/"/>
+    
+    <category term="Backup" scheme="https://jp-azuresql.github.io/blog/tags/Backup/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Azure SQL Database / SQL Managed Instance のお問い合わせを起票いただく際に</title>
     <link href="https://jp-azuresql.github.io/blog/Information/support-request-guidance/"/>
     <id>https://jp-azuresql.github.io/blog/Information/support-request-guidance/</id>
     <published>2023-03-03T06:00:00.000Z</published>
-    <updated>2023-03-03T09:13:09.505Z</updated>
+    <updated>2023-04-04T09:24:30.803Z</updated>
     
     <content type="html"><![CDATA[<p>こんにちは。SQL Cloud サポート チームの川野辺です。</p><p>今回の投稿では、Azure SQL Database (SQL DB)、SQL Managed Instance (SQL MI) に関連するお問い合わせを起票いただく際に、速やかな解決のため、ご協力いただきたい点に関してご案内します。</p><span id="more"></span><h2 id="お問い合わせの発行に関しては最初にこちらをご一読ください"><a href="#お問い合わせの発行に関しては最初にこちらをご一読ください" class="headerlink" title="お問い合わせの発行に関しては最初にこちらをご一読ください"></a>お問い合わせの発行に関しては最初にこちらをご一読ください</h2><hr><div class="alert is-important"><p class="alert-title">重要</p><p>サポートリクエスト全般において、起票前にご留意いただきたい点に関して、こちらにご案内しております。</p><p>起票前にご一読ください。</p><p><a href="https://jpaztech.github.io/blog/information/How-to-inquiry-to-the-Azure-Support/">お問い合わせの発行方法について</a></p></div><h2 id="お問い合わせ時には以下の情報を添えてください"><a href="#お問い合わせ時には以下の情報を添えてください" class="headerlink" title="お問い合わせ時には以下の情報を添えてください"></a>お問い合わせ時には以下の情報を添えてください</h2><hr><p>SQL DB、SQL MI に関するお問い合わせの場合は、正確な調査のため、起票時に以下の情報を添えてください。<br>なお、起票時に対象となるリソースを選択いただきますと、自動的にサブスクリプション ID、リソースグループ名、サーバー名・インスタンス名、データベース名が取得されますので、こちらの選択にご協力ください。</p><ul><li>サブスクリプション ID (例 xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)</li><li>リソースグループ名</li><li>(SQL DB の場合) サーバー名 or (SQL MI の場合) インスタンス名</li><li>データベース名</li><li>事象の発生時刻 (例 日本時間 2023-03-01 15:13)</li><li>エラーメッセージの全文</li></ul><h2 id="適切な製品をご選択ください"><a href="#適切な製品をご選択ください" class="headerlink" title="適切な製品をご選択ください"></a>適切な製品をご選択ください</h2><hr><p>Azure 上のリレーショナルデータベースにおきましても、SQL Server や OSS のデータベースなど様々な種類が存在します。<br>その中で、SQL Server に限定しましても、SQL DB、SQL MI、SQL Server on Azure VM など様々なご利用形態をご提供しております。<br>それぞれの製品によって、ご案内内容や担当チームが異なる可能性がありますので、適切な回答をスムーズに提供するためにも、起票時には適切な製品の選択にご協力ください。</p><h2 id="事象発生からできるだけ早いタイミングでお問い合わせください"><a href="#事象発生からできるだけ早いタイミングでお問い合わせください" class="headerlink" title="事象発生からできるだけ早いタイミングでお問い合わせください"></a>事象発生からできるだけ早いタイミングでお問い合わせください</h2><hr><p>データベースで発生した事象の調査をご依頼の場合、データセンターのログによっては保持期間が短く、詳細をご案内できない場合があります。<br>そのため、事象が発生しましたら一両日中にお問い合わせください。</p>]]></content>
     

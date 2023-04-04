@@ -4,14 +4,21 @@
   <url>
     <loc>https://jp-azuresql.github.io/blog/Information/support-request-guidance/</loc>
     
-    <lastmod>2023-03-03</lastmod>
+    <lastmod>2023-04-04</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://jp-azuresql.github.io/blog/Management/autobackup/</loc>
+    
+    <lastmod>2023-04-04</lastmod>
     
   </url>
   
 
   <url>
     <loc>https://jp-azuresql.github.io/blog</loc>
-    <lastmod>2023-03-03</lastmod>
+    <lastmod>2023-04-04</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -19,14 +26,28 @@
   
   <url>
     <loc>https://jp-azuresql.github.io/blog/tags/Information/</loc>
-    <lastmod>2023-03-03</lastmod>
+    <lastmod>2023-04-04</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jp-azuresql.github.io/blog/tags/Support-Request/</loc>
-    <lastmod>2023-03-03</lastmod>
+    <lastmod>2023-04-04</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jp-azuresql.github.io/blog/tags/Management/</loc>
+    <lastmod>2023-04-04</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jp-azuresql.github.io/blog/tags/Backup/</loc>
+    <lastmod>2023-04-04</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
