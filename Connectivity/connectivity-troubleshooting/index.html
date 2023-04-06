@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>接続エラーのトラブルシューティングに関して | Japan SQL Cloud Support Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="こんにちは。SQL Cloud サポート チームの川野辺です。 今回の投稿では、Azure SQL Database (SQL DB)、SQL Managed Instance (SQL MI) における接続エラーのトラブルシューティングとして、Azure SQL Connectivity Checker のご利用方法に関してご案内します。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="接続エラーのトラブルシューティングに関して">
+<meta property="og:url" content="https://jp-azuresql.github.io/blog/Connectivity/connectivity-troubleshooting/index.html">
+<meta property="og:site_name" content="Japan SQL Cloud Support Blog">
+<meta property="og:description" content="こんにちは。SQL Cloud サポート チームの川野辺です。 今回の投稿では、Azure SQL Database (SQL DB)、SQL Managed Instance (SQL MI) における接続エラーのトラブルシューティングとして、Azure SQL Connectivity Checker のご利用方法に関してご案内します。">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:image" content="https://jp-azuresql.github.io/blog/Connectivity/connectivity-troubleshooting/image001.png">
+<meta property="og:image" content="https://jp-azuresql.github.io/blog/Connectivity/connectivity-troubleshooting/image002.png">
+<meta property="og:image" content="https://jp-azuresql.github.io/blog/Connectivity/connectivity-troubleshooting/image003.png">
+<meta property="og:image" content="https://jp-azuresql.github.io/blog/Connectivity/connectivity-troubleshooting/image004.png">
+<meta property="og:image" content="https://jp-azuresql.github.io/blog/Connectivity/connectivity-troubleshooting/image005.png">
+<meta property="og:image" content="https://jp-azuresql.github.io/blog/Connectivity/connectivity-troubleshooting/image006.png">
+<meta property="og:image" content="https://jp-azuresql.github.io/blog/Connectivity/connectivity-troubleshooting/image007.png">
+<meta property="og:image" content="https://jp-azuresql.github.io/blog/Connectivity/connectivity-troubleshooting/image008.png">
+<meta property="og:image" content="https://jp-azuresql.github.io/blog/Connectivity/connectivity-troubleshooting/image009.png">
+<meta property="article:published_time" content="2023-04-06T06:00:00.000Z">
+<meta property="article:modified_time" content="2023-04-06T08:02:29.433Z">
+<meta property="article:author" content="Microsoft SQL Cloud Support Team">
+<meta property="article:tag" content="Connectivity">
+<meta property="article:tag" content="Troubleshooting">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jp-azuresql.github.io/blog/Connectivity/connectivity-troubleshooting/image001.png">
+  
+    <link rel="alternate" href="../../atom.xml" title="Japan SQL Cloud Support Blog" type="application/atom+xml">
+  
+
+  <link rel="icon" href="../../favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+  <link rel="manifest" href="../../site.webmanifest">
+  <link rel="mask-icon" href="../../safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="theme-color" content="#ffffff">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="../../css/style.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="site-header-logo"></div>
+  <div id="site-header-blog-wrapper"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        <div id="ms-logo"></div>
+        
+          <a class="main-nav-link" href="/blog/">Home</a>
+        
+          <a class="main-nav-link" href="/blog/archives">Archives</a>
+        
+        <a class="main-nav-link" target="_blank" rel="noopener" href="https://cssjpn.github.io/">サポート情報</a>
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="../../atom.xml" title="RSSフィード"></a>
+        
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//www.bing.com/search" method="get" accept-charset="UTF-8" name="bing-search" onsubmit="var f=this;if(f['q'].value){var searchUrl =  'https://www.bing.com/search?q=' +  encodeURIComponent(f['q'].value + ' site:' + f['sitesearch'].value) ;window.open(searchUrl, 'blank') };return false;" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="検索"><button type="submit" id="nav-search-btn" class="search-form-submit"></button><input type="hidden" name="sitesearch" value="https://jp-azuresql.github.io/blog"></form>
+      </div>
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="../../index.html" id="logo">Japan SQL Cloud Support Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="../../index.html" id="subtitle">日本マイクロソフト SQL Cloud チームによるサポートブログです。</a>
+        </h2>
+      
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Connectivity/connectivity-troubleshooting" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header-single">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      接続エラーのトラブルシューティングに関して
+    </h1>
+  
+
+      </header>
+      <div class="article-share">
+        Last Update: 
+        <a href="" class="article-date-single">
+  <time datetime="2023-04-06T06:00:00.000Z" itemprop="datePublished">2023-04-06</time>
+</a>
+        
+        
+        <a href="https://github.com/jp-azuresql/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+64be903a-fb42-5261-8c69-2a85ff5b60ba%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5B%E6%8E%A5%E7%B6%9A%E3%82%A8%E3%83%A9%E3%83%BC%E3%81%AE%E3%83%88%E3%83%A9%E3%83%96%E3%83%AB%E3%82%B7%E3%83%A5%E3%83%BC%E3%83%86%E3%82%A3%E3%83%B3%E3%82%B0%E3%81%AB%E9%96%A2%E3%81%97%E3%81%A6%5D%28https%3A%2F%2Fjp-azuresql.github.io%2Fblog%2FConnectivity%2Fconnectivity-troubleshooting%2F%29%0A*+Content+Source%3A+%5Barticles%2FConnectivity%2Fconnectivity-troubleshooting.md%5D%28https%3A%2F%2Fgithub.com%2Fjp-azuresql%2Fblog%2Fblob%2Fmain%2Farticles%2FConnectivity%2Fconnectivity-troubleshooting.md%29%0A*+Author%3A+" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
+        
+        <a data-url="https://jp-azuresql.github.io/blog/Connectivity/connectivity-troubleshooting/" data-id="clg4tynxf00000no9byjddr0l" class="article-share-link">共有</a>
+      </div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>こんにちは。SQL Cloud サポート チームの川野辺です。</p>
+<p>今回の投稿では、Azure SQL Database (SQL DB)、SQL Managed Instance (SQL MI) における接続エラーのトラブルシューティングとして、Azure SQL Connectivity Checker のご利用方法に関してご案内します。</p>
+<span id="more"></span>
+
+<h2 id="Azure-SQL-Connectivity-Checker-とは"><a href="#Azure-SQL-Connectivity-Checker-とは" class="headerlink" title="Azure SQL Connectivity Checker とは"></a>Azure SQL Connectivity Checker とは</h2><hr>
+<p>Azure SQL Connectivity Checker とは、指定した SQL DB、SQL MI に対して接続テストを行い、接続に必要な TCP ポートの解放の有無、名前解決の可否などを明らかにできるツールとなります。<br>そのため、適切に構成したつもりなのに SQL DB へ接続できない、特定のクライアントからのみ SQL MI に接続できないなどの接続に関する問題の解決に有効です。</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/Azure/SQL-Connectivity-Checker">Azure SQL Connectivity Checker</a></p>
+<p>特に、Error: 10060 のように、エラーメッセージからは接続が確立できなかったことしか明らかでない接続エラーが発生した際に、問題の切り分けとして有効です。</p>
+<blockquote>
+<p>A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: TCP Provider, error: 0 - A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond.) (Microsoft SQL Server, Error: 10060)</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/troubleshoot/sql/database-engine/connect/network-related-or-instance-specific-error-occurred-while-establishing-connection">SQL Server への接続を確立している間に、ネットワーク関連またはインスタンス固有のエラーが発生しました</a></p>
+<h2 id="実施方法-Windows-環境のクライアント"><a href="#実施方法-Windows-環境のクライアント" class="headerlink" title="実施方法 Windows 環境のクライアント"></a>実施方法 Windows 環境のクライアント</h2><hr>
+<ol>
+<li>対象クライアントにて PowerShell を [管理者として実行] で起動します。<br>スクリプトを新規作成します。</li>
+</ol>
+<p><img src="/blog/Connectivity/connectivity-troubleshooting/image001.png"></p>
+<ol start="2">
+<li>以下スクリプトをコピー&amp;ペーストし、Server, Database, User, Password を環境に合わせて変更ください。</li>
+</ol>
+<p><img src="/blog/Connectivity/connectivity-troubleshooting/image002.png"></p>
+<p>なお、スクリプトの実行中 [raw.githubusercontent.com] からファイルのダウンロードのため HTTPS リクエストが発生します。<br>ファイアウォール等でインターネットへのアクセスに制限をかけておりましたら許可するよう対応をお願いいたします。</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">$parameters = @&#123;</span><br><span class="line">   # Supports Single, Elastic Pools and Managed Instance (please provide FQDN, MI public endpoint is supported)</span><br><span class="line">    # Supports Azure Synapse / Azure SQL Data Warehouse (*.sql.azuresynapse.<span class="built_in">net</span>/ *.database.windows.<span class="built_in">net</span>)</span><br><span class="line">    # Supports Public Cloud (*.database.windows.<span class="built_in">net</span>), Azure China (*.database.chinacloudapi.cn), Azure Germany (*.database.cloudapi.de) and Azure Government (*.database.usgovcloudapi.<span class="built_in">net</span>)</span><br><span class="line">    Server = &#x27;.database.windows.<span class="built_in">net</span>&#x27; # or any other supported FQDN</span><br><span class="line">    Database = &#x27;&#x27;  # <span class="built_in">Set</span> the name of the database you wish to test, &#x27;master&#x27; will be used by default <span class="keyword">if</span> nothing is <span class="built_in">set</span></span><br><span class="line">    User = &#x27;&#x27;  # <span class="built_in">Set</span> the login username you wish to use, &#x27;AzSQLConnCheckerUser&#x27; will be used by default <span class="keyword">if</span> nothing is <span class="built_in">set</span></span><br><span class="line">    Password = &#x27;&#x27;  # <span class="built_in">Set</span> the login password you wish to use, &#x27;AzSQLConnCheckerPassword&#x27; will be used by default <span class="keyword">if</span> nothing is <span class="built_in">set</span></span><br><span class="line"> </span><br><span class="line">    ## Optional parameters (default values will be used <span class="keyword">if</span> omitted)</span><br><span class="line">    SendAnonymousUsageData = $true  # <span class="built_in">Set</span> as $true (default) or $false</span><br><span class="line">    RunAdvancedConnectivityPolicyTests = $true  # <span class="built_in">Set</span> as $true (default) or $false, this will load the library from Microsoft&#x27;s GitHub repository needed <span class="keyword">for</span> running advanced connectivity tests</span><br><span class="line">    ConnectionAttempts = <span class="number">1</span> # Number of connection attempts while running advanced connectivity tests</span><br><span class="line">    DelayBetweenConnections = <span class="number">1</span> # Number of seconds to wait between connection attempts while running advanced connectivity tests</span><br><span class="line">    CollectNetworkTrace = $true  # <span class="built_in">Set</span> as $true (default) or $false</span><br><span class="line">    #EncryptionProtocol = &#x27;&#x27; # Supported values: &#x27;Tls <span class="number">1</span>.<span class="number">0</span>&#x27;, &#x27;Tls <span class="number">1</span>.<span class="number">1</span>&#x27;, &#x27;Tls <span class="number">1</span>.<span class="number">2</span>&#x27;; Without this parameter operating system will choose the best protocol to use</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">$ProgressPreference = &quot;SilentlyContinue&quot;;</span><br><span class="line"><span class="keyword">if</span> (&quot;AzureKudu&quot; -eq $env:DOTNET_CLI_TELEMETRY_PROFILE) &#123;</span><br><span class="line">    $scriptFile = &#x27;/ReducedSQLConnectivityChecker.ps1&#x27;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    $scriptFile = &#x27;/AzureSQLConnectivityChecker.ps1&#x27;</span><br><span class="line">&#125;</span><br><span class="line">$scriptUrlBase = &#x27;https://raw.githubusercontent.com/Azure/SQL-Connectivity-Checker/master&#x27;</span><br><span class="line"><span class="built_in">cls</span></span><br><span class="line">Write-Host &#x27;Trying to download the script file from GitHub (https://github.com/Azure/SQL-Connectivity-Checker), please wait...&#x27;</span><br><span class="line">try &#123;</span><br><span class="line">    [<span class="built_in">Net</span>.ServicePointManager]::SecurityProtocol = [<span class="built_in">Net</span>.SecurityProtocolType]::Tls12 -bor [<span class="built_in">Net</span>.SecurityProtocolType]::Tls11 -bor [<span class="built_in">Net</span>.SecurityProtocolType]::Tls</span><br><span class="line">    Invoke-Command -ScriptBlock ([Scriptblock]::Create((Invoke-WebRequest ($scriptUrlBase + $scriptFile) -UseBasicParsing -TimeoutSec <span class="number">60</span>).Content)) -ArgumentList $parameters</span><br><span class="line">    &#125;</span><br><span class="line">catch &#123;</span><br><span class="line">    Write-Host &#x27;ERROR: The script file could <span class="keyword">not</span> be downloaded:&#x27; -ForegroundColor Red</span><br><span class="line">   $_.Exception</span><br><span class="line">    Write-Host &#x27;Confirm this machine can access https://github.com/Azure/SQL-Connectivity-Checker/&#x27; -ForegroundColor Yellow</span><br><span class="line">    Write-Host &#x27;or use a machine with Internet access to see how to run this from machines without Internet. See how <span class="built_in">at</span> https://github.com/Azure/SQL-Connectivity-Checker/&#x27; -ForegroundColor Yellow</span><br><span class="line">&#125;</span><br><span class="line">#end</span><br></pre></td></tr></table></figure>
+
+<p>例：変更箇所 Server, Database, User, Password は以下の様に設定ください。</p>
+<p><img src="/blog/Connectivity/connectivity-troubleshooting/image003.png"></p>
+<ol start="3">
+<li>スクリプトを実行します。</li>
+</ol>
+<p><img src="/blog/Connectivity/connectivity-troubleshooting/image004.png"></p>
+<ol start="4">
+<li>下記のようなメッセージが出力され、実行が終了します。<br>出力されたパスに接続テストツールの結果ファイルが出力されます。</li>
+</ol>
+<blockquote>
+<p>Log file can be found at C:\Users\user001\AppData\Local\Temp\AzureSQLConnectivityCheckerResults\20210209T021953<br>A zip file with all the files can be found at C:\Users\user001\AppData\Local\Temp\AzureSQLConnectivityCheckerResults\20210209T021953/AllFiles.zip</p>
+</blockquote>
+<h2 id="実施方法-ネットワークアクセスが制限されている場合"><a href="#実施方法-ネットワークアクセスが制限されている場合" class="headerlink" title="実施方法 ネットワークアクセスが制限されている場合"></a>実施方法 ネットワークアクセスが制限されている場合</h2><hr>
+<p>クライアントにてネットワークアクセスが制限されている場合も、インターネットアクセスが可能な端末でファイルをダウンロードし、対象クライアントに渡すことで、Azure SQL Connectivity Checker を実施いただけます。</p>
+<ol>
+<li>以下の URL に接続し、[Download ZIP] を選択ください。</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="https://github.com/Azure/SQL-Connectivity-Checker">https://github.com/Azure/SQL-Connectivity-Checker</a></p>
+<p><img src="/blog/Connectivity/connectivity-troubleshooting/image005.png"></p>
+<ol start="2">
+<li><p>ダウンロードされたファイル [SQL-Connectivity-Checker-master.zip] を調査対象クライアントに移動させ、全てのファイルを解凍ください。</p>
+</li>
+<li><p>PowerShell を管理者として実行いただき、[ファイル] – [開く] から [RunLocally.ps1] を選択し、Server, Database, User, Password をお客様の環境に合わせて変更ください。</p>
+</li>
+</ol>
+<p><img src="/blog/Connectivity/connectivity-troubleshooting/image006.png"></p>
+<ol start="3">
+<li><p>スクリプトを実行します。</p>
+</li>
+<li><p>下記のようなメッセージが出力され、実行が終了します。<br>出力されたパスに接続テストツールの結果ファイルが出力され、問題点を確認した場合はそちらに表示されます。</p>
+</li>
+</ol>
+<blockquote>
+<p>Log file can be found at C:\Users\user001\AppData\Local\Temp\AzureSQLConnectivityCheckerResults\20210209T021953<br>A zip file with all the files can be found at C:\Users\user001\AppData\Local\Temp\AzureSQLConnectivityCheckerResults\20210209T021953/AllFiles.zip</p>
+</blockquote>
+<p>詳細はこちらにもございますので、必要に応じてご確認ください。<br><a target="_blank" rel="noopener" href="https://github.com/Azure/SQL-Connectivity-Checker#how-to-run-this-from-machines-without-internet-access">How to run this from machines without Internet access</a></p>
+<h2 id="実施方法-Linux-環境のクライアント"><a href="#実施方法-Linux-環境のクライアント" class="headerlink" title="実施方法　Linux 環境のクライアント"></a>実施方法　Linux 環境のクライアント</h2><hr>
+<p>Linux 環境からも、PowerShell をインストールすることで、Azure SQL Connectivity Checker を実施可能です。</p>
+<ol>
+<li><p>Linux 環境上に PowerShell がインストールされていなければ、以下の URL よりインストールください。<br><a target="_blank" rel="noopener" href="https://docs.microsoft.com/powershell/scripting/install/installing-powershell-core-on-linux">https://docs.microsoft.com/powershell/scripting/install/installing-powershell-core-on-linux</a></p>
+</li>
+<li><p>ターミナルより pwsh を起動ください。</p>
+</li>
+<li><p>以下のコマンドの Server, Database, User, Password をお客様の環境に合わせて変更し、実行ください。</p>
+</li>
+</ol>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">$parameters = @&#123;</span><br><span class="line">    # Supports Single, Elastic Pools and Managed Instance (please provide FQDN, MI public endpoint is supported)</span><br><span class="line">    # Supports Azure Synapse / Azure SQL Data Warehouse (*.sql.azuresynapse.<span class="built_in">net</span> / *.database.windows.<span class="built_in">net</span>)</span><br><span class="line">    # Supports Public Cloud (*.database.windows.<span class="built_in">net</span>), Azure China (*.database.chinacloudapi.cn), Azure Germany (*.database.cloudapi.de) and Azure Government (*.database.usgovcloudapi.<span class="built_in">net</span>)</span><br><span class="line">    Server = &#x27;.database.windows.<span class="built_in">net</span>&#x27; # or any other supported FQDN</span><br><span class="line">    Database = &#x27;&#x27;  # <span class="built_in">Set</span> the name of the database you wish to test, &#x27;master&#x27; will be used by default <span class="keyword">if</span> nothing is <span class="built_in">set</span></span><br><span class="line">    User = &#x27;&#x27;  # <span class="built_in">Set</span> the login username you wish to use, &#x27;AzSQLConnCheckerUser&#x27; will be used by default <span class="keyword">if</span> nothing is <span class="built_in">set</span></span><br><span class="line">    Password = &#x27;&#x27;  # <span class="built_in">Set</span> the login password you wish to use, &#x27;AzSQLConnCheckerPassword&#x27; will be used by default <span class="keyword">if</span> nothing is <span class="built_in">set</span></span><br><span class="line"></span><br><span class="line">    ## Optional parameters (default values will be used <span class="keyword">if</span> omitted)</span><br><span class="line">    SendAnonymousUsageData = $true  # <span class="built_in">Set</span> as $true (default) or $false</span><br><span class="line">    RunAdvancedConnectivityPolicyTests = $true  # <span class="built_in">Set</span> as $true (default) or $false, this will load the library from Microsoft&#x27;s GitHub repository needed <span class="keyword">for</span> running advanced connectivity tests</span><br><span class="line">    ConnectionAttempts = <span class="number">1</span> # Number of connection attempts while running advanced connectivity tests</span><br><span class="line">    DelayBetweenConnections = <span class="number">1</span> # Number of seconds to wait between connection attempts while running advanced connectivity tests</span><br><span class="line">    CollectNetworkTrace = $true  # <span class="built_in">Set</span> as $true (default) or $false</span><br><span class="line">    #EncryptionProtocol = &#x27;&#x27; # Supported values: &#x27;Tls <span class="number">1</span>.<span class="number">0</span>&#x27;, &#x27;Tls <span class="number">1</span>.<span class="number">1</span>&#x27;, &#x27;Tls <span class="number">1</span>.<span class="number">2</span>&#x27;; Without this parameter operating system will choose the best protocol to use</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$ProgressPreference = &quot;SilentlyContinue&quot;;</span><br><span class="line"><span class="keyword">if</span> (&quot;AzureKudu&quot; -eq $env:DOTNET_CLI_TELEMETRY_PROFILE) &#123;</span><br><span class="line">    $scriptFile = &#x27;/ReducedSQLConnectivityChecker.ps1&#x27;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    $scriptFile = &#x27;/AzureSQLConnectivityChecker.ps1&#x27;</span><br><span class="line">&#125;</span><br><span class="line">$scriptUrlBase = &#x27;https://raw.githubusercontent.com/Azure/SQL-Connectivity-Checker/master&#x27;</span><br><span class="line"><span class="built_in">cls</span></span><br><span class="line">Write-Host &#x27;Trying to download the script file from GitHub (https://github.com/Azure/SQL-Connectivity-Checker), please wait...&#x27;</span><br><span class="line">try &#123;</span><br><span class="line">    [<span class="built_in">Net</span>.ServicePointManager]::SecurityProtocol = [<span class="built_in">Net</span>.SecurityProtocolType]::Tls12 -bor [<span class="built_in">Net</span>.SecurityProtocolType]::Tls11 -bor [<span class="built_in">Net</span>.SecurityProtocolType]::Tls</span><br><span class="line">    Invoke-Command -ScriptBlock ([Scriptblock]::Create((Invoke-WebRequest ($scriptUrlBase + $scriptFile) -UseBasicParsing -TimeoutSec <span class="number">60</span>).Content)) -ArgumentList $parameters</span><br><span class="line">    &#125;</span><br><span class="line">catch &#123;</span><br><span class="line">    Write-Host &#x27;ERROR: The script file could <span class="keyword">not</span> be downloaded:&#x27; -ForegroundColor Red</span><br><span class="line">    $_.Exception</span><br><span class="line">    Write-Host &#x27;Confirm this machine can access https://github.com/Azure/SQL-Connectivity-Checker/&#x27; -ForegroundColor Yellow</span><br><span class="line">    Write-Host &#x27;or use a machine with Internet access to see how to run this from machines without Internet. See how <span class="built_in">at</span> https://github.com/Azure/SQL-Connectivity-Checker/&#x27; -ForegroundColor Yellow</span><br><span class="line">&#125;</span><br><span class="line">#end</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>テストの完了後、以下のように接続テストの結果が表示されますので、こちらをご確認ください。</li>
+</ol>
+<p><img src="/blog/Connectivity/connectivity-troubleshooting/image007.png"></p>
+<p>詳細はこちらにもございますので、必要に応じてご確認ください。<br><a target="_blank" rel="noopener" href="https://github.com/Azure/SQL-Connectivity-Checker#run-from-linux">Run from Linux</a></p>
+<h2 id="出力結果の確認方法"><a href="#出力結果の確認方法" class="headerlink" title="出力結果の確認方法"></a>出力結果の確認方法</h2><hr>
+<p>Azure SQL Connectivity Checker の実行後には、自動でログがファイルに出力されます。<br>実施結果に関しては、以下のスクリーンショットのように [Log_~] の形式のファイルに出力され、こちらの [SUMMARY] にテスト結果、 適切に構成されていない場合は [RECOMMENDED ACTION(S)] に推奨事項が記載されます。</p>
+<p><img src="/blog/Connectivity/connectivity-troubleshooting/image008.png"></p>
+<p>例えば、接続に必要である 1433 ポートが解放されていない場合、以下のスクリーンショットのように、[RECOMMENDED ACTION(S)] に 1433 FAILED と出力され、こちらの設定の見直しに関してご案内があります。</p>
+<p><img src="/blog/Connectivity/connectivity-troubleshooting/image009.png"></p>
+
+      
+      
+        <div class="article-disclaimer">
+        
+          <p>※本情報の内容（添付文書、リンク先などを含む）は、作成日時点でのものであり、予告なく変更される場合があります。</p>
+        
+        </div>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Connectivity/" rel="tag">Connectivity</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Troubleshooting/" rel="tag">Troubleshooting</a></li></ul>
+
+        
+        <a href="https://github.com/jp-azuresql/blog/edit/main/articles/Connectivity/connectivity-troubleshooting.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
+        
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="../../Management/autobackup/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前の記事</strong>
+      <div class="article-nav-title">Azure SQL Database / SQL Managed Instance の自動バックアップに関して</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最近の投稿</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="">接続エラーのトラブルシューティングに関して</a>
+          </li>
+        
+          <li>
+            <a href="../../Management/autobackup/">Azure SQL Database / SQL Managed Instance の自動バックアップに関して</a>
+          </li>
+        
+          <li>
+            <a href="../../Information/support-request-guidance/">Azure SQL Database / SQL Managed Instance のお問い合わせを起票いただく際に</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">タグ</h3>
+    <div class="widget">
+      <!-- <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Backup/" rel="tag">Backup</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Connectivity/" rel="tag">Connectivity</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Information/" rel="tag">Information</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Management/" rel="tag">Management</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Support-Request/" rel="tag">Support Request</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Troubleshooting/" rel="tag">Troubleshooting</a></li></ul>  -->
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Information/">Information</a><span class="tag-list-count">1</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Information/Support-Request">Support Request</a><span class="tag-list-count">1</span></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">アーカイブ</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/04/">2023 / 04</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/03/">2023 / 03</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">タグクラウド</h3>
+    <div class="widget tagcloud">
+      <a href="../../tags/Backup/" style="font-size: 10px;">Backup</a> <a href="../../tags/Connectivity/" style="font-size: 10px;">Connectivity</a> <a href="../../tags/Information/" style="font-size: 10px;">Information</a> <a href="../../tags/Management/" style="font-size: 10px;">Management</a> <a href="../../tags/Support-Request/" style="font-size: 10px;">Support Request</a> <a href="../../tags/Troubleshooting/" style="font-size: 10px;">Troubleshooting</a>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2023 Microsoft SQL Cloud Support Team<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="../../index.html" class="mobile-nav-link">Home</a>
+  
+    <a href="../../archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+<script src="../../js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
