@@ -35,6 +35,7 @@ skip_render:
   # Bing Webmaster
   - 'BingSiteAuth.xml'
   # Search Console
+  - 'googledcb30e1b3ff89bbb.html'
   # - 'googlec1234567890abcde.html'
 
 # Deployment
