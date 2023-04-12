@@ -20,6 +20,10 @@ author: Microsoft SQL Cloud Support Team
 root_tag_generator:
   root_tag_names:
     - Information
+    - Management
+    - Connectivity
+    - Performance
+    - Security
   sub_tag_limit: 20
 
 # URL
