@@ -4,20 +4,21 @@
   <meta charset="utf-8">
   
   
-  <title>Azure SQL Database / SQL Managed Instance のお問い合わせを起票いただく際に | Japan SQL Cloud Support Blog</title>
+  <title>Azure SQL Database / SQL Managed Instance のバージョンに関して | Japan SQL Cloud Support Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="こんにちは。SQL Cloud サポート チームの川野辺です。 今回の投稿では、Azure SQL Database (SQL DB)、SQL Managed Instance (SQL MI) に関連するお問い合わせを起票いただく際に、速やかな解決のため、ご協力いただきたい点に関してご案内します。">
+  <meta name="description" content="こんにちは。SQL Cloud サポート チームのリョウです。 今回の投稿では、Azure SQL Database (SQL DB)、SQL Managed Instance (SQL MI) におけるバージョンに関してご案内します。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Azure SQL Database &#x2F; SQL Managed Instance のお問い合わせを起票いただく際に">
-<meta property="og:url" content="https://jp-azuresql.github.io/blog/Information/support-request-guidance/index.html">
+<meta property="og:title" content="Azure SQL Database &#x2F; SQL Managed Instance のバージョンに関して">
+<meta property="og:url" content="https://jp-azuresql.github.io/blog/Management/version/index.html">
 <meta property="og:site_name" content="Japan SQL Cloud Support Blog">
-<meta property="og:description" content="こんにちは。SQL Cloud サポート チームの川野辺です。 今回の投稿では、Azure SQL Database (SQL DB)、SQL Managed Instance (SQL MI) に関連するお問い合わせを起票いただく際に、速やかな解決のため、ご協力いただきたい点に関してご案内します。">
+<meta property="og:description" content="こんにちは。SQL Cloud サポート チームのリョウです。 今回の投稿では、Azure SQL Database (SQL DB)、SQL Managed Instance (SQL MI) におけるバージョンに関してご案内します。">
 <meta property="og:locale" content="ja_JP">
-<meta property="article:published_time" content="2023-03-03T06:00:00.000Z">
+<meta property="article:published_time" content="2023-05-16T01:00:00.000Z">
 <meta property="article:modified_time" content="2023-05-16T01:08:46.236Z">
 <meta property="article:author" content="Microsoft SQL Cloud Support Team">
-<meta property="article:tag" content="Information">
-<meta property="article:tag" content="Support Request">
+<meta property="article:tag" content="Management">
+<meta property="article:tag" content="Version">
+<meta property="article:tag" content="Upgrade">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternate" href="../../atom.xml" title="Japan SQL Cloud Support Blog" type="application/atom+xml">
@@ -80,7 +81,7 @@
 </header>
 
       <div class="outer">
-        <section id="main"><article id="post-Information/support-request-guidance" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-Management/version" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
     
@@ -89,7 +90,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Azure SQL Database / SQL Managed Instance のお問い合わせを起票いただく際に
+      Azure SQL Database / SQL Managed Instance のバージョンに関して
     </h1>
   
 
@@ -97,37 +98,33 @@
       <div class="article-share">
         Last Update: 
         <a href="" class="article-date-single">
-  <time datetime="2023-03-03T06:00:00.000Z" itemprop="datePublished">2023-03-03</time>
+  <time datetime="2023-05-16T01:00:00.000Z" itemprop="datePublished">2023-05-16</time>
 </a>
         
         
-        <a href="https://github.com/jp-azuresql/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+c4554ecb-fc85-57fd-83b5-34d32ae42250%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5BAzure+SQL+Database+%2F+SQL+Managed+Instance+%E3%81%AE%E3%81%8A%E5%95%8F%E3%81%84%E5%90%88%E3%82%8F%E3%81%9B%E3%82%92%E8%B5%B7%E7%A5%A8%E3%81%84%E3%81%9F%E3%81%A0%E3%81%8F%E9%9A%9B%E3%81%AB%5D%28https%3A%2F%2Fjp-azuresql.github.io%2Fblog%2FInformation%2Fsupport-request-guidance%2F%29%0A*+Content+Source%3A+%5Barticles%2FInformation%2Fsupport-request-guidance.md%5D%28https%3A%2F%2Fgithub.com%2Fjp-azuresql%2Fblog%2Fblob%2Fmain%2Farticles%2FInformation%2Fsupport-request-guidance.md%29%0A*+Author%3A+" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
+        <a href="https://github.com/jp-azuresql/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+1af88ead-da67-5f18-9f0a-754cb1c513e3%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5BAzure+SQL+Database+%2F+SQL+Managed+Instance+%E3%81%AE%E3%83%90%E3%83%BC%E3%82%B8%E3%83%A7%E3%83%B3%E3%81%AB%E9%96%A2%E3%81%97%E3%81%A6%5D%28https%3A%2F%2Fjp-azuresql.github.io%2Fblog%2FManagement%2Fversion%2F%29%0A*+Content+Source%3A+%5Barticles%2FManagement%2Fversion.md%5D%28https%3A%2F%2Fgithub.com%2Fjp-azuresql%2Fblog%2Fblob%2Fmain%2Farticles%2FManagement%2Fversion.md%29%0A*+Author%3A+" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
         
-        <a data-url="https://jp-azuresql.github.io/blog/Information/support-request-guidance/" data-id="clhpkspur00010opc8xew4yma" class="article-share-link">共有</a>
+        <a data-url="https://jp-azuresql.github.io/blog/Management/version/" data-id="clhpkspuw00040opccf99dzwm" class="article-share-link">共有</a>
       </div>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>こんにちは。SQL Cloud サポート チームの川野辺です。</p>
-<p>今回の投稿では、Azure SQL Database (SQL DB)、SQL Managed Instance (SQL MI) に関連するお問い合わせを起票いただく際に、速やかな解決のため、ご協力いただきたい点に関してご案内します。</p>
+        <p>こんにちは。SQL Cloud サポート チームのリョウです。</p>
+<p>今回の投稿では、Azure SQL Database (SQL DB)、SQL Managed Instance (SQL MI) におけるバージョンに関してご案内します。</p>
 <span id="more"></span>
 
-<h2 id="お問い合わせの発行に関しては最初にこちらをご一読ください"><a href="#お問い合わせの発行に関しては最初にこちらをご一読ください" class="headerlink" title="お問い合わせの発行に関しては最初にこちらをご一読ください"></a>お問い合わせの発行に関しては最初にこちらをご一読ください</h2><hr>
-<div class="alert is-important"><p class="alert-title">重要</p><p>サポートリクエスト全般において、起票前にご留意いただきたい点に関して、こちらにご案内しております。</p><p>起票前にご一読ください。</p><p><a target="_blank" rel="noopener" href="https://jpaztech.github.io/blog/information/How-to-inquiry-to-the-Azure-Support/">お問い合わせの発行方法について</a></p></div>
-<h2 id="お問い合わせ時には以下の情報を添えてください"><a href="#お問い合わせ時には以下の情報を添えてください" class="headerlink" title="お問い合わせ時には以下の情報を添えてください"></a>お問い合わせ時には以下の情報を添えてください</h2><hr>
-<p>SQL DB、SQL MI に関するお問い合わせの場合は、正確な調査のため、起票時に以下の情報を添えてください。<br>なお、起票時に対象となるリソースを選択いただきますと、自動的にサブスクリプション ID、リソースグループ名、サーバー名・インスタンス名、データベース名が取得されますので、こちらの選択にご協力ください。</p>
-<ul>
-<li>サブスクリプション ID (例 xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)</li>
-<li>リソースグループ名</li>
-<li>(SQL DB の場合) サーバー名 or (SQL MI の場合) インスタンス名</li>
-<li>データベース名</li>
-<li>事象の発生時刻 (例 日本時間 2023-03-01 15:13)</li>
-<li>エラーメッセージの全文</li>
-</ul>
-<h2 id="適切な製品をご選択ください"><a href="#適切な製品をご選択ください" class="headerlink" title="適切な製品をご選択ください"></a>適切な製品をご選択ください</h2><hr>
-<p>Azure 上のリレーショナルデータベースにおきましても、SQL Server や OSS のデータベースなど様々な種類が存在します。<br>その中で、SQL Server に限定しましても、SQL DB、SQL MI、SQL Server on Azure VM など様々なご利用形態をご提供しております。<br>それぞれの製品によって、ご案内内容や担当チームが異なる可能性がありますので、適切な回答をスムーズに提供するためにも、起票時には適切な製品の選択にご協力ください。</p>
-<h2 id="事象発生からできるだけ早いタイミングでお問い合わせください"><a href="#事象発生からできるだけ早いタイミングでお問い合わせください" class="headerlink" title="事象発生からできるだけ早いタイミングでお問い合わせください"></a>事象発生からできるだけ早いタイミングでお問い合わせください</h2><hr>
-<p>データベースで発生した事象の調査をご依頼の場合、データセンターのログによっては保持期間が短く、詳細をご案内できない場合があります。<br>そのため、事象が発生しましたら一両日中にお問い合わせください。</p>
+<h2 id="SQL-DB、SQL-MI-の-SQL-エンジンバージョンに関して"><a href="#SQL-DB、SQL-MI-の-SQL-エンジンバージョンに関して" class="headerlink" title="SQL DB、SQL MI の SQL エンジンバージョンに関して"></a>SQL DB、SQL MI の SQL エンジンバージョンに関して</h2><hr>
+<p>SQL DB、SQL MIは常に最新の SQL エンジンバージョンを提供しております。これらの製品は PaaS サービスですので、お客様はご利用中の SQL DB、SQL MI のバージョンを制御する事はできず、また意識する必要もございません。<br>オンプレミス SQL Server をご利用されているお客様は、「バージョン 12 (SQL Server 2014)」といったバージョン概念に慣れ親しんでいると思いますが、SQL DB、SQL MI は PaaS サービスであるため、オンプレミス SQL Server の様なバージョン概念は存在しません。そのため、例えばですが、SQL DB、SQL MI のバージョン 12 だったとしても、オンプレミス SQL Server のバージョン 12 とは異なる SQL エンジンですので、オンプレミス SQL エンジンバージョンと PaaS サービスの SQL エンジンバージョンは全く異なるもので関係ないとお考えください。</p>
+<h2 id="バージョンアップデートに関して"><a href="#バージョンアップデートに関して" class="headerlink" title="バージョンアップデートに関して"></a>バージョンアップデートに関して</h2><hr>
+<p>SQL DB、SQL MI は定期的にバージョンのアップグレードを行っております。アップグレードはマイナーアップグレードとメジャーアップグレードの 2 種類ございます。</p>
+<h3 id="・マイナーアップグレード"><a href="#・マイナーアップグレード" class="headerlink" title="・マイナーアップグレード"></a>・マイナーアップグレード</h3><hr>
+<p>マイナーアップグレードは、以前のバージョンと互換性を保つ様にバージョンを更新します。マイナーアップグレードは、セキュリティパッチの適用や新規機能の実装が中心となっており、既存の機能が使えなくなることや既存の機能の動作が変わることはございません。<br>また、マイナーアップグレードは定期的なメンテナンス時に更新しているため、お客様はマイナーアップグレードのタイミングを意識する必要はなく、既存のアプリケーションの改修や事前の検証を実施する必要もございません。</p>
+<h3 id="・メジャーアップグレード"><a href="#・メジャーアップグレード" class="headerlink" title="・メジャーアップグレード"></a>・メジャーアップグレード</h3><hr>
+<p>メジャーアップグレードは基本的に実施されません。メジャーアップグレードは、製品アーキテクチャの変更など大きな仕様変更時に実施されるものであり、SQL DB、SQL MI をご利用中のお客様に大きな影響を与える可能性がございます。そのため、弊社にてメジャーアップグレードを実施すると決断した場合は、実施予定の数年前から予測される影響範囲の通知や移行・検証方法のご案内をさせて頂く流れとなっております。<br>この方針により基本的にはメジャーアップグレードは実施しないが、仮に実施したとしてもお客様は、移行・検証の時間的猶予がございます。</p>
+<h2 id="ご利用中のバージョンの確認方法"><a href="#ご利用中のバージョンの確認方法" class="headerlink" title="ご利用中のバージョンの確認方法"></a>ご利用中のバージョンの確認方法</h2><hr>
+<p>現在ご利用中の SQL DB、SQL MI のバージョンをご確認したい場合はご利用中の SQL DB、SQL MI に接続し、「SELECT @@version」を実行する事で確認する事ができます。<br>一方で、以下にてご紹介しますドキュメントの注意事項欄にも記載されておりますが、SQL DB、SQL MI に対して「SELECT @@version」を実行しても正しいバージョンが返ってこない場合がございます。実際は常に最新バージョンをご利用している事になりますので、この点ご安心ください。</p>
+<p>詳細に関しては、以下の公開情報をご参照ください。</p>
+<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/sql/t-sql/functions/version-transact-sql-configuration-functions?view=sql-server-ver16">@@VERSION - Transact SQL 構成関数</a></p>
 
       
       
@@ -141,10 +138,10 @@
     <footer class="article-footer">
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Information/" rel="tag">Information</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Support-Request/" rel="tag">Support Request</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Management/" rel="tag">Management</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Upgrade/" rel="tag">Upgrade</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Version/" rel="tag">Version</a></li></ul>
 
         
-        <a href="https://github.com/jp-azuresql/blog/edit/main/articles/Information/support-request-guidance.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
+        <a href="https://github.com/jp-azuresql/blog/edit/main/articles/Management/version.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
         
     </footer>
   </div>
@@ -152,15 +149,11 @@
     
 <nav id="article-nav">
   
-    <a href="../../Management/autobackup/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">次の記事</strong>
-      <div class="article-nav-title">
-        
-          Azure SQL Database / SQL Managed Instance の自動バックアップに関して
-        
-      </div>
-    </a>
   
+    <a href="../../Connectivity/connectivity-troubleshooting/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前の記事</strong>
+      <div class="article-nav-title">接続エラーのトラブルシューティングに関して</div>
+    </a>
   
 </nav>
 
@@ -178,7 +171,7 @@
       <ul>
         
           <li>
-            <a href="../../Management/version/">Azure SQL Database / SQL Managed Instance のバージョンに関して</a>
+            <a href="">Azure SQL Database / SQL Managed Instance のバージョンに関して</a>
           </li>
         
           <li>
@@ -186,11 +179,11 @@
           </li>
         
           <li>
-            <a href="../../Management/autobackup/">Azure SQL Database / SQL Managed Instance の自動バックアップに関して</a>
+            <a href="../autobackup/">Azure SQL Database / SQL Managed Instance の自動バックアップに関して</a>
           </li>
         
           <li>
-            <a href="">Azure SQL Database / SQL Managed Instance のお問い合わせを起票いただく際に</a>
+            <a href="../../Information/support-request-guidance/">Azure SQL Database / SQL Managed Instance のお問い合わせを起票いただく際に</a>
           </li>
         
       </ul>
