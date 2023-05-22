@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>SQL Managed Instance からストレージアカウントやリンクサーバーへの接続テスト方法 | Japan SQL Cloud Support Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="こんにちは。SQL Cloud サポート チームの川野辺です。 今回の投稿では、SQL Managed Instance (SQL MI) から、ストレージアカウントやリンクサーバーに接続できない場合の接続テスト方法に関してご案内します。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SQL Managed Instance からストレージアカウントやリンクサーバーへの接続テスト方法">
+<meta property="og:url" content="https://jp-azuresql.github.io/blog/Connectivity/mi-tcp-connectivity-test/index.html">
+<meta property="og:site_name" content="Japan SQL Cloud Support Blog">
+<meta property="og:description" content="こんにちは。SQL Cloud サポート チームの川野辺です。 今回の投稿では、SQL Managed Instance (SQL MI) から、ストレージアカウントやリンクサーバーに接続できない場合の接続テスト方法に関してご案内します。">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:image" content="https://jp-azuresql.github.io/blog/Connectivity/mi-tcp-connectivity-test/image001.png">
+<meta property="article:published_time" content="2023-05-17T06:00:00.000Z">
+<meta property="article:modified_time" content="2023-05-22T02:54:37.263Z">
+<meta property="article:author" content="Microsoft SQL Cloud Support Team">
+<meta property="article:tag" content="Connectivity">
+<meta property="article:tag" content="Troubleshooting">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jp-azuresql.github.io/blog/Connectivity/mi-tcp-connectivity-test/image001.png">
+  
+    <link rel="alternate" href="../../atom.xml" title="Japan SQL Cloud Support Blog" type="application/atom+xml">
+  
+
+  <link rel="icon" href="../../favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+  <link rel="manifest" href="../../site.webmanifest">
+  <link rel="mask-icon" href="../../safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="theme-color" content="#ffffff">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="../../css/style.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="site-header-logo"></div>
+  <div id="site-header-blog-wrapper"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        <div id="ms-logo"></div>
+        
+          <a class="main-nav-link" href="/blog/">Home</a>
+        
+          <a class="main-nav-link" href="/blog/archives">Archives</a>
+        
+        <a class="main-nav-link" target="_blank" rel="noopener" href="https://cssjpn.github.io/">サポート情報</a>
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="../../atom.xml" title="RSSフィード"></a>
+        
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//www.bing.com/search" method="get" accept-charset="UTF-8" name="bing-search" onsubmit="var f=this;if(f['q'].value){var searchUrl =  'https://www.bing.com/search?q=' +  encodeURIComponent(f['q'].value + ' site:' + f['sitesearch'].value) ;window.open(searchUrl, 'blank') };return false;" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="検索"><button type="submit" id="nav-search-btn" class="search-form-submit"></button><input type="hidden" name="sitesearch" value="https://jp-azuresql.github.io/blog"></form>
+      </div>
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="../../index.html" id="logo">Japan SQL Cloud Support Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="../../index.html" id="subtitle">日本マイクロソフト SQL Cloud チームによるサポートブログです。</a>
+        </h2>
+      
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Connectivity/mi-tcp-connectivity-test" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header-single">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      SQL Managed Instance からストレージアカウントやリンクサーバーへの接続テスト方法
+    </h1>
+  
+
+      </header>
+      <div class="article-share">
+        Last Update: 
+        <a href="" class="article-date-single">
+  <time datetime="2023-05-17T06:00:00.000Z" itemprop="datePublished">2023-05-17</time>
+</a>
+        
+        
+        <a href="https://github.com/jp-azuresql/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+eef304ae-4561-5a52-8bc4-f13d4c5f3d15%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5BSQL+Managed+Instance+%E3%81%8B%E3%82%89%E3%82%B9%E3%83%88%E3%83%AC%E3%83%BC%E3%82%B8%E3%82%A2%E3%82%AB%E3%82%A6%E3%83%B3%E3%83%88%E3%82%84%E3%83%AA%E3%83%B3%E3%82%AF%E3%82%B5%E3%83%BC%E3%83%90%E3%83%BC%E3%81%B8%E3%81%AE%E6%8E%A5%E7%B6%9A%E3%83%86%E3%82%B9%E3%83%88%E6%96%B9%E6%B3%95%5D%28https%3A%2F%2Fjp-azuresql.github.io%2Fblog%2FConnectivity%2Fmi-tcp-connectivity-test%2F%29%0A*+Content+Source%3A+%5Barticles%2FConnectivity%2Fmi-tcp-connectivity-test.md%5D%28https%3A%2F%2Fgithub.com%2Fjp-azuresql%2Fblog%2Fblob%2Fmain%2Farticles%2FConnectivity%2Fmi-tcp-connectivity-test.md%29%0A*+Author%3A+" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
+        
+        <a data-url="https://jp-azuresql.github.io/blog/Connectivity/mi-tcp-connectivity-test/" data-id="clhy97wyc00010no03tax6mj5" class="article-share-link">共有</a>
+      </div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>こんにちは。SQL Cloud サポート チームの川野辺です。</p>
+<p>今回の投稿では、SQL Managed Instance (SQL MI) から、ストレージアカウントやリンクサーバーに接続できない場合の接続テスト方法に関してご案内します。</p>
+<span id="more"></span>
+
+<h2 id="実施手順"><a href="#実施手順" class="headerlink" title="実施手順"></a>実施手順</h2><hr>
+<p>SQL MI はサブネット内にデプロイされるため、BULK INSERT などでストレージアカウントやリンクサーバーで異なる SQL MI などの外部リソースにアクセスを行う場合、サブネット内の SQL MI からの接続を許可するようにネットワークの構成を設定する必要があります。<br>その際、当該 SQL MI から外部リソースへの接続可否、および、名前解決結果を確認するため、以下の手順を活用いただけます。<br>なお、以下では PowerShell の Test-NetConnection コマンドレットを呼び出すジョブを SQL Managed Instance に作成し実行することで、実際に SQL MI から外部リソースへの接続可否、および、名前解決結果を確認します。</p>
+<ol>
+<li><p>対象インスタンスに接続します。</p>
+</li>
+<li><p>以下のコマンドの @endpoint に接続対象のエンドポイント (以下の例ではストレージアカウントの myaccount1.blob.core.windows.net) を指定し、スクリプトを実行ください。<br>@port には、BULK INSERT などを目的にストレージアカウントに接続する際には 443 ポート、リンクサーバーに対するテストは 1433 ポートを指定してください。</p>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>接続テスト先</th>
+<th>Port</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ストレージアカウント</td>
+<td>443</td>
+</tr>
+<tr>
+<td>リンクサーバー</td>
+<td>1433</td>
+</tr>
+</tbody></table>
+<p>以下にご案内しているスクリプトは、こちらで管理されておりますので、必要に応じてご参照ください。<br><a target="_blank" rel="noopener" href="https://github.com/Azure/sqlmi/blob/main/how-to/how-to-test-tcp-connection-from-mi/TestTCPNetworkConnection.sql">https://github.com/Azure/sqlmi/blob/main/how-to/how-to-test-tcp-connection-from-mi/TestTCPNetworkConnection.sql</a></p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">--<span class="built_in">START</span></span><br><span class="line">-- Parameters</span><br><span class="line">DECLARE @endpoint NVARCHAR(<span class="number">512</span>) = N&#x27;myaccount1.blob.core.windows.<span class="built_in">net</span>&#x27;</span><br><span class="line">DECLARE @port NVARCHAR(<span class="number">5</span>) = N&#x27;<span class="number">443</span>&#x27;</span><br><span class="line"></span><br><span class="line">--Script</span><br><span class="line">DECLARE @jobName NVARCHAR(<span class="number">512</span>) = N&#x27;TestTCPNetworkConnection&#x27;, @jobId BINARY(<span class="number">16</span>), @<span class="built_in">cmd</span> NVARCHAR(MAX)</span><br><span class="line"><span class="keyword">IF</span> EXISTS (SELECT job_id FROM msdb.dbo.sysjobs_view WHERE name = @jobName)</span><br><span class="line">EXEC msdb.dbo.sp_delete_job @job_name=@jobName, @delete_unused_schedule=<span class="number">1</span></span><br><span class="line">EXEC msdb.dbo.sp_add_job @job_name=@jobName, @enabled=<span class="number">1</span>, @job_id = @jobId OUTPUT</span><br><span class="line">DECLARE @stepName NVARCHAR(<span class="number">512</span>) = @endpoint + N&#x27;:&#x27; + @port</span><br><span class="line"><span class="built_in">SET</span> @<span class="built_in">cmd</span> = (N&#x27;tnc &#x27; + @endpoint + N&#x27; -port &#x27; + @port +&#x27; | select ComputerName, RemoteAddress, TcpTestSucceeded | <span class="built_in">Format</span>-List&#x27;)</span><br><span class="line">EXEC msdb.dbo.sp_add_jobstep @job_id=@jobId, @step_name=@stepName</span><br><span class="line">, @step_id=<span class="number">1</span>, @cmdexec_success_code=<span class="number">0</span>, @subsystem=N&#x27;PowerShell&#x27;, @command=@<span class="built_in">cmd</span>, @database_name=N&#x27;master&#x27;</span><br><span class="line"></span><br><span class="line">EXEC msdb.dbo.sp_add_jobserver @job_id = @jobId, @server_name = N&#x27;(local)&#x27;</span><br><span class="line">EXEC msdb.dbo.sp_start_job @job_name=@jobName</span><br><span class="line"></span><br><span class="line">--Check status every <span class="number">5</span> seconds</span><br><span class="line">DECLARE @RunStatus INT </span><br><span class="line"><span class="built_in">SET</span> @RunStatus=<span class="number">10</span></span><br><span class="line">WHILE ( @RunStatus &gt;= <span class="number">4</span>)</span><br><span class="line">BEGIN</span><br><span class="line">SELECT distinct @RunStatus  = run_status</span><br><span class="line">FROM [msdb].[dbo].[sysjobhistory] JH JOIN [msdb].[dbo].[sysjobs] J ON JH.job_id= J.job_id </span><br><span class="line">WHERE J.name=@jobName and step_id = <span class="number">0</span></span><br><span class="line">WAITFOR DELAY &#x27;<span class="number">00</span>:<span class="number">00</span>:<span class="number">05</span>&#x27;; </span><br><span class="line">END</span><br><span class="line"></span><br><span class="line">--Get logs once job completes</span><br><span class="line">SELECT [step_name] AS [Endpoint]</span><br><span class="line">,SUBSTRING([message], CHARINDEX(&#x27;TcpTestSucceeded&#x27;,[message]), CHARINDEX(&#x27;Process <span class="keyword">Exit</span>&#x27;,[message])-CHARINDEX(&#x27;TcpTestSucceeded&#x27;,[message])) as TcpTestResult</span><br><span class="line">,SUBSTRING([message], CHARINDEX(&#x27;RemoteAddress&#x27;,[message]), CHARINDEX(&#x27;TcpTestSucceeded&#x27;,[message])-CHARINDEX(&#x27;RemoteAddress&#x27;,[message])) as RemoteAddressResult</span><br><span class="line">,[run_status] ,[run_duration], [message]</span><br><span class="line">FROM [msdb].[dbo].[sysjobhistory] JH JOIN [msdb].[dbo].[sysjobs] J ON JH.job_id= J.job_id</span><br><span class="line">WHERE J.name=@jobName and step_id &lt;&gt; <span class="number">0</span></span><br><span class="line">--END</span><br></pre></td></tr></table></figure>
+
+<h2 id="出力結果の確認方法"><a href="#出力結果の確認方法" class="headerlink" title="出力結果の確認方法"></a>出力結果の確認方法</h2><hr>
+<p>上記のコマンドを実行すると、以下のような出力結果が得られます。こちらのスクリーンショットでは、ストレージアカウントへの接続テストの結果を紹介しています。<br>TcpTestSucceeded : True が想定される結果となりますが、False となっていた場合、TCP レベルでの接続が失敗していることを示します。そのため、ネットワークセキュリテイグループ (NSG) やルートテーブルの見直しを実施ください。<br>また、RemoteAddressResult には、接続先のエンドポイントに対する名前解決の結果が表示されます。こちらの結果が得られない場合や想定される結果でない場合は、名前解決の設定が適切でない場合がありますので、DNS サーバーなどの見直しを実施ください。</p>
+<p><img src="/blog/Connectivity/mi-tcp-connectivity-test/image001.png"></p>
+<h2 id="参考情報"><a href="#参考情報" class="headerlink" title="参考情報"></a>参考情報</h2><hr>
+<p>こちらの内容は、以下のブログ記事を参考に作成しています。</p>
+<p><a target="_blank" rel="noopener" href="https://techcommunity.microsoft.com/t5/azure-sql-blog/how-to-test-tcp-connectivity-from-a-sql-managed-instance/ba-p/3058458">https://techcommunity.microsoft.com/t5/azure-sql-blog/how-to-test-tcp-connectivity-from-a-sql-managed-instance/ba-p/3058458</a></p>
+
+      
+      
+        <div class="article-disclaimer">
+        
+          <p>※本情報の内容（添付文書、リンク先などを含む）は、作成日時点でのものであり、予告なく変更される場合があります。</p>
+        
+        </div>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Connectivity/" rel="tag">Connectivity</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Troubleshooting/" rel="tag">Troubleshooting</a></li></ul>
+
+        
+        <a href="https://github.com/jp-azuresql/blog/edit/main/articles/Connectivity/mi-tcp-connectivity-test.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
+        
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="../../Performance/memory-usage/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">次の記事</strong>
+      <div class="article-nav-title">
+        
+          Azure SQL Database / SQL Managed Instance ではメモリ使用率の監視は不要です
+        
+      </div>
+    </a>
+  
+  
+    <a href="../../Management/version/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前の記事</strong>
+      <div class="article-nav-title">Azure SQL Database / SQL Managed Instance のバージョンに関して</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最近の投稿</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="../../Performance/memory-usage/">Azure SQL Database / SQL Managed Instance ではメモリ使用率の監視は不要です</a>
+          </li>
+        
+          <li>
+            <a href="">SQL Managed Instance からストレージアカウントやリンクサーバーへの接続テスト方法</a>
+          </li>
+        
+          <li>
+            <a href="../../Management/version/">Azure SQL Database / SQL Managed Instance のバージョンに関して</a>
+          </li>
+        
+          <li>
+            <a href="../connectivity-troubleshooting/">接続エラーのトラブルシューティングに関して</a>
+          </li>
+        
+          <li>
+            <a href="../../Management/autobackup/">Azure SQL Database / SQL Managed Instance の自動バックアップに関して</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">タグ</h3>
+    <div class="widget">
+      <!-- <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Backup/" rel="tag">Backup</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Connectivity/" rel="tag">Connectivity</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Information/" rel="tag">Information</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Management/" rel="tag">Management</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Memory/" rel="tag">Memory</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Metric/" rel="tag">Metric</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Monitor/" rel="tag">Monitor</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Performance/" rel="tag">Performance</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Support-Request/" rel="tag">Support Request</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Troubleshooting/" rel="tag">Troubleshooting</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Upgrade/" rel="tag">Upgrade</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Version/" rel="tag">Version</a></li></ul>  -->
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Connectivity/">Connectivity</a><span class="tag-list-count">2</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Connectivity/Troubleshooting">Troubleshooting</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Information/">Information</a><span class="tag-list-count">1</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Information/Support-Request">Support Request</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Management/">Management</a><span class="tag-list-count">2</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Management/Backup">Backup</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Management/Upgrade">Upgrade</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Management/Version">Version</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Performance/">Performance</a><span class="tag-list-count">1</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Performance/Memory">Memory</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Performance/Metric">Metric</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Performance/Monitor">Monitor</a><span class="tag-list-count">1</span></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">アーカイブ</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/05/">2023 / 05</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/04/">2023 / 04</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/03/">2023 / 03</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">タグクラウド</h3>
+    <div class="widget tagcloud">
+      <a href="../../tags/Backup/" style="font-size: 10px;">Backup</a> <a href="../../tags/Connectivity/" style="font-size: 20px;">Connectivity</a> <a href="../../tags/Information/" style="font-size: 10px;">Information</a> <a href="../../tags/Management/" style="font-size: 20px;">Management</a> <a href="../../tags/Memory/" style="font-size: 10px;">Memory</a> <a href="../../tags/Metric/" style="font-size: 10px;">Metric</a> <a href="../../tags/Monitor/" style="font-size: 10px;">Monitor</a> <a href="../../tags/Performance/" style="font-size: 10px;">Performance</a> <a href="../../tags/Support-Request/" style="font-size: 10px;">Support Request</a> <a href="../../tags/Troubleshooting/" style="font-size: 20px;">Troubleshooting</a> <a href="../../tags/Upgrade/" style="font-size: 10px;">Upgrade</a> <a href="../../tags/Version/" style="font-size: 10px;">Version</a>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2023 Microsoft SQL Cloud Support Team<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="../../index.html" class="mobile-nav-link">Home</a>
+  
+    <a href="../../archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+<script src="../../js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
