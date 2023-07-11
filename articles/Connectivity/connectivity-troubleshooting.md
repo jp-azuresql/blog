@@ -8,7 +8,7 @@ tags:
 
 こんにちは。SQL Cloud サポート チームの川野辺です。
 
-今回の投稿では、Azure SQL Database (SQL DB)、SQL Managed Instance (SQL MI) における接続エラーのトラブルシューティングとして、Azure SQL Connectivity Checker のご利用方法に関してご案内します。
+今回の投稿では、Azure SQL Database (SQL DB)、SQL Managed Instance (SQL MI) における接続エラーのトラブルシューティング方法に関してご案内します。
 
 <!-- more -->
 
