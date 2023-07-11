@@ -2,51 +2,51 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://jp-azuresql.github.io/blog/Connectivity/mi-tcp-connectivity-test/</loc>
+    
+    <lastmod>2023-07-11</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://jp-azuresql.github.io/blog/Information/support-request-guidance/</loc>
     
-    <lastmod>2023-06-14</lastmod>
+    <lastmod>2023-07-11</lastmod>
     
   </url>
   
   <url>
     <loc>https://jp-azuresql.github.io/blog/Management/autobackup/</loc>
     
-    <lastmod>2023-06-14</lastmod>
+    <lastmod>2023-07-11</lastmod>
     
   </url>
   
   <url>
     <loc>https://jp-azuresql.github.io/blog/Management/version/</loc>
     
-    <lastmod>2023-06-14</lastmod>
+    <lastmod>2023-07-11</lastmod>
     
   </url>
   
   <url>
     <loc>https://jp-azuresql.github.io/blog/Performance/memory-usage/</loc>
     
-    <lastmod>2023-06-14</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://jp-azuresql.github.io/blog/Connectivity/mi-tcp-connectivity-test/</loc>
-    
-    <lastmod>2023-06-14</lastmod>
+    <lastmod>2023-07-11</lastmod>
     
   </url>
   
   <url>
     <loc>https://jp-azuresql.github.io/blog/Connectivity/connectivity-troubleshooting/</loc>
     
-    <lastmod>2023-06-14</lastmod>
+    <lastmod>2023-07-11</lastmod>
     
   </url>
   
 
   <url>
     <loc>https://jp-azuresql.github.io/blog</loc>
-    <lastmod>2023-06-14</lastmod>
+    <lastmod>2023-07-11</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -54,84 +54,84 @@
   
   <url>
     <loc>https://jp-azuresql.github.io/blog/tags/Connectivity/</loc>
-    <lastmod>2023-06-14</lastmod>
+    <lastmod>2023-07-11</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jp-azuresql.github.io/blog/tags/Troubleshooting/</loc>
-    <lastmod>2023-06-14</lastmod>
+    <lastmod>2023-07-11</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jp-azuresql.github.io/blog/tags/Information/</loc>
-    <lastmod>2023-06-14</lastmod>
+    <lastmod>2023-07-11</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jp-azuresql.github.io/blog/tags/Support-Request/</loc>
-    <lastmod>2023-06-14</lastmod>
+    <lastmod>2023-07-11</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jp-azuresql.github.io/blog/tags/Management/</loc>
-    <lastmod>2023-06-14</lastmod>
+    <lastmod>2023-07-11</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jp-azuresql.github.io/blog/tags/Backup/</loc>
-    <lastmod>2023-06-14</lastmod>
+    <lastmod>2023-07-11</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jp-azuresql.github.io/blog/tags/Version/</loc>
-    <lastmod>2023-06-14</lastmod>
+    <lastmod>2023-07-11</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jp-azuresql.github.io/blog/tags/Upgrade/</loc>
-    <lastmod>2023-06-14</lastmod>
+    <lastmod>2023-07-11</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jp-azuresql.github.io/blog/tags/Performance/</loc>
-    <lastmod>2023-06-14</lastmod>
+    <lastmod>2023-07-11</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jp-azuresql.github.io/blog/tags/Memory/</loc>
-    <lastmod>2023-06-14</lastmod>
+    <lastmod>2023-07-11</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jp-azuresql.github.io/blog/tags/Metric/</loc>
-    <lastmod>2023-06-14</lastmod>
+    <lastmod>2023-07-11</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jp-azuresql.github.io/blog/tags/Monitor/</loc>
-    <lastmod>2023-06-14</lastmod>
+    <lastmod>2023-07-11</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
