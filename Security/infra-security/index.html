@@ -4,22 +4,21 @@
   <meta charset="utf-8">
   
   
-  <title>Azure SQL Database / SQL Managed Instance ではメモリ使用率の監視は不要です | Japan SQL Cloud Support Blog</title>
+  <title>Azure SQL Database / SQL Managed Instance にマルウェア対策は必要ない | Japan SQL Cloud Support Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="こんにちは。SQL Cloud サポート チームの宮崎です。 今回の投稿では、Azure SQL Database (SQL DB)、SQL Managed Instance (SQL MI) において、メモリ使用率の監視が不要である理由をご説明します。">
+  <meta name="description" content="こんにちは。SQL Cloud サポート チームのリョウです。 今回の投稿では、Azure SQL Database(SQL DB)、SQL Managed Instance(SQL MI)におけるセキュリティ対策に関して案内します。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Azure SQL Database &#x2F; SQL Managed Instance ではメモリ使用率の監視は不要です">
-<meta property="og:url" content="https://jp-azuresql.github.io/blog/Performance/memory-usage/index.html">
+<meta property="og:title" content="Azure SQL Database &#x2F; SQL Managed Instance にマルウェア対策は必要ない">
+<meta property="og:url" content="https://jp-azuresql.github.io/blog/Security/infra-security/index.html">
 <meta property="og:site_name" content="Japan SQL Cloud Support Blog">
-<meta property="og:description" content="こんにちは。SQL Cloud サポート チームの宮崎です。 今回の投稿では、Azure SQL Database (SQL DB)、SQL Managed Instance (SQL MI) において、メモリ使用率の監視が不要である理由をご説明します。">
+<meta property="og:description" content="こんにちは。SQL Cloud サポート チームのリョウです。 今回の投稿では、Azure SQL Database(SQL DB)、SQL Managed Instance(SQL MI)におけるセキュリティ対策に関して案内します。">
 <meta property="og:locale" content="ja_JP">
-<meta property="article:published_time" content="2023-05-19T02:00:00.000Z">
+<meta property="article:published_time" content="2023-07-18T08:30:00.000Z">
 <meta property="article:modified_time" content="2023-07-18T08:30:51.802Z">
 <meta property="article:author" content="Microsoft SQL Cloud Support Team">
-<meta property="article:tag" content="Performance">
-<meta property="article:tag" content="Memory">
-<meta property="article:tag" content="Metric">
-<meta property="article:tag" content="Monitor">
+<meta property="article:tag" content="Security">
+<meta property="article:tag" content="AntiVirus">
+<meta property="article:tag" content="FAQ">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternate" href="../../atom.xml" title="Japan SQL Cloud Support Blog" type="application/atom+xml">
@@ -82,7 +81,7 @@
 </header>
 
       <div class="outer">
-        <section id="main"><article id="post-Performance/memory-usage" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-Security/infra-security" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
     
@@ -91,7 +90,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Azure SQL Database / SQL Managed Instance ではメモリ使用率の監視は不要です
+      Azure SQL Database / SQL Managed Instance にマルウェア対策は必要ない
     </h1>
   
 
@@ -99,33 +98,26 @@
       <div class="article-share">
         Last Update: 
         <a href="" class="article-date-single">
-  <time datetime="2023-05-19T02:00:00.000Z" itemprop="datePublished">2023-05-19</time>
+  <time datetime="2023-07-18T08:30:00.000Z" itemprop="datePublished">2023-07-18</time>
 </a>
         
         
-        <a href="https://github.com/jp-azuresql/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+22abfd07-b749-50b2-a01c-098d49246e80%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5BAzure+SQL+Database+%2F+SQL+Managed+Instance+%E3%81%A7%E3%81%AF%E3%83%A1%E3%83%A2%E3%83%AA%E4%BD%BF%E7%94%A8%E7%8E%87%E3%81%AE%E7%9B%A3%E8%A6%96%E3%81%AF%E4%B8%8D%E8%A6%81%E3%81%A7%E3%81%99%5D%28https%3A%2F%2Fjp-azuresql.github.io%2Fblog%2FPerformance%2Fmemory-usage%2F%29%0A*+Content+Source%3A+%5Barticles%2FPerformance%2Fmemory-usage.md%5D%28https%3A%2F%2Fgithub.com%2Fjp-azuresql%2Fblog%2Fblob%2Fmain%2Farticles%2FPerformance%2Fmemory-usage.md%29%0A*+Author%3A+" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
+        <a href="https://github.com/jp-azuresql/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+2e0fe3e4-5123-53e1-9168-2607cfc6c945%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5BAzure+SQL+Database+%2F+SQL+Managed+Instance+%E3%81%AB%E3%83%9E%E3%83%AB%E3%82%A6%E3%82%A7%E3%82%A2%E5%AF%BE%E7%AD%96%E3%81%AF%E5%BF%85%E8%A6%81%E3%81%AA%E3%81%84%5D%28https%3A%2F%2Fjp-azuresql.github.io%2Fblog%2FSecurity%2Finfra-security%2F%29%0A*+Content+Source%3A+%5Barticles%2FSecurity%2Finfra-security.md%5D%28https%3A%2F%2Fgithub.com%2Fjp-azuresql%2Fblog%2Fblob%2Fmain%2Farticles%2FSecurity%2Finfra-security.md%29%0A*+Author%3A+" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
         
-        <a data-url="https://jp-azuresql.github.io/blog/Performance/memory-usage/" data-id="clk81bw9s00070ota6mf50oog" class="article-share-link">共有</a>
+        <a data-url="https://jp-azuresql.github.io/blog/Security/infra-security/" data-id="clk81bw9t00080ota1tlndnmv" class="article-share-link">共有</a>
       </div>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>こんにちは。SQL Cloud サポート チームの宮崎です。</p>
-<p>今回の投稿では、Azure SQL Database (SQL DB)、SQL Managed Instance (SQL MI) において、メモリ使用率の監視が不要である理由をご説明します。</p>
+        <p>こんにちは。SQL Cloud サポート チームのリョウです。</p>
+<p>今回の投稿では、Azure SQL Database(SQL DB)、SQL Managed Instance(SQL MI)におけるセキュリティ対策に関して案内します。</p>
 <span id="more"></span>
 
-<h2 id="なぜメモリ使用率の監視が不要なのか"><a href="#なぜメモリ使用率の監視が不要なのか" class="headerlink" title="なぜメモリ使用率の監視が不要なのか"></a>なぜメモリ使用率の監視が不要なのか</h2><hr>
-<p>SQL DB、SQL MI において、メモリは主にデータをキャッシュするために使用されます。これは、速度の遅いストレージからの読み取りに比べて、メモリからのデータの読み取りが高速となるからです。<br>そのため、メモリ使用率が高いと、多くのデータがメモリ上にキャッシュされていることを意味し、通常、クエリのパフォーマンスが向上します。メモリ使用率が高い場合でも、パフォーマンス観点で対処を必要としないという点から、メモリ使用率の監視は不要です。</p>
-<p>また、SQL DB、SQL MI のデータベースエンジンでは、設計上、使用可能なすべてのメモリが使用されることが多くあり、メモリ使用率が高いことは、通常の動作となります。</p>
-<p>&lt;以下関連ドキュメント&gt;<br><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/azure-sql/database/resource-limits-logical-server?view=azuresql#memory">Azure SQL Database でのリソース管理 - メモリ</a></p>
-<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/sql/relational-databases/memory-management-architecture-guide">メモリ管理アーキテクチャ ガイド</a></p>
-<h2 id="メモリ使用率の急激な低下について"><a href="#メモリ使用率の急激な低下について" class="headerlink" title="メモリ使用率の急激な低下について"></a>メモリ使用率の急激な低下について</h2><hr>
-<p>SQL DB、SQL MI では、弊社によりメンテナンスを実施しております。メンテナンス時には Reconfiguration と呼ばれるノードの切り替え（フェールオーバー）が発生し、その際、メモリ上のデータが引き継がれずメモリ使用率が急激に低下する場合があります。これは、想定された動作となっており、お客様側で別途ご対応いただく事項はありません。</p>
-<p>メンテナンス完了後、メモリ上に無いデータをクエリの実行などでストレージから読み込んだ際に、再度データがメモリ上にキャッシュされるため、徐々にメモリ使用率も上昇していく動きとなります。</p>
-<div class="alert is-info"><p class="alert-title">Note</p><p>メンテナンス時にメモリ使用率が低下した際、メモリ上にデータが無い状態でのクエリの実行はストレージからのデータ読み取りとなるため、メモリからの読み取り時に比べパフォーマンスが低下する場合があります。</p><p>しかし、メモリにデータがキャッシュされて以降のクエリ実行時はメモリからの読み取りとなり、パフォーマンスも改善します。</p></div>
-<h2 id="メモリ不足は発生しないのか"><a href="#メモリ不足は発生しないのか" class="headerlink" title="メモリ不足は発生しないのか"></a>メモリ不足は発生しないのか</h2><hr>
-<p>稀に、負荷の高いワークロードが原因でメモリ不足が発生しメモリ不足エラーになることがあります。ただし、メモリ不足エラーは、メモリ使用率が高くない場合でも発生する可能性があります。<br>コンピューティングサイズが小さく、使用可能な最大メモリサイズが相対的に小さい場合や、クエリ処理により多くのメモリを使用するワークロードで発生する可能性があります。</p>
-<p>前述の通り、メモリ使用率が高い場合にメモリ不足が発生するというわけではないため、メモリ不足エラーが発生した場合は、少し時間を空けて処理を再度実行ください。また、同じクエリで毎回メモリ不足エラーが発生する場合は、同時に実行するクエリの数を減らすことや、クエリの改修をご検討ください。</p>
+<h2 id="Azure-SQL-Database-SQL-Managed-Instance-にマルウェア対策は必要ありません"><a href="#Azure-SQL-Database-SQL-Managed-Instance-にマルウェア対策は必要ありません" class="headerlink" title="Azure SQL Database / SQL Managed Instance にマルウェア対策は必要ありません"></a>Azure SQL Database / SQL Managed Instance にマルウェア対策は必要ありません</h2><hr>
+<p>SQL DB、SQL MI では、お客様にてマルウェア対策ソフトウェアをインストールする事はできませんが、これらの製品は PaaS であるため、弊社独自のマルウェア対策ソフトウェアが製品基盤に組み込まれております。そのため、追加のマルウェア対策ソフトウェアの導入は不要です。</p>
+<p>マルウェア対策ソフトウェアの導入以外に、お客様にて実施できるセキュリティ対策として、ネットワークセキュリティ（ファイアウォール）機能、認証機能、承認機能、監査機能、悪意のあるアクセスからの保護機能、通信・データの暗号化機能、データマスキング機能、脆弱性評価機能等があります。</p>
+<p>詳細に関しては、以下の公開情報をご参照ください。</p>
+<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/azure-sql/database/security-overview?view=azuresql">Azure SQL Database と SQL Managed Instance のセキュリティ機能の概要</a></p>
 
       
       
@@ -139,10 +131,10 @@
     <footer class="article-footer">
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Memory/" rel="tag">Memory</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Metric/" rel="tag">Metric</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Monitor/" rel="tag">Monitor</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Performance/" rel="tag">Performance</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/AntiVirus/" rel="tag">AntiVirus</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/FAQ/" rel="tag">FAQ</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Security/" rel="tag">Security</a></li></ul>
 
         
-        <a href="https://github.com/jp-azuresql/blog/edit/main/articles/Performance/memory-usage.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
+        <a href="https://github.com/jp-azuresql/blog/edit/main/articles/Security/infra-security.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
         
     </footer>
   </div>
@@ -150,19 +142,10 @@
     
 <nav id="article-nav">
   
-    <a href="../../Security/infra-security/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">次の記事</strong>
-      <div class="article-nav-title">
-        
-          Azure SQL Database / SQL Managed Instance にマルウェア対策は必要ない
-        
-      </div>
-    </a>
   
-  
-    <a href="../../Connectivity/mi-tcp-connectivity-test/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="../../Performance/memory-usage/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">前の記事</strong>
-      <div class="article-nav-title">SQL Managed Instance からストレージアカウントやリンクサーバーへの接続テスト方法</div>
+      <div class="article-nav-title">Azure SQL Database / SQL Managed Instance ではメモリ使用率の監視は不要です</div>
     </a>
   
 </nav>
@@ -181,11 +164,11 @@
       <ul>
         
           <li>
-            <a href="../../Security/infra-security/">Azure SQL Database / SQL Managed Instance にマルウェア対策は必要ない</a>
+            <a href="">Azure SQL Database / SQL Managed Instance にマルウェア対策は必要ない</a>
           </li>
         
           <li>
-            <a href="">Azure SQL Database / SQL Managed Instance ではメモリ使用率の監視は不要です</a>
+            <a href="../../Performance/memory-usage/">Azure SQL Database / SQL Managed Instance ではメモリ使用率の監視は不要です</a>
           </li>
         
           <li>
