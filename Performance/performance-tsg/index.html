@@ -4,22 +4,28 @@
   <meta charset="utf-8">
   
   
-  <title>Azure SQL Database / SQL Managed Instance にマルウェア対策は必要ない | Japan SQL Cloud Support Blog</title>
+  <title>クエリのパフォーマンスが悪化した際の調査方法 | Japan SQL Cloud Support Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="こんにちは。SQL Cloud サポート チームのリョウです。 今回の投稿では、Azure SQL Database(SQL DB)、SQL Managed Instance(SQL MI)におけるセキュリティ対策に関して案内します。">
+  <meta name="description" content="こんにちは。SQL Cloud サポート チームの川野辺です。 今回の投稿では、Azure SQL Database (SQL DB)、SQL Managed Instance (SQL MI) において、特定クエリのパフォーマンスが悪化した際の調査方法を紹介します。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Azure SQL Database &#x2F; SQL Managed Instance にマルウェア対策は必要ない">
-<meta property="og:url" content="https://jp-azuresql.github.io/blog/Security/infra-security/index.html">
+<meta property="og:title" content="クエリのパフォーマンスが悪化した際の調査方法">
+<meta property="og:url" content="https://jp-azuresql.github.io/blog/Performance/performance-tsg/index.html">
 <meta property="og:site_name" content="Japan SQL Cloud Support Blog">
-<meta property="og:description" content="こんにちは。SQL Cloud サポート チームのリョウです。 今回の投稿では、Azure SQL Database(SQL DB)、SQL Managed Instance(SQL MI)におけるセキュリティ対策に関して案内します。">
+<meta property="og:description" content="こんにちは。SQL Cloud サポート チームの川野辺です。 今回の投稿では、Azure SQL Database (SQL DB)、SQL Managed Instance (SQL MI) において、特定クエリのパフォーマンスが悪化した際の調査方法を紹介します。">
 <meta property="og:locale" content="ja_JP">
-<meta property="article:published_time" content="2023-07-18T08:30:00.000Z">
-<meta property="article:modified_time" content="2023-07-26T07:58:51.371Z">
+<meta property="og:image" content="https://jp-azuresql.github.io/blog/Performance/performance-tsg/image001.png">
+<meta property="og:image" content="https://jp-azuresql.github.io/blog/Performance/performance-tsg/image002.png">
+<meta property="og:image" content="https://jp-azuresql.github.io/blog/Performance/performance-tsg/image003.png">
+<meta property="og:image" content="https://jp-azuresql.github.io/blog/Performance/performance-tsg/image004.png">
+<meta property="og:image" content="https://jp-azuresql.github.io/blog/Performance/performance-tsg/image005.png">
+<meta property="article:published_time" content="2023-07-26T08:00:00.000Z">
+<meta property="article:modified_time" content="2023-07-26T07:58:51.367Z">
 <meta property="article:author" content="Microsoft SQL Cloud Support Team">
-<meta property="article:tag" content="Security">
-<meta property="article:tag" content="AntiVirus">
-<meta property="article:tag" content="FAQ">
+<meta property="article:tag" content="Troubleshooting">
+<meta property="article:tag" content="Performance">
+<meta property="article:tag" content="クエリストア">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jp-azuresql.github.io/blog/Performance/performance-tsg/image001.png">
   
     <link rel="alternate" href="../../atom.xml" title="Japan SQL Cloud Support Blog" type="application/atom+xml">
   
@@ -81,7 +87,7 @@
 </header>
 
       <div class="outer">
-        <section id="main"><article id="post-Security/infra-security" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-Performance/performance-tsg" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
     
@@ -90,7 +96,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Azure SQL Database / SQL Managed Instance にマルウェア対策は必要ない
+      クエリのパフォーマンスが悪化した際の調査方法
     </h1>
   
 
@@ -98,26 +104,62 @@
       <div class="article-share">
         Last Update: 
         <a href="" class="article-date-single">
-  <time datetime="2023-07-18T08:30:00.000Z" itemprop="datePublished">2023-07-18</time>
+  <time datetime="2023-07-26T08:00:00.000Z" itemprop="datePublished">2023-07-26</time>
 </a>
         
         
-        <a href="https://github.com/jp-azuresql/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+2e0fe3e4-5123-53e1-9168-2607cfc6c945%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5BAzure+SQL+Database+%2F+SQL+Managed+Instance+%E3%81%AB%E3%83%9E%E3%83%AB%E3%82%A6%E3%82%A7%E3%82%A2%E5%AF%BE%E7%AD%96%E3%81%AF%E5%BF%85%E8%A6%81%E3%81%AA%E3%81%84%5D%28https%3A%2F%2Fjp-azuresql.github.io%2Fblog%2FSecurity%2Finfra-security%2F%29%0A*+Content+Source%3A+%5Barticles%2FSecurity%2Finfra-security.md%5D%28https%3A%2F%2Fgithub.com%2Fjp-azuresql%2Fblog%2Fblob%2Fmain%2Farticles%2FSecurity%2Finfra-security.md%29%0A*+Author%3A+" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
+        <a href="https://github.com/jp-azuresql/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+b386c286-f1e0-5b99-abf9-466ddfc18d72%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5B%E3%82%AF%E3%82%A8%E3%83%AA%E3%81%AE%E3%83%91%E3%83%95%E3%82%A9%E3%83%BC%E3%83%9E%E3%83%B3%E3%82%B9%E3%81%8C%E6%82%AA%E5%8C%96%E3%81%97%E3%81%9F%E9%9A%9B%E3%81%AE%E8%AA%BF%E6%9F%BB%E6%96%B9%E6%B3%95%5D%28https%3A%2F%2Fjp-azuresql.github.io%2Fblog%2FPerformance%2Fperformance-tsg%2F%29%0A*+Content+Source%3A+%5Barticles%2FPerformance%2Fperformance-tsg.md%5D%28https%3A%2F%2Fgithub.com%2Fjp-azuresql%2Fblog%2Fblob%2Fmain%2Farticles%2FPerformance%2Fperformance-tsg.md%29%0A*+Author%3A+" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
         
-        <a data-url="https://jp-azuresql.github.io/blog/Security/infra-security/" data-id="clkjfpjnd000a0nmxan8c8wru" class="article-share-link">共有</a>
+        <a data-url="https://jp-azuresql.github.io/blog/Performance/performance-tsg/" data-id="clkjfpjnb00080nmx0hlt0p6k" class="article-share-link">共有</a>
       </div>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>こんにちは。SQL Cloud サポート チームのリョウです。</p>
-<p>今回の投稿では、Azure SQL Database(SQL DB)、SQL Managed Instance(SQL MI)におけるセキュリティ対策に関して案内します。</p>
+        <p>こんにちは。SQL Cloud サポート チームの川野辺です。</p>
+<p>今回の投稿では、Azure SQL Database (SQL DB)、SQL Managed Instance (SQL MI) において、特定クエリのパフォーマンスが悪化した際の調査方法を紹介します。</p>
 <span id="more"></span>
 
-<h2 id="Azure-SQL-Database-SQL-Managed-Instance-にマルウェア対策は必要ありません"><a href="#Azure-SQL-Database-SQL-Managed-Instance-にマルウェア対策は必要ありません" class="headerlink" title="Azure SQL Database / SQL Managed Instance にマルウェア対策は必要ありません"></a>Azure SQL Database / SQL Managed Instance にマルウェア対策は必要ありません</h2><hr>
-<p>SQL DB、SQL MI では、お客様にてマルウェア対策ソフトウェアをインストールする事はできませんが、これらの製品は PaaS であるため、弊社独自のマルウェア対策ソフトウェアが製品基盤に組み込まれております。そのため、追加のマルウェア対策ソフトウェアの導入は不要です。</p>
-<p>マルウェア対策ソフトウェアの導入以外に、お客様にて実施できるセキュリティ対策として、ネットワークセキュリティ（ファイアウォール）機能、認証機能、承認機能、監査機能、悪意のあるアクセスからの保護機能、通信・データの暗号化機能、データマスキング機能、脆弱性評価機能等があります。</p>
-<p>詳細に関しては、以下の公開情報をご参照ください。</p>
-<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/azure-sql/database/security-overview?view=azuresql">Azure SQL Database と SQL Managed Instance のセキュリティ機能の概要</a></p>
+<h2 id="なぜクエリのパフォーマンスが悪化するのか"><a href="#なぜクエリのパフォーマンスが悪化するのか" class="headerlink" title="なぜクエリのパフォーマンスが悪化するのか"></a>なぜクエリのパフォーマンスが悪化するのか</h2><hr>
+<p>SQL DB、SQL MI において、パフォーマンスが悪化し、実行時間が増加する場合には、データベースの負荷が高い、処理で待機が発生している、クエリの対象となるデータが多い、メモリへのアクセスと比較して低速なファイルへのアクセスが発生している、クエリの実行手順を決定する実行プランが変化したなどが考えられます。<br>これらの問題の切り分けには、既定で有効化されているクエリストアの情報を確認することが有効です。なお、クエリストアに関して、直近で新規に作成されたデータベースでは既定で有効化されておりますが、全てのクエリの実行情報を取得する設定ではなく、期待する結果が取得されていない可能性がありますのでご注意ください。詳細は以下の公開情報にあります。</p>
+<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/sql/relational-databases/performance/manage-the-query-store?view=sql-server-ver16&tabs=ssms">クエリ ストアを管理するためのベスト プラクティス</a></p>
+<h2 id="パフォーマンスが悪化したクエリの調査手順"><a href="#パフォーマンスが悪化したクエリの調査手順" class="headerlink" title="パフォーマンスが悪化したクエリの調査手順"></a>パフォーマンスが悪化したクエリの調査手順</h2><hr>
+<ol>
+<li>対象クエリの Query ID を確認します。</li>
+</ol>
+<p>対象クエリの実行情報をクエリストアから確認するためには、Query ID を明らかにする必要がありますので、SQL Server Management Studio (SSMS) などから対象のデータベースに対して以下のクエリを実行してください。その際に、&lt;クエリ文&gt; に対象のクエリテキストを指定します。</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SELECT q.query_id, qt.query_sql_text</span><br><span class="line">FROM sys.query_store_query_text AS qt</span><br><span class="line">JOIN sys.query_store_query AS q</span><br><span class="line">ON qt.query_text_id = q.query_text_id</span><br><span class="line">where qt.query_sql_text like &#x27;<span class="variable">%&lt;クエリ文&gt;%</span>&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>実行例：調査対象のクエリが SELECT getdate() で始まる場合</p>
+<p><img src="/blog/Performance/performance-tsg/image001.png"></p>
+<ol start="2">
+<li>SSMS の [追跡したクエリ] の [追跡中のクエリ] にて、手順 1 で取得した対象クエリの Query ID を入力します。</li>
+</ol>
+<p><img src="/blog/Performance/performance-tsg/image002.png"></p>
+<ol start="3">
+<li>右上の [構成] にて期間を変更可能ですので、パフォーマンスの差異が生じた期間を含むように設定します。</li>
+</ol>
+<p>既定では、[メトリック] が [実行時間] になっているため、実行時間が長くなり、パフォーマンスが悪化するような状況をこちらから確認可能です。</p>
+<p><img src="/blog/Performance/performance-tsg/image003.png"></p>
+<ol start="4">
+<li>[メトリック] を変更し、実行時間の差異の原因を特定します。</li>
+</ol>
+<p>[待機時間] を選択すると、クエリにおける待機時間の差異を調査することができ、待機によって実行時間に差異が生じていたかを判断可能です。<br>その他には、[CPU 時間] や [物理読み取り] などからリソースの利用状況に関して確認可能です。[物理読み取り] に関しては、低速なファイルアクセスである物理読み取りの確認が可能ですので、こちらが増加している場合は、クエリの対象データが増加しているか、メモリ上のキャッシュにデータが存在していなかった可能性があります。</p>
+<p><img src="/blog/Performance/performance-tsg/image004.png"></p>
+<ol start="5">
+<li>実行プランを確認します。</li>
+</ol>
+<p>実行プランはクエリの実行順序やアルゴリズムを定義するものであり、こちらが異なることでパフォーマンスに差異が生じる可能性がありますので、実行プランの変化も合わせて確認します。実行時間が短い場合と長い場合で、実行プランが異なる際には、以下の公開情報に詳細があります。</p>
+<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/sql/relational-databases/performance/query-store-usage-scenarios?view=sql-server-ver15#identify-and-tune-top-resource-consuming-queries">実行プランの確認</a></p>
+<ol start="6">
+<li>手順 4. で [待機時間] が高騰している場合、[クエリ待機統計]  より該当の時間の待機状態を確認可能です。</li>
+</ol>
+<p>待機カテゴリを選択すると原因となっていたクエリ ID を確認することが確認でき、対象のクエリでどのような待機が発生していたかを明らかにできる可能性があります。待機が発生していた場合、各待機の詳細に関しては、以下の公開情報に詳細な説明があります。</p>
+<p><a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/sql/relational-databases/performance/monitoring-performance-by-using-the-query-store?view=sql-server-ver15#Waiting">待機クエリを見つける</a></p>
+<p><img src="/blog/Performance/performance-tsg/image005.png"></p>
+<h2 id="パフォーマンスの改善に実施できること"><a href="#パフォーマンスの改善に実施できること" class="headerlink" title="パフォーマンスの改善に実施できること"></a>パフォーマンスの改善に実施できること</h2><hr>
+<p>上記の手順でパフォーマンスが悪化した原因が確認できましたら、以下の公開情報の対策でパフォーマンスを改善できる可能性があります。<br>なお、SQL DB や SQL MI は PaaS 製品であることから、柔軟にコンピューティングリソースの増減が可能です。調査コストなどを踏まえるとリソース変更が経済的な解決策になる可能性もありますので、合わせて検討します。</p>
+<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/archive/blogs/jpsql/sql-server-5">どうする？ SQL Server のクエリ パフォーマンスが低下した！</a></p>
+<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/archive/blogs/jpsql/microsoft-azure-sql-database-%E3%83%91%E3%83%95%E3%82%A9%E3%83%BC%E3%83%9E%E3%83%B3%E3%82%B9-%E3%83%81%E3%83%A5%E3%83%BC%E3%83%8B%E3%83%B3%E3%82%B0-%E7%AC%AC%EF%BC%91%E5%9B%9E">Azure SQL Database パフォーマンス チューニング</a></p>
 
       
       
@@ -131,10 +173,10 @@
     <footer class="article-footer">
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/AntiVirus/" rel="tag">AntiVirus</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/FAQ/" rel="tag">FAQ</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Security/" rel="tag">Security</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Performance/" rel="tag">Performance</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Troubleshooting/" rel="tag">Troubleshooting</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/%E3%82%AF%E3%82%A8%E3%83%AA%E3%82%B9%E3%83%88%E3%82%A2/" rel="tag">クエリストア</a></li></ul>
 
         
-        <a href="https://github.com/jp-azuresql/blog/edit/main/articles/Security/infra-security.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
+        <a href="https://github.com/jp-azuresql/blog/edit/main/articles/Performance/performance-tsg.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
         
     </footer>
   </div>
@@ -142,19 +184,10 @@
     
 <nav id="article-nav">
   
-    <a href="../../Performance/performance-tsg/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">次の記事</strong>
-      <div class="article-nav-title">
-        
-          クエリのパフォーマンスが悪化した際の調査方法
-        
-      </div>
-    </a>
   
-  
-    <a href="../../Performance/memory-usage/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="../../Security/infra-security/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">前の記事</strong>
-      <div class="article-nav-title">Azure SQL Database / SQL Managed Instance ではメモリ使用率の監視は不要です</div>
+      <div class="article-nav-title">Azure SQL Database / SQL Managed Instance にマルウェア対策は必要ない</div>
     </a>
   
 </nav>
@@ -173,15 +206,15 @@
       <ul>
         
           <li>
-            <a href="../../Performance/performance-tsg/">クエリのパフォーマンスが悪化した際の調査方法</a>
+            <a href="">クエリのパフォーマンスが悪化した際の調査方法</a>
           </li>
         
           <li>
-            <a href="">Azure SQL Database / SQL Managed Instance にマルウェア対策は必要ない</a>
+            <a href="../../Security/infra-security/">Azure SQL Database / SQL Managed Instance にマルウェア対策は必要ない</a>
           </li>
         
           <li>
-            <a href="../../Performance/memory-usage/">Azure SQL Database / SQL Managed Instance ではメモリ使用率の監視は不要です</a>
+            <a href="../memory-usage/">Azure SQL Database / SQL Managed Instance ではメモリ使用率の監視は不要です</a>
           </li>
         
           <li>
