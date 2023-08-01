@@ -4,63 +4,70 @@
   <url>
     <loc>https://jp-azuresql.github.io/blog/Security/infra-security/</loc>
     
-    <lastmod>2023-07-26</lastmod>
+    <lastmod>2023-08-01</lastmod>
     
   </url>
   
   <url>
     <loc>https://jp-azuresql.github.io/blog/Connectivity/mi-tcp-connectivity-test/</loc>
     
-    <lastmod>2023-07-26</lastmod>
+    <lastmod>2023-08-01</lastmod>
     
   </url>
   
   <url>
     <loc>https://jp-azuresql.github.io/blog/Information/support-request-guidance/</loc>
     
-    <lastmod>2023-07-26</lastmod>
+    <lastmod>2023-08-01</lastmod>
     
   </url>
   
   <url>
     <loc>https://jp-azuresql.github.io/blog/Management/autobackup/</loc>
     
-    <lastmod>2023-07-26</lastmod>
+    <lastmod>2023-08-01</lastmod>
     
   </url>
   
   <url>
     <loc>https://jp-azuresql.github.io/blog/Management/version/</loc>
     
-    <lastmod>2023-07-26</lastmod>
+    <lastmod>2023-08-01</lastmod>
     
   </url>
   
   <url>
     <loc>https://jp-azuresql.github.io/blog/Performance/memory-usage/</loc>
     
-    <lastmod>2023-07-26</lastmod>
+    <lastmod>2023-08-01</lastmod>
     
   </url>
   
   <url>
     <loc>https://jp-azuresql.github.io/blog/Performance/performance-tsg/</loc>
     
-    <lastmod>2023-07-26</lastmod>
+    <lastmod>2023-08-01</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://jp-azuresql.github.io/blog/Connectivity/gateway-ip-migration-2023/</loc>
+    
+    <lastmod>2023-08-01</lastmod>
     
   </url>
   
   <url>
     <loc>https://jp-azuresql.github.io/blog/Connectivity/connectivity-troubleshooting/</loc>
     
-    <lastmod>2023-07-26</lastmod>
+    <lastmod>2023-08-01</lastmod>
     
   </url>
   
 
   <url>
     <loc>https://jp-azuresql.github.io/blog</loc>
-    <lastmod>2023-07-26</lastmod>
+    <lastmod>2023-08-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -68,112 +75,133 @@
   
   <url>
     <loc>https://jp-azuresql.github.io/blog/tags/Connectivity/</loc>
-    <lastmod>2023-07-26</lastmod>
+    <lastmod>2023-08-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jp-azuresql.github.io/blog/tags/Troubleshooting/</loc>
-    <lastmod>2023-07-26</lastmod>
+    <lastmod>2023-08-01</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jp-azuresql.github.io/blog/tags/Gateway/</loc>
+    <lastmod>2023-08-01</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jp-azuresql.github.io/blog/tags/Alert/</loc>
+    <lastmod>2023-08-01</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jp-azuresql.github.io/blog/tags/migration/</loc>
+    <lastmod>2023-08-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jp-azuresql.github.io/blog/tags/Information/</loc>
-    <lastmod>2023-07-26</lastmod>
+    <lastmod>2023-08-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jp-azuresql.github.io/blog/tags/Support-Request/</loc>
-    <lastmod>2023-07-26</lastmod>
+    <lastmod>2023-08-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jp-azuresql.github.io/blog/tags/Management/</loc>
-    <lastmod>2023-07-26</lastmod>
+    <lastmod>2023-08-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jp-azuresql.github.io/blog/tags/Backup/</loc>
-    <lastmod>2023-07-26</lastmod>
+    <lastmod>2023-08-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jp-azuresql.github.io/blog/tags/Version/</loc>
-    <lastmod>2023-07-26</lastmod>
+    <lastmod>2023-08-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jp-azuresql.github.io/blog/tags/Upgrade/</loc>
-    <lastmod>2023-07-26</lastmod>
+    <lastmod>2023-08-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jp-azuresql.github.io/blog/tags/Performance/</loc>
-    <lastmod>2023-07-26</lastmod>
+    <lastmod>2023-08-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jp-azuresql.github.io/blog/tags/Memory/</loc>
-    <lastmod>2023-07-26</lastmod>
+    <lastmod>2023-08-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jp-azuresql.github.io/blog/tags/Metric/</loc>
-    <lastmod>2023-07-26</lastmod>
+    <lastmod>2023-08-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jp-azuresql.github.io/blog/tags/Monitor/</loc>
-    <lastmod>2023-07-26</lastmod>
+    <lastmod>2023-08-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jp-azuresql.github.io/blog/tags/%E3%82%AF%E3%82%A8%E3%83%AA%E3%82%B9%E3%83%88%E3%82%A2/</loc>
-    <lastmod>2023-07-26</lastmod>
+    <lastmod>2023-08-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jp-azuresql.github.io/blog/tags/Security/</loc>
-    <lastmod>2023-07-26</lastmod>
+    <lastmod>2023-08-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jp-azuresql.github.io/blog/tags/AntiVirus/</loc>
-    <lastmod>2023-07-26</lastmod>
+    <lastmod>2023-08-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jp-azuresql.github.io/blog/tags/FAQ/</loc>
-    <lastmod>2023-07-26</lastmod>
+    <lastmod>2023-08-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
