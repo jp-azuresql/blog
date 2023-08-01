@@ -5,7 +5,7 @@ tags:
   - Connectivity
   - Gateway
   - Alert
-  - migration
+  - Migration
 ---
 
 こんにちは。SQL Cloud サポート チームの宮崎です。
