@@ -49,10 +49,7 @@ C. プライベートエンドポイント経由でのプライベート接続
 当該通知に関してユーザー側で対応が必要かどうかに関しては、SQL DB へ接続を行うアプリケーション（クライアントマシン）のネットワーク設定や仮想ネットワーク/サブネットのネットワークセキュリティグループ（NSG）のアウトバウンド通信ルール、OS のファイアウォールルールなどを確認します。
 以下ドキュメントに記載の対象リージョン（使用している SQL DB が存在するリージョン）のゲートウェイ IP アドレスとゲートウェイ IP アドレスのサブネットレンジすべてへの通信が行える状態になっているか（ファイアウォールのアウトバウンド通信制御にてゲートウェイアドレスへの通信がブロックされる設定になっていないか等）を確認する必要があります。
 
-[Gateway IP addresses](https://learn.microsoft.com/en-us/azure/azure-sql/database/connectivity-architecture?view=azuresql-db#gateway-ip-addresses)
-
-※2023/08/01 現在、日本語のドキュメントでは一部ゲートウェイ IP アドレス/ゲートウェイ IP アドレスのサブネットレンジが更新されておりません。
-そのため、ゲートウェイ IP アドレスの確認は、上記原文の英語ドキュメントをご参照ください。原文のドキュメントは URL の言語箇所が /en-us/ となり、日本語は /ja-jp/ です。
+[ゲートウェイ IP アドレス](https://learn.microsoft.com/ja-jp/azure/azure-sql/database/connectivity-architecture?view=azuresql-db#gateway-ip-addresses)
 
 以下東日本リージョンのゲートウェイ IP アドレスとゲートウェイ IP アドレス サブネットの抜粋
 
