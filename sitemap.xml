@@ -23,6 +23,13 @@
   </url>
   
   <url>
+    <loc>https://jp-azuresql.github.io/blog/Connectivity/mi-tcp-connectivity-test/</loc>
+    
+    <lastmod>2023-12-05</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://jp-azuresql.github.io/blog/Information/support-request-guidance/</loc>
     
     <lastmod>2023-12-05</lastmod>
@@ -66,13 +73,6 @@
   
   <url>
     <loc>https://jp-azuresql.github.io/blog/Connectivity/gateway-ip-migration-2023/</loc>
-    
-    <lastmod>2023-12-05</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://jp-azuresql.github.io/blog/Connectivity/mi-tcp-connectivity-test/</loc>
     
     <lastmod>2023-12-05</lastmod>
     
@@ -165,6 +165,13 @@
   </url>
   
   <url>
+    <loc>https://jp-azuresql.github.io/blog/tags/FAQ/</loc>
+    <lastmod>2023-12-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://jp-azuresql.github.io/blog/tags/Backup/</loc>
     <lastmod>2023-12-05</lastmod>
     <changefreq>daily</changefreq>
@@ -229,13 +236,6 @@
   
   <url>
     <loc>https://jp-azuresql.github.io/blog/tags/AntiVirus/</loc>
-    <lastmod>2023-12-05</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://jp-azuresql.github.io/blog/tags/FAQ/</loc>
     <lastmod>2023-12-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
