@@ -20,7 +20,7 @@
 <meta property="og:image" content="https://jp-azuresql.github.io/blog/Performance/show-execution-plan/include.png">
 <meta property="og:image" content="https://jp-azuresql.github.io/blog/Performance/show-execution-plan/plan2.png">
 <meta property="article:published_time" content="2023-12-24T08:00:00.000Z">
-<meta property="article:modified_time" content="2023-12-24T07:54:19.677Z">
+<meta property="article:modified_time" content="2023-12-24T23:03:16.691Z">
 <meta property="article:author" content="Microsoft SQL Cloud Support Team">
 <meta property="article:tag" content="Troubleshooting">
 <meta property="article:tag" content="Performance">
@@ -112,7 +112,7 @@
         
         <a href="https://github.com/jp-azuresql/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+d4a11759-0adf-5fb7-8d3b-40dbbc9a90a5%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5B%E5%AE%9F%E8%A1%8C%E3%83%97%E3%83%A9%E3%83%B3%E3%81%AE%E7%A2%BA%E8%AA%8D%E6%96%B9%E6%B3%95%5D%28https%3A%2F%2Fjp-azuresql.github.io%2Fblog%2FPerformance%2Fshow-execution-plan%2F%29%0A*+Content+Source%3A+%5Barticles%2FPerformance%2Fshow-execution-plan.md%5D%28https%3A%2F%2Fgithub.com%2Fjp-azuresql%2Fblog%2Fblob%2Fmain%2Farticles%2FPerformance%2Fshow-execution-plan.md%29%0A*+Author%3A+" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
         
-        <a data-url="https://jp-azuresql.github.io/blog/Performance/show-execution-plan/" data-id="clqj71cqq000f0onnhhum9g5t" class="article-share-link">共有</a>
+        <a data-url="https://jp-azuresql.github.io/blog/Performance/show-execution-plan/" data-id="clqk3i9j8000f0nld5uuggv3z" class="article-share-link">共有</a>
       </div>
     
     <div class="article-entry" itemprop="articleBody">
@@ -127,7 +127,7 @@
 <p>実行プランには 2 種類あり、プラン生成時に実際にクエリが実行されず、クエリ実行時に使用されたリソース状況やランタイム情報が含まれていない「推定の実行プラン」と、実際にクエリの実行を伴い、クエリ実行により使用されたリソース状況やランタイム情報を含む「実際の実行プラン」があります。</p>
 <p>SQL DB、SQL MI において、クエリの実行情報を記録するクエリストア（SQL DB /SQL MI 共に既定で有効）から「推定の実行プラン」の履歴を確認できます。クエリストア内の推定の実行プランにより、過去に異なるプランが使用されたか、またどの様なプランが使用されたのかを確認することができます。</p>
 <p>一方、実行プランが実際のクエリ実行時にどの処理にどれほどリソースを使用したかといった詳細情報を見る場合は「実際の実行プラン」を確認する必要があります。</p>
-<div class="alert is-warning"><p class="alert-title">警告</p><p>SQL DB/SQL MI にて、既定では「実際の実行プラン」を取得していません。</p><p>実際の実行プランを取得するためには、事前に拡張イベント（query_post_execution_showplan）を有効化するか、事象の再現性がある場合に限り SET オプション（SET SHOWPLAN_XML）を有効にしてからクエリを実行します。</p></div>
+<div class="alert is-warning"><p class="alert-title">警告</p><p>SQL DB/SQL MI にて、既定では「実際の実行プラン」を取得していません。</p><p>実際の実行プランを取得するためには、事前に拡張イベント（query_post_execution_showplan）を有効化するか、事象の再現性がある場合に限り SET オプション（SET STATISTICS XML）を有効にしてからクエリを実行します。</p></div>
 <p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/sql/relational-databases/performance/execution-plans?view=sql-server-ver16">実行プランの概要</a></p>
 <p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/sql/relational-databases/showplan-logical-and-physical-operators-reference?view=sql-server-ver15">プラン表示の論理操作と物理操作のリファレンス</a></p>
 <h2 id="クエリストアから推定の実行プランの確認方法"><a href="#クエリストアから推定の実行プランの確認方法" class="headerlink" title="クエリストアから推定の実行プランの確認方法"></a>クエリストアから推定の実行プランの確認方法</h2><hr>
