@@ -30,7 +30,7 @@ SQL DB、SQL MI において、クエリの実行情報を記録するクエリ�
 
 > [!WARNING]
 > SQL DB/SQL MI にて、既定では「実際の実行プラン」を取得していません。
-> 実際の実行プランを取得するためには、事前に拡張イベント（query_post_execution_showplan）を有効化するか、事象の再現性がある場合に限り SET オプション（SET SHOWPLAN_XML）を有効にしてからクエリを実行します。
+> 実際の実行プランを取得するためには、事前に拡張イベント（query_post_execution_showplan）を有効化するか、事象の再現性がある場合に限り SET オプション（SET STATISTICS XML）を有効にしてからクエリを実行します。
 
 [実行プランの概要](https://learn.microsoft.com/ja-jp/sql/relational-databases/performance/execution-plans?view=sql-server-ver16)
 
