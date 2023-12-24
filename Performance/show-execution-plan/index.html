@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>実行プランの確認方法 | Japan SQL Cloud Support Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="こんにちは。SQL Cloud サポート チームの宮崎です。 今回の投稿では、Azure SQL Database (SQL DB)、SQL Managed Instance (SQL MI) において、パフォーマンスのトラブルシューティング時に使える実行プランの確認方法をご紹介します。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="実行プランの確認方法">
+<meta property="og:url" content="https://jp-azuresql.github.io/blog/Performance/show-execution-plan/index.html">
+<meta property="og:site_name" content="Japan SQL Cloud Support Blog">
+<meta property="og:description" content="こんにちは。SQL Cloud サポート チームの宮崎です。 今回の投稿では、Azure SQL Database (SQL DB)、SQL Managed Instance (SQL MI) において、パフォーマンスのトラブルシューティング時に使える実行プランの確認方法をご紹介します。">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:image" content="https://jp-azuresql.github.io/blog/Performance/show-execution-plan/tracked_query.png">
+<meta property="og:image" content="https://jp-azuresql.github.io/blog/Performance/show-execution-plan/query_id.png">
+<meta property="og:image" content="https://jp-azuresql.github.io/blog/Performance/show-execution-plan/exec_plan.png">
+<meta property="og:image" content="https://jp-azuresql.github.io/blog/Performance/show-execution-plan/config.png">
+<meta property="og:image" content="https://jp-azuresql.github.io/blog/Performance/show-execution-plan/include.png">
+<meta property="og:image" content="https://jp-azuresql.github.io/blog/Performance/show-execution-plan/plan2.png">
+<meta property="article:published_time" content="2023-12-24T08:00:00.000Z">
+<meta property="article:modified_time" content="2023-12-24T07:54:19.677Z">
+<meta property="article:author" content="Microsoft SQL Cloud Support Team">
+<meta property="article:tag" content="Troubleshooting">
+<meta property="article:tag" content="Performance">
+<meta property="article:tag" content="クエリストア">
+<meta property="article:tag" content="実行計画">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jp-azuresql.github.io/blog/Performance/show-execution-plan/tracked_query.png">
+  
+    <link rel="alternate" href="../../atom.xml" title="Japan SQL Cloud Support Blog" type="application/atom+xml">
+  
+
+  <link rel="icon" href="../../favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+  <link rel="manifest" href="../../site.webmanifest">
+  <link rel="mask-icon" href="../../safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="theme-color" content="#ffffff">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="../../css/style.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="site-header-logo"></div>
+  <div id="site-header-blog-wrapper"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        <div id="ms-logo"></div>
+        
+          <a class="main-nav-link" href="/blog/">Home</a>
+        
+          <a class="main-nav-link" href="/blog/archives">Archives</a>
+        
+        <a class="main-nav-link" target="_blank" rel="noopener" href="https://cssjpn.github.io/">サポート情報</a>
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="../../atom.xml" title="RSSフィード"></a>
+        
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//www.bing.com/search" method="get" accept-charset="UTF-8" name="bing-search" onsubmit="var f=this;if(f['q'].value){var searchUrl =  'https://www.bing.com/search?q=' +  encodeURIComponent(f['q'].value + ' site:' + f['sitesearch'].value) ;window.open(searchUrl, 'blank') };return false;" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="検索"><button type="submit" id="nav-search-btn" class="search-form-submit"></button><input type="hidden" name="sitesearch" value="https://jp-azuresql.github.io/blog"></form>
+      </div>
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="../../index.html" id="logo">Japan SQL Cloud Support Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="../../index.html" id="subtitle">日本マイクロソフト SQL Cloud チームによるサポートブログです。</a>
+        </h2>
+      
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Performance/show-execution-plan" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header-single">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      実行プランの確認方法
+    </h1>
+  
+
+      </header>
+      <div class="article-share">
+        Last Update: 
+        <a href="" class="article-date-single">
+  <time datetime="2023-12-24T08:00:00.000Z" itemprop="datePublished">2023-12-24</time>
+</a>
+        
+        
+        <a href="https://github.com/jp-azuresql/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+d4a11759-0adf-5fb7-8d3b-40dbbc9a90a5%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5B%E5%AE%9F%E8%A1%8C%E3%83%97%E3%83%A9%E3%83%B3%E3%81%AE%E7%A2%BA%E8%AA%8D%E6%96%B9%E6%B3%95%5D%28https%3A%2F%2Fjp-azuresql.github.io%2Fblog%2FPerformance%2Fshow-execution-plan%2F%29%0A*+Content+Source%3A+%5Barticles%2FPerformance%2Fshow-execution-plan.md%5D%28https%3A%2F%2Fgithub.com%2Fjp-azuresql%2Fblog%2Fblob%2Fmain%2Farticles%2FPerformance%2Fshow-execution-plan.md%29%0A*+Author%3A+" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
+        
+        <a data-url="https://jp-azuresql.github.io/blog/Performance/show-execution-plan/" data-id="clqj71cqq000f0onnhhum9g5t" class="article-share-link">共有</a>
+      </div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>こんにちは。SQL Cloud サポート チームの宮崎です。</p>
+<p>今回の投稿では、Azure SQL Database (SQL DB)、SQL Managed Instance (SQL MI) において、パフォーマンスのトラブルシューティング時に使える実行プランの確認方法をご紹介します。</p>
+<span id="more"></span>
+
+<h2 id="実行プランとパフォーマンスについて"><a href="#実行プランとパフォーマンスについて" class="headerlink" title="実行プランとパフォーマンスについて"></a>実行プランとパフォーマンスについて</h2><hr>
+<p><a href="https://jp-azuresql.github.io/blog/Performance/performance-tsg/">過去のブログ記事</a> にも記載の通り、SQL DB、SQL MI において、パフォーマンスが悪化し実行時間が増加した、CPU や Data IO といったリソース使用率が増減したという場合には、クエリの実行手順を決定する「実行プラン（実行計画）」の変化が原因であることがあります。</p>
+<div class="alert is-info"><p class="alert-title">Note</p><p>実行プランはクエリの実行順序やアルゴリズムを定義するものであり、実行プランが異なることでパフォーマンスに差異が生じる可能性があります。</p></div>
+<p>実行プランには 2 種類あり、プラン生成時に実際にクエリが実行されず、クエリ実行時に使用されたリソース状況やランタイム情報が含まれていない「推定の実行プラン」と、実際にクエリの実行を伴い、クエリ実行により使用されたリソース状況やランタイム情報を含む「実際の実行プラン」があります。</p>
+<p>SQL DB、SQL MI において、クエリの実行情報を記録するクエリストア（SQL DB /SQL MI 共に既定で有効）から「推定の実行プラン」の履歴を確認できます。クエリストア内の推定の実行プランにより、過去に異なるプランが使用されたか、またどの様なプランが使用されたのかを確認することができます。</p>
+<p>一方、実行プランが実際のクエリ実行時にどの処理にどれほどリソースを使用したかといった詳細情報を見る場合は「実際の実行プラン」を確認する必要があります。</p>
+<div class="alert is-warning"><p class="alert-title">警告</p><p>SQL DB/SQL MI にて、既定では「実際の実行プラン」を取得していません。</p><p>実際の実行プランを取得するためには、事前に拡張イベント（query_post_execution_showplan）を有効化するか、事象の再現性がある場合に限り SET オプション（SET SHOWPLAN_XML）を有効にしてからクエリを実行します。</p></div>
+<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/sql/relational-databases/performance/execution-plans?view=sql-server-ver16">実行プランの概要</a></p>
+<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/sql/relational-databases/showplan-logical-and-physical-operators-reference?view=sql-server-ver15">プラン表示の論理操作と物理操作のリファレンス</a></p>
+<h2 id="クエリストアから推定の実行プランの確認方法"><a href="#クエリストアから推定の実行プランの確認方法" class="headerlink" title="クエリストアから推定の実行プランの確認方法"></a>クエリストアから推定の実行プランの確認方法</h2><hr>
+<p>次の手順で SQL Server Management Studio（SSMS）の GUI を用いてクエリストアから推定の実行プランの履歴を確認できます。</p>
+<h3 id="1-SSMS-から対象のデータベースのクエリストアを選択します"><a href="#1-SSMS-から対象のデータベースのクエリストアを選択します" class="headerlink" title="1. SSMS から対象のデータベースのクエリストアを選択します"></a>1. SSMS から対象のデータベースのクエリストアを選択します</h3><p>SSMSより、対象データベースの「オブジェクト エクスプローラー」から「クエリストア」を展開し、「Tracked Queries（追跡したクエリ）」を選択（ダブルクリック）します。</p>
+<p><img src="/blog/Performance/show-execution-plan/tracked_query.png"></p>
+<h3 id="2-対象クエリのクエリ-ID-を入力しクエリの追跡を実行します"><a href="#2-対象クエリのクエリ-ID-を入力しクエリの追跡を実行します" class="headerlink" title="2. 対象クエリのクエリ ID を入力しクエリの追跡を実行します"></a>2. 対象クエリのクエリ ID を入力しクエリの追跡を実行します</h3><p>SSMS の [追跡したクエリ] 画面左上部の [追跡中のクエリ] にて、実行プランを確認したいクエリのクエリ ID を入力し実行します。</p>
+<p><img src="/blog/Performance/show-execution-plan/query_id.png"></p>
+<p>※クエリ ID がわからない場合は、対象のデータベースに接続した上で以下のようなクエリを実行することでクエリテキストを含め確認できます。</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">SELECT TOP <span class="number">100</span> qsq.query_id, qsq.query_hash,qsqt.query_sql_text</span><br><span class="line">FROM sys.query_store_query as qsq</span><br><span class="line">JOIN sys.query_store_query_text as qsqt</span><br><span class="line">on qsq.query_text_id = qsqt.query_text_id;</span><br><span class="line">	</span><br><span class="line">--クエリテキストの一部を WHERE 句に指定してフィルターすることも可能です</span><br><span class="line">SELECT TOP <span class="number">100</span> qsq.query_id, qsq.query_hash,qsqt.query_sql_text</span><br><span class="line">FROM sys.query_store_query as qsq</span><br><span class="line">JOIN sys.query_store_query_text as qsqt</span><br><span class="line">on qsq.query_text_id = qsqt.query_text_id</span><br><span class="line">WHERE qsqt.query_sql_text LIKE &#x27;<span class="variable">%&lt;クエリテキストの一部&gt;%</span>&#x27;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-実行プランを確認します"><a href="#3-実行プランを確認します" class="headerlink" title="3. 実行プランを確認します"></a>3. 実行プランを確認します</h3><p>クエリの実行がクエリストアに記録されていた場合は、画面上部に実行プランのプラン ID が表示され、各実行プランを選択すると該当する実行プランの内容が画面下部に表示されます。</p>
+<p>異なる実行プランが使用されていた場合は、複数の実行プランが表示されます（画面右上の プラン ID が複数表示され、複数の色形をしたマークがプロットされます）。<br>既定では、画面上部のグラフの縦軸は平均の実行時間（ミリ秒）となっています。</p>
+<p><img src="/blog/Performance/show-execution-plan/exec_plan.png"></p>
+<p>該当クエリの実行プランが直近のものしか表示されない場合は、期間が短く設定されている場合があるため、画面右上の「構成」から期間を長めに変更し「適用」を選択します。</p>
+<p><img src="/blog/Performance/show-execution-plan/config.png"></p>
+<div class="alert is-warning"><p class="alert-title">警告</p><p>クエリストアの既定値では、過去に実行されたすべてのクエリを記録しているわけではないため、該当クエリの実行プランがクエリストアに保存されていない場合もあります。</p><p>また、保存されていたとしてもクエリストアの保持期間や最大サイズの設定によっては既に削除されてしまっている場合もあります。</p><p>クエリストアの既定値や設定変更は<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/sql/relational-databases/performance/manage-the-query-store?view=sql-server-ver16&tabs=ssms#QueryStoreOptions">こちらのドキュメント</a>をご参照ください。</p></div>
+<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/sql/relational-databases/performance/display-the-estimated-execution-plan?view=sql-server-ver16">推定実行プランの表示</a></p>
+<h2 id="実際の実行プランの確認方法"><a href="#実際の実行プランの確認方法" class="headerlink" title="実際の実行プランの確認方法"></a>実際の実行プランの確認方法</h2><hr>
+<p>次の手順で SSMS を用いて実際の実行プランを確認できます。</p>
+<h3 id="1-SSMS-のクエリエディタを開き、実際の実行プランの採取設定を有効化しクエリを実行します"><a href="#1-SSMS-のクエリエディタを開き、実際の実行プランの採取設定を有効化しクエリを実行します" class="headerlink" title="1. SSMS のクエリエディタを開き、実際の実行プランの採取設定を有効化しクエリを実行します"></a>1. SSMS のクエリエディタを開き、実際の実行プランの採取設定を有効化しクエリを実行します</h3><h4 id="SET-コマンドを使う場合"><a href="#SET-コマンドを使う場合" class="headerlink" title="SET コマンドを使う場合"></a>SET コマンドを使う場合</h4><p>SSMS のクエリエディターにて SET コマンドを実行した後に対象のクエリを実行します。</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">-- 実際の実行プランの採取設定の有効化</span><br><span class="line"><span class="built_in">SET</span> STATISTICS XML ON;</span><br><span class="line"></span><br><span class="line">-- 対象のクエリを実行（実際のクエリに置き換えください）</span><br><span class="line">SELECT * FROM SampleTable</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/sql/t-sql/statements/set-statistics-xml-transact-sql?view=sql-server-ver16">SET STATISTICS XML (Transact-SQL)</a></p>
+<h4 id="SSMS-の-GUI-を使う場合"><a href="#SSMS-の-GUI-を使う場合" class="headerlink" title="SSMS の GUI を使う場合"></a>SSMS の GUI を使う場合</h4><p>SSMS のツールバーから「実際の実行プランを含める」を選択し、対象のクエリを実行します。</p>
+<p><img src="/blog/Performance/show-execution-plan/include.png"></p>
+<h3 id="2-クエリ実行結果の「実行プラン」タブで実際の実行プランを表示します"><a href="#2-クエリ実行結果の「実行プラン」タブで実際の実行プランを表示します" class="headerlink" title="2. クエリ実行結果の「実行プラン」タブで実際の実行プランを表示します"></a>2. クエリ実行結果の「実行プラン」タブで実際の実行プランを表示します</h3><p>SET オプションや GUI 操作にて、実際の実行プランの採取を有効化した場合、そのセッションにて実行されたクエリの結果の「実行プラン」タブに実際の実行プランが表示されます。<br>実行プランを右クリックして「実行プランに名前を付けて保存」を選択することで、実行プランを保存することもできます。</p>
+<div class="alert is-info"><p class="alert-title">Note</p><p>SET オプションや SSMS の GUI による実際の実行プランの採取設定は、そのセッションでのみ有効となり、別のセッションには影響がありません（別セッションでは実際の実行プランが取得されません）。</p></div>
+<p><img src="/blog/Performance/show-execution-plan/plan2.png"></p>
+<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/sql/relational-databases/performance/display-an-actual-execution-plan?view=sql-server-ver16">実際の実行プランの表示</a></p>
+
+      
+      
+        <div class="article-disclaimer">
+        
+          <p>※本情報の内容（添付文書、リンク先などを含む）は、作成日時点でのものであり、予告なく変更される場合があります。</p>
+        
+        </div>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Performance/" rel="tag">Performance</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Troubleshooting/" rel="tag">Troubleshooting</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/%E3%82%AF%E3%82%A8%E3%83%AA%E3%82%B9%E3%83%88%E3%82%A2/" rel="tag">クエリストア</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/%E5%AE%9F%E8%A1%8C%E8%A8%88%E7%94%BB/" rel="tag">実行計画</a></li></ul>
+
+        
+        <a href="https://github.com/jp-azuresql/blog/edit/main/articles/Performance/show-execution-plan.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
+        
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="../../Management/2014-04-01-api-retirement/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前の記事</strong>
+      <div class="article-nav-title">古い API 廃止の通知「Upgrade Azure SQL Database 2014-04-01 APIs to a newer version by 31 October 2025」の対処法について</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最近の投稿</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="">実行プランの確認方法</a>
+          </li>
+        
+          <li>
+            <a href="../../Management/2014-04-01-api-retirement/">古い API 廃止の通知「Upgrade Azure SQL Database 2014-04-01 APIs to a newer version by 31 October 2025」の対処法について</a>
+          </li>
+        
+          <li>
+            <a href="../../Security/vulnerabilityAssessment/">Azure SQL Database / SQL Managed Instance 脆弱性評価の概要と有効化/無効化の手順</a>
+          </li>
+        
+          <li>
+            <a href="../../Security/vulnerabilityAssessmentQA/">Azure SQL Database / SQL Managed Instance の脆弱性評価に関する FAQ</a>
+          </li>
+        
+          <li>
+            <a href="../../Connectivity/gateway-ip-migration-2023/">Azure SQL Database ゲートウェイ IP 移行の通知への対応について - FK_B-9T8 / WS_W-1T0 等</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">タグ</h3>
+    <div class="widget">
+      <!-- <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="../../tags/API-%E5%BB%83%E6%AD%A2/" rel="tag">API 廃止</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Alert/" rel="tag">Alert</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/AntiVirus/" rel="tag">AntiVirus</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Backup/" rel="tag">Backup</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Connectivity/" rel="tag">Connectivity</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/FAQ/" rel="tag">FAQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Gateway/" rel="tag">Gateway</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Information/" rel="tag">Information</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Management/" rel="tag">Management</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Memory/" rel="tag">Memory</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Metric/" rel="tag">Metric</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Migration/" rel="tag">Migration</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Monitor/" rel="tag">Monitor</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Performance/" rel="tag">Performance</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Security/" rel="tag">Security</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Support-Request/" rel="tag">Support Request</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Troubleshooting/" rel="tag">Troubleshooting</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Upgrade/" rel="tag">Upgrade</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Version/" rel="tag">Version</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/vulnerability-assessment/" rel="tag">vulnerability assessment</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E3%82%AF%E3%82%A8%E3%83%AA%E3%82%B9%E3%83%88%E3%82%A2/" rel="tag">クエリストア</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E4%BA%8B%E5%89%8D%E9%80%9A%E7%9F%A5/" rel="tag">事前通知</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E5%AE%9F%E8%A1%8C%E8%A8%88%E7%94%BB/" rel="tag">実行計画</a></li></ul>  -->
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Connectivity/">Connectivity</a><span class="tag-list-count">3</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Connectivity/Alert">Alert</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Connectivity/Gateway">Gateway</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Connectivity/Migration">Migration</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Connectivity/Troubleshooting">Troubleshooting</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Information/">Information</a><span class="tag-list-count">1</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Information/Support-Request">Support Request</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Management/">Management</a><span class="tag-list-count">5</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Management/API-%E5%BB%83%E6%AD%A2">API 廃止</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Management/Backup">Backup</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Management/FAQ">FAQ</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Management/Troubleshooting">Troubleshooting</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Management/Upgrade">Upgrade</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Management/Version">Version</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Management/vulnerability-assessment">vulnerability assessment</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Management/%E4%BA%8B%E5%89%8D%E9%80%9A%E7%9F%A5">事前通知</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Performance/">Performance</a><span class="tag-list-count">3</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Performance/Memory">Memory</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Performance/Metric">Metric</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Performance/Monitor">Monitor</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Performance/Troubleshooting">Troubleshooting</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Performance/%E3%82%AF%E3%82%A8%E3%83%AA%E3%82%B9%E3%83%88%E3%82%A2">クエリストア</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Performance/%E5%AE%9F%E8%A1%8C%E8%A8%88%E7%94%BB">実行計画</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Security/">Security</a><span class="tag-list-count">1</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Security/AntiVirus">AntiVirus</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Security/FAQ">FAQ</a><span class="tag-list-count">1</span></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">アーカイブ</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/12/">2023 / 12</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/08/">2023 / 08</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/07/">2023 / 07</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/05/">2023 / 05</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/04/">2023 / 04</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/03/">2023 / 03</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">タグクラウド</h3>
+    <div class="widget tagcloud">
+      <a href="../../tags/API-%E5%BB%83%E6%AD%A2/" style="font-size: 10px;">API 廃止</a> <a href="../../tags/Alert/" style="font-size: 10px;">Alert</a> <a href="../../tags/AntiVirus/" style="font-size: 10px;">AntiVirus</a> <a href="../../tags/Backup/" style="font-size: 10px;">Backup</a> <a href="../../tags/Connectivity/" style="font-size: 16.67px;">Connectivity</a> <a href="../../tags/FAQ/" style="font-size: 13.33px;">FAQ</a> <a href="../../tags/Gateway/" style="font-size: 10px;">Gateway</a> <a href="../../tags/Information/" style="font-size: 10px;">Information</a> <a href="../../tags/Management/" style="font-size: 20px;">Management</a> <a href="../../tags/Memory/" style="font-size: 10px;">Memory</a> <a href="../../tags/Metric/" style="font-size: 10px;">Metric</a> <a href="../../tags/Migration/" style="font-size: 10px;">Migration</a> <a href="../../tags/Monitor/" style="font-size: 10px;">Monitor</a> <a href="../../tags/Performance/" style="font-size: 16.67px;">Performance</a> <a href="../../tags/Security/" style="font-size: 10px;">Security</a> <a href="../../tags/Support-Request/" style="font-size: 10px;">Support Request</a> <a href="../../tags/Troubleshooting/" style="font-size: 20px;">Troubleshooting</a> <a href="../../tags/Upgrade/" style="font-size: 10px;">Upgrade</a> <a href="../../tags/Version/" style="font-size: 10px;">Version</a> <a href="../../tags/vulnerability-assessment/" style="font-size: 13.33px;">vulnerability assessment</a> <a href="../../tags/%E3%82%AF%E3%82%A8%E3%83%AA%E3%82%B9%E3%83%88%E3%82%A2/" style="font-size: 13.33px;">クエリストア</a> <a href="../../tags/%E4%BA%8B%E5%89%8D%E9%80%9A%E7%9F%A5/" style="font-size: 10px;">事前通知</a> <a href="../../tags/%E5%AE%9F%E8%A1%8C%E8%A8%88%E7%94%BB/" style="font-size: 10px;">実行計画</a>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2023 Microsoft SQL Cloud Support Team<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="../../index.html" class="mobile-nav-link">Home</a>
+  
+    <a href="../../archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+<script src="../../js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
