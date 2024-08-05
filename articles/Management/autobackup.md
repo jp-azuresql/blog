@@ -4,6 +4,8 @@ date: 2023-04-04 15:00:00
 tags:
   - Management
   - Backup
+  - SQL Database
+  - SQL Managed Instance
 ---
 
 こんにちは。SQL Cloud サポート チームの川野辺です。

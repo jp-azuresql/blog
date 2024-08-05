@@ -5,6 +5,8 @@ tags:
   - Management
   - Version
   - Upgrade
+  - SQL Database
+  - SQL Managed Instance
 ---
 
 こんにちは。SQL Cloud サポート チームのリョウです。

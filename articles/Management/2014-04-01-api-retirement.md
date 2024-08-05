@@ -7,6 +7,7 @@ tags:
   - API 廃止
   - 事前通知
   - FAQ
+  - SQL Database
 ---
 
 こんにちは。SQL Cloud サポート チームの宮崎です。
