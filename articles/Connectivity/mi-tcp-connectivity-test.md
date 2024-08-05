@@ -5,6 +5,7 @@ date: 2023-05-17 15:00:00
 tags:
   - Connectivity
   - Troubleshooting
+  - SQL Managed Instance
 ---
 
 こんにちは。SQL Cloud サポート チームの川野辺です。

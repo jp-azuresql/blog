@@ -6,6 +6,7 @@ tags:
   - Gateway
   - Alert
   - Migration
+  - SQL Database
 ---
 
 こんにちは。SQL Cloud サポート チームの宮崎です。
