@@ -5,6 +5,8 @@ tags:
   - Performance
   - Troubleshooting
   - クエリストア
+  - SQL Database
+  - SQL Managed Instance
 ---
 
 こんにちは。SQL Cloud サポート チームの川野辺です。

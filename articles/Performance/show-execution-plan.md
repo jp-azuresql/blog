@@ -6,6 +6,8 @@ tags:
   - Troubleshooting
   - クエリストア
   - 実行計画
+  - SQL Database
+  - SQL Managed Instance
 ---
 
 こんにちは。SQL Cloud サポート チームの宮崎です。
