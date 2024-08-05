@@ -23,13 +23,6 @@
   </url>
   
   <url>
-    <loc>https://jp-azuresql.github.io/blog/Performance/performance-tsg/</loc>
-    
-    <lastmod>2024-08-05</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://jp-azuresql.github.io/blog/Performance/show-execution-plan/</loc>
     
     <lastmod>2024-08-05</lastmod>
@@ -80,6 +73,13 @@
   
   <url>
     <loc>https://jp-azuresql.github.io/blog/Performance/memory-usage/</loc>
+    
+    <lastmod>2024-08-05</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://jp-azuresql.github.io/blog/Performance/performance-tsg/</loc>
     
     <lastmod>2024-08-05</lastmod>
     
