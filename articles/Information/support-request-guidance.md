@@ -4,6 +4,8 @@ date: 2023-03-03 15:00:00
 tags:
   - Information
   - Support Request
+  - SQL Database
+  - SQL Managed Instance
 ---
 
 こんにちは。SQL Cloud サポート チームの川野辺です。
