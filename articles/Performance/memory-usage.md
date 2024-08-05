@@ -6,6 +6,8 @@ tags:
   - Memory
   - Metric
   - Monitor
+  - SQL Database
+  - SQL Managed Instance
 ---
 
 こんにちは。SQL Cloud サポート チームの宮崎です。
