@@ -4,23 +4,40 @@
   <meta charset="utf-8">
   
   
-  <title>Azure SQL Database / SQL Managed Instance のバージョンに関して | Japan SQL Cloud Support Blog</title>
+  <title>アーカイブ: 2024 | Japan SQL Cloud Support Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="こんにちは。SQL Cloud サポート チームのリョウです。 今回の投稿では、Azure SQL Database (SQL DB)、SQL Managed Instance (SQL MI) におけるバージョンに関してご案内します。">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Azure SQL Database &#x2F; SQL Managed Instance のバージョンに関して">
-<meta property="og:url" content="https://jp-azuresql.github.io/blog/Management/version/index.html">
+  <meta name="description" content="日本マイクロソフト SQL Cloud チームによるサポートブログです。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Japan SQL Cloud Support Blog">
+<meta property="og:url" content="https://jp-azuresql.github.io/blog/archives/2024/index.html">
 <meta property="og:site_name" content="Japan SQL Cloud Support Blog">
-<meta property="og:description" content="こんにちは。SQL Cloud サポート チームのリョウです。 今回の投稿では、Azure SQL Database (SQL DB)、SQL Managed Instance (SQL MI) におけるバージョンに関してご案内します。">
+<meta property="og:description" content="日本マイクロソフト SQL Cloud チームによるサポートブログです。">
 <meta property="og:locale" content="ja_JP">
-<meta property="article:published_time" content="2023-05-16T01:00:00.000Z">
-<meta property="article:modified_time" content="2024-08-07T06:38:38.405Z">
 <meta property="article:author" content="Microsoft SQL Cloud Support Team">
-<meta property="article:tag" content="SQL Database">
-<meta property="article:tag" content="SQL Managed Instance">
-<meta property="article:tag" content="Management">
-<meta property="article:tag" content="Version">
-<meta property="article:tag" content="Upgrade">
+<meta property="article:tag" content="Azure SQL Managed Instance">
+<meta property="article:tag" content="Azure SQL Database">
+<meta property="article:tag" content="Azure SQL">
+<meta property="article:tag" content="SQL Cloud">
+<meta property="article:tag" content="SQL MI">
+<meta property="article:tag" content="SQL DB">
+<meta property="article:tag" content="Azure DB">
+<meta property="article:tag" content="データベース">
+<meta property="article:tag" content="アジュール">
+<meta property="article:tag" content="接続エラー">
+<meta property="article:tag" content="トラブルシューティング">
+<meta property="article:tag" content="SQL Server">
+<meta property="article:tag" content="クエリ">
+<meta property="article:tag" content="ストアドプロシージャ">
+<meta property="article:tag" content="接続できない">
+<meta property="article:tag" content="エラー">
+<meta property="article:tag" content="リソース負荷">
+<meta property="article:tag" content="パフォーマンス">
+<meta property="article:tag" content="チューニング">
+<meta property="article:tag" content="リソース制限">
+<meta property="article:tag" content="監視">
+<meta property="article:tag" content="モニター">
+<meta property="article:tag" content="バックアップ">
+<meta property="article:tag" content="リストア">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternate" href="../../atom.xml" title="Japan SQL Cloud Support Blog" type="application/atom+xml">
@@ -83,93 +100,35 @@
 </header>
 
       <div class="outer">
-        <section id="main"><article id="post-Management/version" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-    
-      <header class="article-header-single">
+        <section id="main"><section class="archives-wrap">
+    <h2 class='widget-title'>全記事一覧</h2>
+  
+    <div class="archives">
+      
+        
+          <article class="archive-article">
+    <div class="archive-article-inner">
+      <header class="archive-article-header">
+        <a href="../../Performance/cpu-usage-high-tsg/" class="archive-article-date">
+  <time datetime="2024-08-01T08:00:00.000Z" itemprop="datePublished">2024/ 8 / 1</time>
+</a>
         
   
-    <h1 class="article-title" itemprop="name">
-      Azure SQL Database / SQL Managed Instance のバージョンに関して
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="../../Performance/cpu-usage-high-tsg/">CPU 使用率が高騰した際の調査方法</a>
     </h1>
   
 
       </header>
-      <div class="article-share">
-        Last Update: 
-        <a href="" class="article-date-single">
-  <time datetime="2023-05-16T01:00:00.000Z" itemprop="datePublished">2023-05-16</time>
-</a>
-        
-        
-        <a href="https://github.com/jp-azuresql/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+1af88ead-da67-5f18-9f0a-754cb1c513e3%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5BAzure+SQL+Database+%2F+SQL+Managed+Instance+%E3%81%AE%E3%83%90%E3%83%BC%E3%82%B8%E3%83%A7%E3%83%B3%E3%81%AB%E9%96%A2%E3%81%97%E3%81%A6%5D%28https%3A%2F%2Fjp-azuresql.github.io%2Fblog%2FManagement%2Fversion%2F%29%0A*+Content+Source%3A+%5Barticles%2FManagement%2Fversion.md%5D%28https%3A%2F%2Fgithub.com%2Fjp-azuresql%2Fblog%2Fblob%2Fmain%2Farticles%2FManagement%2Fversion.md%29%0A*+Author%3A+" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
-        
-        <a data-url="https://jp-azuresql.github.io/blog/Management/version/" data-id="clzjhaeji00080nl77t223tk1" class="article-share-link">共有</a>
-      </div>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>こんにちは。SQL Cloud サポート チームのリョウです。</p>
-<p>今回の投稿では、Azure SQL Database (SQL DB)、SQL Managed Instance (SQL MI) におけるバージョンに関してご案内します。</p>
-<span id="more"></span>
+    </div>
+</article>
 
-<h2 id="SQL-DB、SQL-MI-の-SQL-エンジンバージョンに関して"><a href="#SQL-DB、SQL-MI-の-SQL-エンジンバージョンに関して" class="headerlink" title="SQL DB、SQL MI の SQL エンジンバージョンに関して"></a>SQL DB、SQL MI の SQL エンジンバージョンに関して</h2><hr>
-<p>SQL DB、SQL MIは常に最新の SQL エンジンバージョンを提供しております。これらの製品は PaaS サービスですので、お客様はご利用中の SQL DB、SQL MI のバージョンを制御する事はできず、また意識する必要もございません。<br>オンプレミス SQL Server をご利用されているお客様は、「バージョン 12 (SQL Server 2014)」といったバージョン概念に慣れ親しんでいると思いますが、SQL DB、SQL MI は PaaS サービスであるため、オンプレミス SQL Server の様なバージョン概念は存在しません。そのため、例えばですが、SQL DB、SQL MI のバージョン 12 だったとしても、オンプレミス SQL Server のバージョン 12 とは異なる SQL エンジンですので、オンプレミス SQL エンジンバージョンと PaaS サービスの SQL エンジンバージョンは全く異なるもので関係ないとお考えください。</p>
-<h2 id="バージョンアップデートに関して"><a href="#バージョンアップデートに関して" class="headerlink" title="バージョンアップデートに関して"></a>バージョンアップデートに関して</h2><hr>
-<p>SQL DB、SQL MI は定期的にバージョンのアップグレードを行っております。アップグレードはマイナーアップグレードとメジャーアップグレードの 2 種類ございます。</p>
-<h3 id="・マイナーアップグレード"><a href="#・マイナーアップグレード" class="headerlink" title="・マイナーアップグレード"></a>・マイナーアップグレード</h3><hr>
-<p>マイナーアップグレードは、以前のバージョンと互換性を保つ様にバージョンを更新します。マイナーアップグレードは、セキュリティパッチの適用や新規機能の実装が中心となっており、既存の機能が使えなくなることや既存の機能の動作が変わることはございません。<br>また、マイナーアップグレードは定期的なメンテナンス時に更新しているため、お客様はマイナーアップグレードのタイミングを意識する必要はなく、既存のアプリケーションの改修や事前の検証を実施する必要もございません。</p>
-<h3 id="・メジャーアップグレード"><a href="#・メジャーアップグレード" class="headerlink" title="・メジャーアップグレード"></a>・メジャーアップグレード</h3><hr>
-<p>メジャーアップグレードは基本的に実施されません。メジャーアップグレードは、製品アーキテクチャの変更など大きな仕様変更時に実施されるものであり、SQL DB、SQL MI をご利用中のお客様に大きな影響を与える可能性がございます。そのため、弊社にてメジャーアップグレードを実施すると決断した場合は、実施予定の数年前から予測される影響範囲の通知や移行・検証方法のご案内をさせて頂く流れとなっております。<br>この方針により基本的にはメジャーアップグレードは実施しないが、仮に実施したとしてもお客様は、移行・検証の時間的猶予がございます。</p>
-<h2 id="ご利用中のバージョンの確認方法"><a href="#ご利用中のバージョンの確認方法" class="headerlink" title="ご利用中のバージョンの確認方法"></a>ご利用中のバージョンの確認方法</h2><hr>
-<p>現在ご利用中の SQL DB、SQL MI のバージョンをご確認したい場合はご利用中の SQL DB、SQL MI に接続し、「SELECT @@version」を実行する事で確認する事ができます。<br>一方で、以下にてご紹介しますドキュメントの注意事項欄にも記載されておりますが、SQL DB、SQL MI に対して「SELECT @@version」を実行しても正しいバージョンが返ってこない場合がございます。実際は常に最新バージョンをご利用している事になりますので、この点ご安心ください。</p>
-<p>詳細に関しては、以下の公開情報をご参照ください。</p>
-<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/sql/t-sql/functions/version-transact-sql-configuration-functions?view=sql-server-ver16">@@VERSION - Transact SQL 構成関数</a></p>
-
-      
-      
-        <div class="article-disclaimer">
         
-          <p>※本情報の内容（添付文書、リンク先などを含む）は、作成日時点でのものであり、予告なく変更される場合があります。</p>
-        
-        </div>
       
     </div>
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Management/" rel="tag">Management</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/SQL-Database/" rel="tag">SQL Database</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/SQL-Managed-Instance/" rel="tag">SQL Managed Instance</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Upgrade/" rel="tag">Upgrade</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Version/" rel="tag">Version</a></li></ul>
-
-        
-        <a href="https://github.com/jp-azuresql/blog/edit/main/articles/Management/version.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
-        
-    </footer>
-  </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="../../Connectivity/mi-tcp-connectivity-test/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">次の記事</strong>
-      <div class="article-nav-title">
-        
-          SQL Managed Instance からストレージアカウントやリンクサーバーへの接続テスト方法
-        
-      </div>
-    </a>
-  
-  
-    <a href="../../Connectivity/connectivity-troubleshooting/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">前の記事</strong>
-      <div class="article-nav-title">接続エラーのトラブルシューティングに関して</div>
-    </a>
-  
-</nav>
+  </section>
 
   
-</article>
 
 </section>
         
@@ -190,7 +149,7 @@
           </li>
         
           <li>
-            <a href="../2014-04-01-api-retirement/">古い API 廃止の通知「Upgrade Azure SQL Database 2014-04-01 APIs to a newer version by 31 October 2025」の対処法について</a>
+            <a href="../../Management/2014-04-01-api-retirement/">古い API 廃止の通知「Upgrade Azure SQL Database 2014-04-01 APIs to a newer version by 31 October 2025」の対処法について</a>
           </li>
         
           <li>
@@ -221,7 +180,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">アーカイブ</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/08/">2024 / 08</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/12/">2023 / 12</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/08/">2023 / 08</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/07/">2023 / 07</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/05/">2023 / 05</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/04/">2023 / 04</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/03/">2023 / 03</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="08/">2024 / 08</a></li><li class="archive-list-item"><a class="archive-list-link" href="../2023/12/">2023 / 12</a></li><li class="archive-list-item"><a class="archive-list-link" href="../2023/08/">2023 / 08</a></li><li class="archive-list-item"><a class="archive-list-link" href="../2023/07/">2023 / 07</a></li><li class="archive-list-item"><a class="archive-list-link" href="../2023/05/">2023 / 05</a></li><li class="archive-list-item"><a class="archive-list-link" href="../2023/04/">2023 / 04</a></li><li class="archive-list-item"><a class="archive-list-link" href="../2023/03/">2023 / 03</a></li></ul>
     </div>
   </div>
 
@@ -253,7 +212,7 @@
   
     <a href="../../index.html" class="mobile-nav-link">Home</a>
   
-    <a href="../../archives" class="mobile-nav-link">Archives</a>
+    <a href=".." class="mobile-nav-link">Archives</a>
   
 </nav>
     
