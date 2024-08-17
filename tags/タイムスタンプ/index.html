@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>タグ: タイムスタンプ | Japan SQL Cloud Support Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="日本マイクロソフト SQL Cloud チームによるサポートブログです。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Japan SQL Cloud Support Blog">
+<meta property="og:url" content="https://jp-azuresql.github.io/blog/tags/%E3%82%BF%E3%82%A4%E3%83%A0%E3%82%B9%E3%82%BF%E3%83%B3%E3%83%97/index.html">
+<meta property="og:site_name" content="Japan SQL Cloud Support Blog">
+<meta property="og:description" content="日本マイクロソフト SQL Cloud チームによるサポートブログです。">
+<meta property="og:locale" content="ja_JP">
+<meta property="article:author" content="Microsoft SQL Cloud Support Team">
+<meta property="article:tag" content="Azure SQL Managed Instance">
+<meta property="article:tag" content="Azure SQL Database">
+<meta property="article:tag" content="Azure SQL">
+<meta property="article:tag" content="SQL Cloud">
+<meta property="article:tag" content="SQL MI">
+<meta property="article:tag" content="SQL DB">
+<meta property="article:tag" content="Azure DB">
+<meta property="article:tag" content="データベース">
+<meta property="article:tag" content="アジュール">
+<meta property="article:tag" content="接続エラー">
+<meta property="article:tag" content="トラブルシューティング">
+<meta property="article:tag" content="SQL Server">
+<meta property="article:tag" content="クエリ">
+<meta property="article:tag" content="ストアドプロシージャ">
+<meta property="article:tag" content="接続できない">
+<meta property="article:tag" content="エラー">
+<meta property="article:tag" content="リソース負荷">
+<meta property="article:tag" content="パフォーマンス">
+<meta property="article:tag" content="チューニング">
+<meta property="article:tag" content="リソース制限">
+<meta property="article:tag" content="監視">
+<meta property="article:tag" content="モニター">
+<meta property="article:tag" content="バックアップ">
+<meta property="article:tag" content="リストア">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="../../atom.xml" title="Japan SQL Cloud Support Blog" type="application/atom+xml">
+  
+
+  <link rel="icon" href="../../favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+  <link rel="manifest" href="../../site.webmanifest">
+  <link rel="mask-icon" href="../../safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="theme-color" content="#ffffff">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="../../css/style.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="site-header-logo"></div>
+  <div id="site-header-blog-wrapper"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        <div id="ms-logo"></div>
+        
+          <a class="main-nav-link" href="/blog/">Home</a>
+        
+          <a class="main-nav-link" href="/blog/archives">Archives</a>
+        
+        <a class="main-nav-link" target="_blank" rel="noopener" href="https://cssjpn.github.io/">サポート情報</a>
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="../../atom.xml" title="RSSフィード"></a>
+        
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//www.bing.com/search" method="get" accept-charset="UTF-8" name="bing-search" onsubmit="var f=this;if(f['q'].value){var searchUrl =  'https://www.bing.com/search?q=' +  encodeURIComponent(f['q'].value + ' site:' + f['sitesearch'].value) ;window.open(searchUrl, 'blank') };return false;" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="検索"><button type="submit" id="nav-search-btn" class="search-form-submit"></button><input type="hidden" name="sitesearch" value="https://jp-azuresql.github.io/blog"></form>
+      </div>
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="../../index.html" id="logo">Japan SQL Cloud Support Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="../../index.html" id="subtitle">日本マイクロソフト SQL Cloud チームによるサポートブログです。</a>
+        </h2>
+      
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main">
+  
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="../../archives/2024" class="archive-year">2024</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      <a href="../../Management/timezone/" class="archive-article-date">
+  <time datetime="2024-08-16T02:00:00.000Z" itemprop="datePublished">2024 / 8 / 16</time>
+</a>
+      
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="../../Management/timezone/">Azure SQL Database のタイムゾーンは UTC で変更できません、日本時間（JST）を取得する場合は変換が必要です</a>
+    </h1>
+  
+
+    </header>
+  </div>
+</article>
+  
+  
+    </div></section>
+  
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最近の投稿</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="../../Management/timezone/">Azure SQL Database のタイムゾーンは UTC で変更できません、日本時間（JST）を取得する場合は変換が必要です</a>
+          </li>
+        
+          <li>
+            <a href="../../Performance/cpu-usage-high-tsg/">CPU 使用率が高騰した際の調査方法</a>
+          </li>
+        
+          <li>
+            <a href="../../Performance/show-execution-plan/">実行プランの確認方法</a>
+          </li>
+        
+          <li>
+            <a href="../../Management/2014-04-01-api-retirement/">古い API 廃止の通知「Upgrade Azure SQL Database 2014-04-01 APIs to a newer version by 31 October 2025」の対処法について</a>
+          </li>
+        
+          <li>
+            <a href="../../Security/vulnerabilityAssessment/">Azure SQL Database / SQL Managed Instance 脆弱性評価の概要と有効化/無効化の手順</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">タグ</h3>
+    <div class="widget">
+      <!-- <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="../API-%E5%BB%83%E6%AD%A2/" rel="tag">API 廃止</a></li><li class="tag-list-item"><a class="tag-list-link" href="../Alert/" rel="tag">Alert</a></li><li class="tag-list-item"><a class="tag-list-link" href="../AntiVirus/" rel="tag">AntiVirus</a></li><li class="tag-list-item"><a class="tag-list-link" href="../Backup/" rel="tag">Backup</a></li><li class="tag-list-item"><a class="tag-list-link" href="../CPU-%E4%BD%BF%E7%94%A8%E7%8E%87/" rel="tag">CPU 使用率</a></li><li class="tag-list-item"><a class="tag-list-link" href="../Connectivity/" rel="tag">Connectivity</a></li><li class="tag-list-item"><a class="tag-list-link" href="../FAQ/" rel="tag">FAQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="../Gateway/" rel="tag">Gateway</a></li><li class="tag-list-item"><a class="tag-list-link" href="../Information/" rel="tag">Information</a></li><li class="tag-list-item"><a class="tag-list-link" href="../Management/" rel="tag">Management</a></li><li class="tag-list-item"><a class="tag-list-link" href="../Memory/" rel="tag">Memory</a></li><li class="tag-list-item"><a class="tag-list-link" href="../Metric/" rel="tag">Metric</a></li><li class="tag-list-item"><a class="tag-list-link" href="../Migration/" rel="tag">Migration</a></li><li class="tag-list-item"><a class="tag-list-link" href="../Monitor/" rel="tag">Monitor</a></li><li class="tag-list-item"><a class="tag-list-link" href="../Performance/" rel="tag">Performance</a></li><li class="tag-list-item"><a class="tag-list-link" href="../SQL-Database/" rel="tag">SQL Database</a></li><li class="tag-list-item"><a class="tag-list-link" href="../SQL-Managed-Instance/" rel="tag">SQL Managed Instance</a></li><li class="tag-list-item"><a class="tag-list-link" href="../Security/" rel="tag">Security</a></li><li class="tag-list-item"><a class="tag-list-link" href="../Support-Request/" rel="tag">Support Request</a></li><li class="tag-list-item"><a class="tag-list-link" href="../Timestamp/" rel="tag">Timestamp</a></li><li class="tag-list-item"><a class="tag-list-link" href="../Troubleshooting/" rel="tag">Troubleshooting</a></li><li class="tag-list-item"><a class="tag-list-link" href="../Upgrade/" rel="tag">Upgrade</a></li><li class="tag-list-item"><a class="tag-list-link" href="../Version/" rel="tag">Version</a></li><li class="tag-list-item"><a class="tag-list-link" href="../vulnerability-assessment/" rel="tag">vulnerability assessment</a></li><li class="tag-list-item"><a class="tag-list-link" href="../%E3%82%AF%E3%82%A8%E3%83%AA%E3%82%B9%E3%83%88%E3%82%A2/" rel="tag">クエリストア</a></li><li class="tag-list-item"><a class="tag-list-link" href="" rel="tag">タイムスタンプ</a></li><li class="tag-list-item"><a class="tag-list-link" href="../%E4%BA%8B%E5%89%8D%E9%80%9A%E7%9F%A5/" rel="tag">事前通知</a></li><li class="tag-list-item"><a class="tag-list-link" href="../%E5%AE%9F%E8%A1%8C%E8%A8%88%E7%94%BB/" rel="tag">実行計画</a></li><li class="tag-list-item"><a class="tag-list-link" href="../%E6%97%A5%E6%99%82/" rel="tag">日時</a></li><li class="tag-list-item"><a class="tag-list-link" href="../%E6%97%A5%E6%9C%AC%E6%A8%99%E6%BA%96%E6%99%82/" rel="tag">日本標準時</a></li></ul>  -->
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="../Connectivity/">Connectivity</a><span class="tag-list-count">3</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../Connectivity/Alert">Alert</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../Connectivity/Gateway">Gateway</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../Connectivity/Migration">Migration</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../Connectivity/SQL-Database">SQL Database</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../Connectivity/SQL-Managed-Instance">SQL Managed Instance</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../Connectivity/Troubleshooting">Troubleshooting</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../Information/">Information</a><span class="tag-list-count">1</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../Information/SQL-Database">SQL Database</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../Information/SQL-Managed-Instance">SQL Managed Instance</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../Information/Support-Request">Support Request</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../Management/">Management</a><span class="tag-list-count">6</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../Management/API-%E5%BB%83%E6%AD%A2">API 廃止</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../Management/Backup">Backup</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../Management/FAQ">FAQ</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../Management/SQL-Database">SQL Database</a><span class="tag-list-count">6</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../Management/SQL-Managed-Instance">SQL Managed Instance</a><span class="tag-list-count">4</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../Management/Timestamp">Timestamp</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../Management/Troubleshooting">Troubleshooting</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../Management/Upgrade">Upgrade</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../Management/Version">Version</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../Management/vulnerability-assessment">vulnerability assessment</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../Management/%E3%82%BF%E3%82%A4%E3%83%A0%E3%82%B9%E3%82%BF%E3%83%B3%E3%83%97">タイムスタンプ</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../Management/%E4%BA%8B%E5%89%8D%E9%80%9A%E7%9F%A5">事前通知</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../Management/%E6%97%A5%E6%99%82">日時</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../Management/%E6%97%A5%E6%9C%AC%E6%A8%99%E6%BA%96%E6%99%82">日本標準時</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../Performance/">Performance</a><span class="tag-list-count">4</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../Performance/CPU-%E4%BD%BF%E7%94%A8%E7%8E%87">CPU 使用率</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../Performance/Memory">Memory</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../Performance/Metric">Metric</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../Performance/Monitor">Monitor</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../Performance/SQL-Database">SQL Database</a><span class="tag-list-count">4</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../Performance/SQL-Managed-Instance">SQL Managed Instance</a><span class="tag-list-count">3</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../Performance/Troubleshooting">Troubleshooting</a><span class="tag-list-count">3</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../Performance/%E3%82%AF%E3%82%A8%E3%83%AA%E3%82%B9%E3%83%88%E3%82%A2">クエリストア</a><span class="tag-list-count">3</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../Performance/%E5%AE%9F%E8%A1%8C%E8%A8%88%E7%94%BB">実行計画</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../Security/">Security</a><span class="tag-list-count">1</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../Security/AntiVirus">AntiVirus</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../Security/FAQ">FAQ</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../Security/SQL-Database">SQL Database</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../Security/SQL-Managed-Instance">SQL Managed Instance</a><span class="tag-list-count">1</span></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">アーカイブ</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/08/">2024 / 08</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/12/">2023 / 12</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/08/">2023 / 08</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/07/">2023 / 07</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/05/">2023 / 05</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/04/">2023 / 04</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/03/">2023 / 03</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">タグクラウド</h3>
+    <div class="widget tagcloud">
+      <a href="../API-%E5%BB%83%E6%AD%A2/" style="font-size: 10px;">API 廃止</a> <a href="../Alert/" style="font-size: 10px;">Alert</a> <a href="../AntiVirus/" style="font-size: 10px;">AntiVirus</a> <a href="../Backup/" style="font-size: 10px;">Backup</a> <a href="../CPU-%E4%BD%BF%E7%94%A8%E7%8E%87/" style="font-size: 10px;">CPU 使用率</a> <a href="../Connectivity/" style="font-size: 13.33px;">Connectivity</a> <a href="../FAQ/" style="font-size: 11.67px;">FAQ</a> <a href="../Gateway/" style="font-size: 10px;">Gateway</a> <a href="../Information/" style="font-size: 10px;">Information</a> <a href="../Management/" style="font-size: 16.67px;">Management</a> <a href="../Memory/" style="font-size: 10px;">Memory</a> <a href="../Metric/" style="font-size: 10px;">Metric</a> <a href="../Migration/" style="font-size: 10px;">Migration</a> <a href="../Monitor/" style="font-size: 10px;">Monitor</a> <a href="../Performance/" style="font-size: 15px;">Performance</a> <a href="../SQL-Database/" style="font-size: 20px;">SQL Database</a> <a href="../SQL-Managed-Instance/" style="font-size: 18.33px;">SQL Managed Instance</a> <a href="../Security/" style="font-size: 10px;">Security</a> <a href="../Support-Request/" style="font-size: 10px;">Support Request</a> <a href="../Timestamp/" style="font-size: 10px;">Timestamp</a> <a href="../Troubleshooting/" style="font-size: 16.67px;">Troubleshooting</a> <a href="../Upgrade/" style="font-size: 10px;">Upgrade</a> <a href="../Version/" style="font-size: 10px;">Version</a> <a href="../vulnerability-assessment/" style="font-size: 11.67px;">vulnerability assessment</a> <a href="../%E3%82%AF%E3%82%A8%E3%83%AA%E3%82%B9%E3%83%88%E3%82%A2/" style="font-size: 13.33px;">クエリストア</a> <a href="" style="font-size: 10px;">タイムスタンプ</a> <a href="../%E4%BA%8B%E5%89%8D%E9%80%9A%E7%9F%A5/" style="font-size: 10px;">事前通知</a> <a href="../%E5%AE%9F%E8%A1%8C%E8%A8%88%E7%94%BB/" style="font-size: 10px;">実行計画</a> <a href="../%E6%97%A5%E6%99%82/" style="font-size: 10px;">日時</a> <a href="../%E6%97%A5%E6%9C%AC%E6%A8%99%E6%BA%96%E6%99%82/" style="font-size: 10px;">日本標準時</a>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2024 Microsoft SQL Cloud Support Team<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="../../index.html" class="mobile-nav-link">Home</a>
+  
+    <a href="../../archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+<script src="../../js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
