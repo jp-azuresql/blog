@@ -4,19 +4,18 @@
   <meta charset="utf-8">
   
   
-  <title>Azure SQL Database / SQL Managed Instance の自動バックアップに関して | Japan SQL Cloud Support Blog</title>
+  <title>Azure SQL Managed Instance上で透過的なデータベース暗号化(TDE)により保護されたデータベースのCOPY_ONLYバックアップをとる | Japan SQL Cloud Support Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="こんにちは。SQL Cloud サポート チームの川野辺です。 今回の投稿では、Azure SQL Database (SQL DB)、SQL Managed Instance (SQL MI) における自動バックアップに関してご案内します。">
+  <meta name="description" content="こんにちは。SQL Cloud サポート チームの太田です。 今回の投稿では、SQL Managed Instance (SQL MI) 上でTDE保護されたデータベースのCOPY_ONLYバックアップをとる方法をご紹介します。 ※本文は2019年5月19日にMicrosoft Tech Communityに投稿された記事の翻訳をベースにしています。Take a COPY_ONLY backup">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Azure SQL Database &#x2F; SQL Managed Instance の自動バックアップに関して">
-<meta property="og:url" content="https://jp-azuresql.github.io/blog/Management/autobackup/index.html">
+<meta property="og:title" content="Azure SQL Managed Instance上で透過的なデータベース暗号化(TDE)により保護されたデータベースのCOPY_ONLYバックアップをとる">
+<meta property="og:url" content="https://jp-azuresql.github.io/blog/Management/TDE_backup/index.html">
 <meta property="og:site_name" content="Japan SQL Cloud Support Blog">
-<meta property="og:description" content="こんにちは。SQL Cloud サポート チームの川野辺です。 今回の投稿では、Azure SQL Database (SQL DB)、SQL Managed Instance (SQL MI) における自動バックアップに関してご案内します。">
+<meta property="og:description" content="こんにちは。SQL Cloud サポート チームの太田です。 今回の投稿では、SQL Managed Instance (SQL MI) 上でTDE保護されたデータベースのCOPY_ONLYバックアップをとる方法をご紹介します。 ※本文は2019年5月19日にMicrosoft Tech Communityに投稿された記事の翻訳をベースにしています。Take a COPY_ONLY backup">
 <meta property="og:locale" content="ja_JP">
-<meta property="article:published_time" content="2023-04-04T06:00:00.000Z">
+<meta property="article:published_time" content="2024-09-03T06:00:00.000Z">
 <meta property="article:modified_time" content="2024-09-03T09:33:17.557Z">
 <meta property="article:author" content="Microsoft SQL Cloud Support Team">
-<meta property="article:tag" content="SQL Database">
 <meta property="article:tag" content="SQL Managed Instance">
 <meta property="article:tag" content="Management">
 <meta property="article:tag" content="Backup">
@@ -82,7 +81,7 @@
 </header>
 
       <div class="outer">
-        <section id="main"><article id="post-Management/autobackup" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-Management/TDE_backup" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
     
@@ -91,7 +90,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Azure SQL Database / SQL Managed Instance の自動バックアップに関して
+      Azure SQL Managed Instance上で透過的なデータベース暗号化(TDE)により保護されたデータベースのCOPY_ONLYバックアップをとる
     </h1>
   
 
@@ -99,37 +98,61 @@
       <div class="article-share">
         Last Update: 
         <a href="" class="article-date-single">
-  <time datetime="2023-04-04T06:00:00.000Z" itemprop="datePublished">2023-04-04</time>
+  <time datetime="2024-09-03T06:00:00.000Z" itemprop="datePublished">2024-09-03</time>
 </a>
         
         
-        <a href="https://github.com/jp-azuresql/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+ed7169cf-705e-54d3-b218-350bff56cccc%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5BAzure+SQL+Database+%2F+SQL+Managed+Instance+%E3%81%AE%E8%87%AA%E5%8B%95%E3%83%90%E3%83%83%E3%82%AF%E3%82%A2%E3%83%83%E3%83%97%E3%81%AB%E9%96%A2%E3%81%97%E3%81%A6%5D%28https%3A%2F%2Fjp-azuresql.github.io%2Fblog%2FManagement%2Fautobackup%2F%29%0A*+Content+Source%3A+%5Barticles%2FManagement%2Fautobackup.md%5D%28https%3A%2F%2Fgithub.com%2Fjp-azuresql%2Fblog%2Fblob%2Fmain%2Farticles%2FManagement%2Fautobackup.md%29%0A*+Author%3A+" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
+        <a href="https://github.com/jp-azuresql/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+122b3869-bd8b-5468-822e-fd2a958b116f%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5BAzure+SQL+Managed+Instance%E4%B8%8A%E3%81%A7%E9%80%8F%E9%81%8E%E7%9A%84%E3%81%AA%E3%83%87%E3%83%BC%E3%82%BF%E3%83%99%E3%83%BC%E3%82%B9%E6%9A%97%E5%8F%B7%E5%8C%96%28TDE%29%E3%81%AB%E3%82%88%E3%82%8A%E4%BF%9D%E8%AD%B7%E3%81%95%E3%82%8C%E3%81%9F%E3%83%87%E3%83%BC%E3%82%BF%E3%83%99%E3%83%BC%E3%82%B9%E3%81%AECOPY_ONLY%E3%83%90%E3%83%83%E3%82%AF%E3%82%A2%E3%83%83%E3%83%97%E3%82%92%E3%81%A8%E3%82%8B%5D%28https%3A%2F%2Fjp-azuresql.github.io%2Fblog%2FManagement%2FTDE_backup%2F%29%0A*+Content+Source%3A+%5Barticles%2FManagement%2FTDE_backup.md%5D%28https%3A%2F%2Fgithub.com%2Fjp-azuresql%2Fblog%2Fblob%2Fmain%2Farticles%2FManagement%2FTDE_backup.md%29%0A*+Author%3A+" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
         
-        <a data-url="https://jp-azuresql.github.io/blog/Management/autobackup/" data-id="cm0m8ezja00080oq6b0grcioj" class="article-share-link">共有</a>
+        <a data-url="https://jp-azuresql.github.io/blog/Management/TDE_backup/" data-id="cm0m8ezj900070oq6df4vfiys" class="article-share-link">共有</a>
       </div>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>こんにちは。SQL Cloud サポート チームの川野辺です。</p>
-<p>今回の投稿では、Azure SQL Database (SQL DB)、SQL Managed Instance (SQL MI) における自動バックアップに関してご案内します。</p>
+        <p>こんにちは。SQL Cloud サポート チームの太田です。</p>
+<p>今回の投稿では、SQL Managed Instance (SQL MI) 上でTDE保護されたデータベースのCOPY_ONLYバックアップをとる方法をご紹介します。</p>
+<p>※本文は2019年5月19日にMicrosoft Tech Communityに投稿された記事の翻訳をベースにしています。<br><a target="_blank" rel="noopener" href="https://techcommunity.microsoft.com/t5/azure-sql-blog/take-a-copy-only-backup-of-tde-protected-database-on-azure-sql/ba-p/643407#:~:text=However%2C%20for%20TDE%20protected%20databases%20that%20use%20Service,take%20your%20data%2C%20and%20violate%20your%20security%20policy.">Take a COPY_ONLY backup of TDE protected database on Azure SQL Managed Instance</a></p>
 <span id="more"></span>
 
-<h2 id="自動バックアップとは"><a href="#自動バックアップとは" class="headerlink" title="自動バックアップとは"></a>自動バックアップとは</h2><hr>
-<p>SQL DB、SQL MI におきまして、お客様は特別意識していただく必要なく、自動でバックアップが定期的に取得されております。そのため、弊社が責任をもって管理しておりますので、お客様にてバックアップの成否などを監視頂く必要もございません。<br>こちらの自動バックアップによって取得されたバックアップファイルを用いて、ポイントインタイムリストア (PITR) やバックアップの長期保有 (LTR) の機能で、柔軟にデータベースの復元が可能です。</p>
-<p>自動バックアップ<br><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/azure-sql/database/automated-backups-overview?view=azuresql">Azure SQL Database の自動バックアップ</a></p>
-<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/azure-sql/managed-instance/automated-backups-overview?view=azuresql">Azure SQL Managed Instance での自動バックアップ</a></p>
-<p>ポイントインタイムリストア (PITR)<br><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/azure-sql/database/recovery-using-backups?view=azuresql&tabs=azure-portal">Azure SQL Database のバックアップからデータベースを復元する</a></p>
-<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/azure-sql/managed-instance/recovery-using-backups?view=azuresql&tabs=azure-portal">Azure SQL Managed Instance のバックアップからデータベースを復元する</a></p>
-<p>長期保有 (LTR)<br><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/azure-sql/database/long-term-retention-overview?view=azuresql">長期リテンション - Azure SQL Database と Azure SQL Managed Instance</a></p>
-<h2 id="バックアップの管理に関して"><a href="#バックアップの管理に関して" class="headerlink" title="バックアップの管理に関して"></a>バックアップの管理に関して</h2><hr>
-<p>自動バックアップによって取得されたバックアップファイルは、お客様のデータが保存されているストレージとは異なるバックアップストレージに保存されます。こちらのストレージに関しては、お客様がアクセスいただくことはできず、バックアップファイルを直接確認することや、削除することはできませんが、弊社によって責任を持って管理を行っております。<br>お客様はいつでもバックアップストレージの冗長性（ローカル冗長、ゾーン冗長、geo 冗長）を変更することができ、バックアップストレージの冗長性の変更に際し、データベースの再起動などは発生しません。<br>なお、自動バックアップを停止することもできかねますが、バックアップの取得に関しては、内部プロセスに割り当てられたコンピューティング リソースが使用されますので、お客様のワークロードに影響はございません。</p>
-<h2 id="SQL-DB-にてバックアップをお客様で管理されたい場合"><a href="#SQL-DB-にてバックアップをお客様で管理されたい場合" class="headerlink" title="SQL DB にてバックアップをお客様で管理されたい場合"></a>SQL DB にてバックアップをお客様で管理されたい場合</h2><hr>
-<p>SQL DB におきましては、お客様にてバックアップを取得することはできかねます。PITR や LTR によって、バックアップのリストアは可能ですので、多くのご要望にお応えすることが可能ですが、お客様のお手元で管理されたい場合にご案内できる代替策としましては、データベースを BACPAC ファイルにエクスポートする方法となります。<br>エクスポートを実施することで、BACPAC ファイルを取得可能であり、こちらを基にデータベースをインポートすることも可能ですので、こちらをお客様のお手元で管理される場合もあります。<br>詳細に関しては、以下の公開情報をご参照いただけますと幸いです。</p>
-<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/azure-sql/database/database-export?source=recommendations&view=azuresql">BACPAC ファイルへのエクスポート - Azure SQL Database および Azure SQL Managed Instance</a></p>
-<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/azure-sql/database/database-import?view=azuresql&tabs=azure-powershell">クイックスタート: Azure SQL Database または Azure SQL Managed Instance 内のデータベースに .bacpac ファイルをインポートする</a></p>
-<h2 id="SQL-MI-にてバックアップをお客様で管理されたい場合"><a href="#SQL-MI-にてバックアップをお客様で管理されたい場合" class="headerlink" title="SQL MI にてバックアップをお客様で管理されたい場合"></a>SQL MI にてバックアップをお客様で管理されたい場合</h2><hr>
-<p>SQL MI におきましては、COPY のみのバックアップの実施が可能ですので、こちらを実施いただくことで、お手元でバックアップファイルの管理が可能です。</p>
-<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/sql/relational-databases/backup-restore/copy-only-backups-sql-server?view=sql-server-ver16">コピーのみのバックアップ</a></p>
+
+<h2 id="TDEとは"><a href="#TDEとは" class="headerlink" title="TDEとは"></a>TDEとは</h2><hr>
+<p>TDE（Transparent Data Encryption）はセキュリティ機能の一つで、メモリと基礎となるストレージの間でやり取りされるページを透過的に暗号化します。</p>
+<p>&lt;関連ドキュメント&gt;<br><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/sql/relational-databases/security/encryption/transparent-data-encryption?view=sql-server-ver16">透過的なデータ暗号化 (TDE) - SQL Server | Microsoft Learn</a></p>
+<h2 id="バックアップの方法"><a href="#バックアップの方法" class="headerlink" title="バックアップの方法"></a>バックアップの方法</h2><hr>
+<p>SQL MI は、完全に暗号化されたAzureストレージ上に保存される自動バックアップを備えており、セキュリティを担保し、多くの機能を提供します。また、SQL MI では、独自の COPY_ONLY バックアップを取ることもできます。これは、組み込みの自動バックアップと比較すると用途は限られますが、有用な場合があります（例えば、保持期間を過ぎたバックアップを保持する場合など）。</p>
+<p>ただし、SQL MI でサービス管理キーを使用するTDE保護されたデータベースでは、手動でCOPY_ONLYバックアップを取ることはできません。バックアップを試みた場合、以下のエラーが表示されます。<br><em>Microsoft.Data.SqlClient.SqlError: The backup operation for a database with service-managed transparent data encryption is not supported on SQL Database Managed Instance. (Microsoft.SqlServer.Smo)</em></p>
+<p>COPY_ONLYバックアップは、高い権限を持つ人がデータを取得することを可能にし、セキュリティポリシーに違反する可能性があります。SQL Serverでは、TDEで保護されたデータベースのバックアップを自分で取ることができますが、これには保護キーをエクスポートする必要があります。</p>
+<div class="alert is-warning"><p class="alert-title">警告</p><p>一般的には、自動バックアップのみを使用することが推奨されます。自動リストア機能により、ある時点のデータベースをリストアしたり、別のインスタンスにデータベースをリストアしたり（本番環境から開発環境へのリストアなど）、あるいはgeoリストア機能によりデータベースを移行することが可能です。</p><p>これらの自動バックアップは、最大35日間保存されます。これらの組み込みの自動バックアップは安全であり、強固なセキュリティを実現します。このシナリオにおけるCOPY_ONLYバックアップは特定の場合にのみ使用されます。別の方法として、Azureのクラウドベースのキー管理システムであるAzure Key Vaultに保存されたTDE保護機能を使用することもできます。Azure Key Vaultにキーを入れておけば、リストア後に自分のキーで復号化できるバックアップを取ることができます。ただし、キーを削除すると、バックアップは復号化できません。</p></div>
+<p>厳格なTDE保護では、独自のカスタムバックアップを取ることはできません。TDE で保護されたデータベースのバックアップが必要な場合は、TDE を一時的に無効にしてバックアップを取り、TDE を再度有効にする必要があります。</p>
+<div class="alert is-info"><p class="alert-title">Note</p><p>場合によっては、組み込みのインスタンス間でのリストアを使用して別のインスタンス上にデータベースのコピーを作成し、そこで TDE をオフにして元のインスタンスに準拠させることができます。</p></div>
+<p>ただし、この場合でも、データベース内に暗号化されたページがないことを確認し、復号化が完了するのを待ってからバックアップを取る必要があります。復号化が完了する前にデータベースをバックアップすると、別のインスタンスでバックアップを復元しようとしたときに以下のエラーが発生する可能性があります：<br> <strong>33111</strong> Cannot find server certificate with thumbprint …<br>SQL MI でデータベースをバックアップおよびリストアする推奨の方法は、組み込みの自動バックアップとインスタンス間のポイントインタイムリストアを使用することです。</p>
+<p>手動でCOPY_ONLYバックアップを使用する必要がある場合は、以下の手順に従ってください：</p>
+<ol>
+<li><p>バックアップを取るユーザーデータベースに接続します：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">USE <span class="operator">&lt;</span>dbname<span class="operator">&gt;</span> GO</span><br></pre></td></tr></table></figure></li>
+<li><p>DB が TDE で暗号化されているかどうかを確認します：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> sys.dm_database_encryption_keys</span><br></pre></td></tr></table></figure></li>
+<li><p>データベースが暗号化されている場合、暗号化をオフにするようにデータベースを変更します。この操作を実行するとき、実行中のトランザクションがないことに注意してください：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> DATABASE <span class="operator">&lt;</span>dbName<span class="operator">&gt;</span> <span class="keyword">SET</span> ENCRYPTION OFF</span><br></pre></td></tr></table></figure></li>
+<li><p>データベースのチェックポイントを実行します：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CHECKPOINT</span><br></pre></td></tr></table></figure></li>
+<li><p>データベース暗号化キー(DEK)を削除します：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DROP</span> DATABASE ENCRYPTION KEY</span><br></pre></td></tr></table></figure></li>
+<li><p>ログを切り捨てます：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DBCC SHRINKFILE ( <span class="operator">&lt;</span>logName<span class="operator">&gt;</span>, <span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<div class="alert is-info"><p class="alert-title">Note</p><p>ログファイルの名前は以下のコマンドにより取得が可能です。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span></p><p></pre></td><td class="code"><pre><span class="line"><span class="operator">&gt;</span><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> sys.database_files</span></p><p></pre></td></tr></table></figure>
+<p>このクエリの結果からtype_descがLOGとなっているファイルの名前を指定してください。</p></div>
+</li>
+<li><p>以下のコマンドを実行します：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> sys.dm_db_log_info </span><br></pre></td></tr></table></figure>
+<p>これで、サムプリントで暗号化されたアクティブなVLFは表示されません。</p>
+</li>
+<li><p>バックアップを取ります。</p>
+</li>
+<li><p>バックアップを復元し、証明書を要求しないことを確認します。</p>
+</li>
+</ol>
 
       
       
@@ -143,10 +166,10 @@
     <footer class="article-footer">
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Backup/" rel="tag">Backup</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Management/" rel="tag">Management</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/SQL-Database/" rel="tag">SQL Database</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/SQL-Managed-Instance/" rel="tag">SQL Managed Instance</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Backup/" rel="tag">Backup</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Management/" rel="tag">Management</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/SQL-Managed-Instance/" rel="tag">SQL Managed Instance</a></li></ul>
 
         
-        <a href="https://github.com/jp-azuresql/blog/edit/main/articles/Management/autobackup.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
+        <a href="https://github.com/jp-azuresql/blog/edit/main/articles/Management/TDE_backup.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
         
     </footer>
   </div>
@@ -154,19 +177,10 @@
     
 <nav id="article-nav">
   
-    <a href="../../Connectivity/connectivity-troubleshooting/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">次の記事</strong>
-      <div class="article-nav-title">
-        
-          接続エラーのトラブルシューティングに関して
-        
-      </div>
-    </a>
   
-  
-    <a href="../../Information/support-request-guidance/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="../timezone/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">前の記事</strong>
-      <div class="article-nav-title">Azure SQL Database / SQL Managed Instance のお問い合わせを起票いただく際に</div>
+      <div class="article-nav-title">Azure SQL Database のタイムゾーンは UTC で変更できません、日本時間（JST）を取得する場合は変換が必要です</div>
     </a>
   
 </nav>
@@ -185,7 +199,7 @@
       <ul>
         
           <li>
-            <a href="../TDE_backup/">Azure SQL Managed Instance上で透過的なデータベース暗号化(TDE)により保護されたデータベースのCOPY_ONLYバックアップをとる</a>
+            <a href="">Azure SQL Managed Instance上で透過的なデータベース暗号化(TDE)により保護されたデータベースのCOPY_ONLYバックアップをとる</a>
           </li>
         
           <li>
