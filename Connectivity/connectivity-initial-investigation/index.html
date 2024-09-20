@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>接続エラー発生時の初動調査 | Japan SQL Cloud Support Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="こんにちは。SQL Cloud サポート チームの Ramona Xu です。 今回の投稿では、Azure SQL Database (SQL DB) にて接続エラーが発生した際の初動調査の実施手順をご紹介します。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="接続エラー発生時の初動調査">
+<meta property="og:url" content="https://jp-azuresql.github.io/blog/Connectivity/connectivity-initial-investigation/index.html">
+<meta property="og:site_name" content="Japan SQL Cloud Support Blog">
+<meta property="og:description" content="こんにちは。SQL Cloud サポート チームの Ramona Xu です。 今回の投稿では、Azure SQL Database (SQL DB) にて接続エラーが発生した際の初動調査の実施手順をご紹介します。">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:image" content="https://jp-azuresql.github.io/blog/Connectivity/connectivity-initial-investigation/failed_connections.png">
+<meta property="og:image" content="https://jp-azuresql.github.io/blog/Connectivity/connectivity-initial-investigation/scaleuplog.png">
+<meta property="og:image" content="https://jp-azuresql.github.io/blog/Connectivity/connectivity-initial-investigation/failoverlog.png">
+<meta property="og:image" content="https://jp-azuresql.github.io/blog/Connectivity/connectivity-initial-investigation/blocked_by_firewall.png">
+<meta property="og:image" content="https://jp-azuresql.github.io/blog/Connectivity/connectivity-initial-investigation/storagebrowser.png">
+<meta property="og:image" content="https://jp-azuresql.github.io/blog/Connectivity/connectivity-initial-investigation/queryeditor.png">
+<meta property="og:image" content="https://jp-azuresql.github.io/blog/Connectivity/connectivity-initial-investigation/auditlog.png">
+<meta property="og:image" content="https://jp-azuresql.github.io/blog/Connectivity/connectivity-initial-investigation/loganalytics.png">
+<meta property="og:image" content="https://jp-azuresql.github.io/blog/Connectivity/connectivity-initial-investigation/loganalyticscode.png">
+<meta property="article:published_time" content="2024-09-20T06:00:00.000Z">
+<meta property="article:modified_time" content="2024-09-20T07:39:56.719Z">
+<meta property="article:author" content="Microsoft SQL Cloud Support Team">
+<meta property="article:tag" content="Connectivity">
+<meta property="article:tag" content="SQL Database">
+<meta property="article:tag" content="Troubleshooting">
+<meta property="article:tag" content="Metric">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jp-azuresql.github.io/blog/Connectivity/connectivity-initial-investigation/failed_connections.png">
+  
+    <link rel="alternate" href="../../atom.xml" title="Japan SQL Cloud Support Blog" type="application/atom+xml">
+  
+
+  <link rel="icon" href="../../favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+  <link rel="manifest" href="../../site.webmanifest">
+  <link rel="mask-icon" href="../../safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="theme-color" content="#ffffff">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="../../css/style.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="site-header-logo"></div>
+  <div id="site-header-blog-wrapper"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        <div id="ms-logo"></div>
+        
+          <a class="main-nav-link" href="/blog/">Home</a>
+        
+          <a class="main-nav-link" href="/blog/archives">Archives</a>
+        
+        <a class="main-nav-link" target="_blank" rel="noopener" href="https://cssjpn.github.io/">サポート情報</a>
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="../../atom.xml" title="RSSフィード"></a>
+        
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//www.bing.com/search" method="get" accept-charset="UTF-8" name="bing-search" onsubmit="var f=this;if(f['q'].value){var searchUrl =  'https://www.bing.com/search?q=' +  encodeURIComponent(f['q'].value + ' site:' + f['sitesearch'].value) ;window.open(searchUrl, 'blank') };return false;" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="検索"><button type="submit" id="nav-search-btn" class="search-form-submit"></button><input type="hidden" name="sitesearch" value="https://jp-azuresql.github.io/blog"></form>
+      </div>
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="../../index.html" id="logo">Japan SQL Cloud Support Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="../../index.html" id="subtitle">日本マイクロソフト SQL Cloud チームによるサポートブログです。</a>
+        </h2>
+      
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Connectivity/connectivity-initial-investigation" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header-single">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      接続エラー発生時の初動調査
+    </h1>
+  
+
+      </header>
+      <div class="article-share">
+        Last Update: 
+        <a href="" class="article-date-single">
+  <time datetime="2024-09-20T06:00:00.000Z" itemprop="datePublished">2024-09-20</time>
+</a>
+        
+        
+        <a href="https://github.com/jp-azuresql/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+05ce36d5-9f3c-59dd-84b8-09d91427c1e4%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5B%E6%8E%A5%E7%B6%9A%E3%82%A8%E3%83%A9%E3%83%BC%E7%99%BA%E7%94%9F%E6%99%82%E3%81%AE%E5%88%9D%E5%8B%95%E8%AA%BF%E6%9F%BB%5D%28https%3A%2F%2Fjp-azuresql.github.io%2Fblog%2FConnectivity%2Fconnectivity-initial-investigation%2F%29%0A*+Content+Source%3A+%5Barticles%2FConnectivity%2Fconnectivity-initial-investigation.md%5D%28https%3A%2F%2Fgithub.com%2Fjp-azuresql%2Fblog%2Fblob%2Fmain%2Farticles%2FConnectivity%2Fconnectivity-initial-investigation.md%29%0A*+Author%3A+" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
+        
+        <a data-url="https://jp-azuresql.github.io/blog/Connectivity/connectivity-initial-investigation/" data-id="cm1aeupi000000nl71wlkagir" class="article-share-link">共有</a>
+      </div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>こんにちは。SQL Cloud サポート チームの Ramona Xu です。</p>
+<p>今回の投稿では、Azure SQL Database (SQL DB) にて接続エラーが発生した際の初動調査の実施手順をご紹介します。</p>
+<span id="more"></span>
+
+<h2 id="目次"><a href="#目次" class="headerlink" title="目次"></a>目次</h2><hr>
+<ul>
+<li><a href="#%E7%9B%AE%E6%AC%A1">目次</a></li>
+<li><a href="#%E6%8E%A5%E7%B6%9A%E3%82%A8%E3%83%A9%E3%83%BC%E3%81%8C%E7%99%BA%E7%94%9F%E3%81%97%E3%81%9F%E9%9A%9B%E3%81%AE%E5%88%9D%E5%8B%95%E8%AA%BF%E6%9F%BB%E3%81%AE%E5%AE%9F%E6%96%BD%E6%89%8B%E9%A0%86">接続エラーが発生した際の初動調査の実施手順</a><ul>
+<li><a href="#step-1-%E3%82%A8%E3%83%A9%E3%83%BC%E3%83%A1%E3%83%83%E3%82%BB%E3%83%BC%E3%82%B8%E3%81%AE%E7%A2%BA%E8%AA%8D">step 1. エラーメッセージの確認</a></li>
+<li><a href="#step-2-%E3%83%A1%E3%83%88%E3%83%AA%E3%83%83%E3%82%AF%E3%81%AE%E7%A2%BA%E8%AA%8D">step 2. メトリックの確認</a><ul>
+<li><a href="#%E3%83%87%E3%83%BC%E3%82%BF%E3%83%99%E3%83%BC%E3%82%B9%E3%81%AE%E6%8E%A5%E7%B6%9A%E5%A4%B1%E6%95%97%E3%81%AE%E7%A2%BA%E8%AA%8D">データベースの接続失敗の確認</a></li>
+<li><a href="#%E3%83%87%E3%83%BC%E3%82%BF%E3%83%99%E3%83%BC%E3%82%B9%E5%81%B4%E3%81%AE%E3%83%95%E3%82%A1%E3%82%A4%E3%82%A2%E3%82%A6%E3%82%A9%E3%83%BC%E3%83%AB%E3%81%AE%E3%83%96%E3%83%AD%E3%83%83%E3%82%AF%E7%8A%B6%E6%B3%81%E3%81%AE%E7%A2%BA%E8%AA%8D">データベース側のファイアウォールのブロック状況の確認</a></li>
+</ul>
+</li>
+<li><a href="#step-3-%E7%9B%A3%E6%9F%BB%E3%83%AD%E3%82%B0%E3%81%AE%E7%A2%BA%E8%AA%8D">step 3. 監査ログの確認</a><ul>
+<li><a href="#Azure-%E3%82%B9%E3%83%88%E3%83%AC%E3%83%BC%E3%82%B8%E3%81%AB%E4%BF%9D%E5%AD%98%E3%81%95%E3%82%8C%E3%81%9F%E7%9B%A3%E6%9F%BB%E3%83%AD%E3%82%B0%E3%81%AE%E7%A2%BA%E8%AA%8D">Azure ストレージに保存された監査ログの確認</a></li>
+<li><a href="#Log-Analytics-%E3%81%AB%E4%BF%9D%E5%AD%98%E3%81%95%E3%82%8C%E3%81%9F%E7%9B%A3%E6%9F%BB%E3%83%AD%E3%82%B0%E3%81%AE%E7%A2%BA%E8%AA%8D">Log Analytics に保存された監査ログの確認</a></li>
+</ul>
+</li>
+<li><a href="#step-4-%E6%8E%A5%E7%B6%9A%E3%82%A8%E3%83%A9%E3%83%BC%E3%81%AE%E3%83%88%E3%83%A9%E3%83%96%E3%83%AB%E3%82%B7%E3%83%A5%E3%83%BC%E3%83%86%E3%82%A3%E3%83%B3%E3%82%B0%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6">step 4. 接続エラーのトラブルシューティングについて</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="接続エラーが発生した際の初動調査の実施手順"><a href="#接続エラーが発生した際の初動調査の実施手順" class="headerlink" title="接続エラーが発生した際の初動調査の実施手順"></a>接続エラーが発生した際の初動調査の実施手順</h2><hr>
+<h3 id="step-1-エラーメッセージの確認"><a href="#step-1-エラーメッセージの確認" class="headerlink" title="step 1. エラーメッセージの確認"></a>step 1. エラーメッセージの確認</h3><p>多くの場合データベースから返されるエラーメッセージにエラーの原因が記載されています。<br>エラー発生時にクライアント側に返されるデータベースのエラーメッセージのログをご確認することで、問題の正確な把握が容易になります。</p>
+<p>例えば 、論理 SQL サーバー側のファイアウォールにて、接続元クライアントのパブリック IP アドレスが許可されていない場合は、以下のようなエラーメッセージがクライアント側に返されます。<br>エラーメッセージを読むことで、エラーの原因が特定できます。</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Cannot open server &#x27;server_name&#x27; requested by the login. Client with IP address &#x27;***.***.***.***&#x27; is <span class="keyword">not</span> allowed to access the server. </span><br><span class="line">To enable access, use the Azure Management Portal or run sp_set_firewall_rule on the master database to create a firewall rule <span class="keyword">for</span> this IP address or address range. </span><br><span class="line">It may take up to five minutes <span class="keyword">for</span> this change to take effect. </span><br></pre></td></tr></table></figure>
+
+<h3 id="step-2-メトリックの確認"><a href="#step-2-メトリックの確認" class="headerlink" title="step 2. メトリックの確認"></a>step 2. メトリックの確認</h3><p>Azure Portal にて、ご利用の SQL DB の「メトリック」からデータベースの利用状況を確認できます。<br>メトリックにて、データベースへの接続エラーの発生有無も記録しているため、調査には有用です。</p>
+<h4 id="データベースの接続失敗の確認"><a href="#データベースの接続失敗の確認" class="headerlink" title="データベースの接続失敗の確認"></a>データベースの接続失敗の確認</h4><p>Azure Portalより、Failed Connections メトリックにて、データベースへの接続失敗の有無を確認することができます。</p>
+<p>SQL database &gt; 監視 &gt; メトリック &gt; Failed Connections<br><img src="/blog/Connectivity/connectivity-initial-investigation/failed_connections.png"></p>
+<p>Failed Connections メトリックには 2 つ種類があり、「Failed Connections: System Errors」 は、メンテナンス時のフェールオーバーや仮想コア数の増減といったスケーリング操作時のように、データベース基盤側に起因して発生した接続失敗を意味します。<br>一方、「Failed Connections: User Errors」は、ユーザー名・パスワードの指定間違いや、データベースユーザーの設定不備など、システム起因以外のユーザー側の問題に起因して発生した接続失敗を意味します。</p>
+<p>Failed Connections: System Errors に記録がある場合、併せて以下を確認します。</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/azure-sql/database/resource-health-to-troubleshoot-connectivity?view=azuresql">リソース正常性</a></li>
+<li>スケーリングが行われたか<ul>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/azure-sql/database/monitoring-sql-database-azure-monitor?view=azuresql#azure-activity-log">アクティビティログ</a>で確認する</li>
+<li>以下はスケールアップの例<br><img src="/blog/Connectivity/connectivity-initial-investigation/scaleuplog.png"></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>フェールオーバーが行われたか<ul>
+<li>アクティビティログで確認する</li>
+<li>以下はユーザーによる手動フェールオーバーの例</li>
+<li><img src="/blog/Connectivity/connectivity-initial-investigation/failoverlog.png"></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>メンテナンスイベントが行われたか（<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/azure-sql/database/planned-maintenance?view=azuresql#maintenance-windows-and-advance-notifications">メンテナンス期間と事前通知</a>を設定している場合）</li>
+</ul>
+<h4 id="データベース側のファイアウォールによるブロック状況の確認"><a href="#データベース側のファイアウォールによるブロック状況の確認" class="headerlink" title="データベース側のファイアウォールによるブロック状況の確認"></a>データベース側のファイアウォールによるブロック状況の確認</h4><p>Azure SQL Database のファイアウォールでは、既定ではすべての接続をブロックし、許可された接続のみアクセスできる方式（ホワイトリスト方式）となっているため、ファイアウォールにて許可されていない接続元からの接続は、ファイアウォールにてブロックされ、メトリックにも記録されます。</p>
+<p>SQL database &gt; 監視 &gt; メトリック &gt; Blocked by Firewall<br><img src="/blog/Connectivity/connectivity-initial-investigation/blocked_by_firewall.png"> </p>
+<h3 id="step-3-監査ログの確認"><a href="#step-3-監査ログの確認" class="headerlink" title="step 3. 監査ログの確認"></a>step 3. 監査ログの確認</h3><p>データベースイベントを追跡する監査ログ（既定では無効）を活用することで、接続エラーの履歴を確認することができます。<br>過去の事象でエラーメッセージを確認する場合は、監査ログを活用することも有用です。また監査ログには接続元クライアント IP アドレスや、ホスト名も記録されるため、接続試行が行われたクライアントマシンを確認することもできます。</p>
+<div class="alert is-warning"><p class="alert-title">警告</p><p>Azure portal のメトリックも監査ログもデータベースへ接続が届いていない場合は記録されません。例えば、クライアントマシン側のファイアウォールでブロックされた場合や、名前解決が失敗しデータベースへ通信が届かない場合は、記録されません。</p></div>
+<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/azure-sql/database/auditing-overview?view=azuresql">監査の概要</a><br><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/azure-sql/database/auditing-setup?view=azuresql">監査の設定方法</a>  </p>
+<p>以下は、監査ログを Azure ストレージ・Log Analytics へ保存した場合の監査ログの確認方法の例です。</p>
+<h4 id="Azure-ストレージに保存された監査ログの確認"><a href="#Azure-ストレージに保存された監査ログの確認" class="headerlink" title="Azure ストレージに保存された監査ログの確認"></a>Azure ストレージに保存された監査ログの確認</h4><p>Azure ストレージに保存された監査ログは以下の方法で Azure Portal より確認できます。</p>
+<p>STEP 1.  ログファイルの URL を確認する<br>ストレージアカウント &gt; ストレージブラウザー（もしくはデータストレージ “コンテナー”） &gt; BLOBコンテナー &gt; sqldbauditlogs &gt; 該当ファイル名をクリックする &gt; URLをコピーする<br><img src="/blog/Connectivity/connectivity-initial-investigation/storagebrowser.png"></p>
+<p>STEP 2. 監査ログを確認する<br>SQLデータベース &gt; クエリエディター &gt; 以下のステートメントを実行する<br>Azure portal のクエリエディター以外にも、SQL Server Management Studio（SSMS）からクエリを実行することでも監査ログの内容を確認できます。<br>※複数のログファイルが存在している場合、ログファイル名を省略した形（「sys.fn_get_audit_file(‘…/YYYY-MM-DD/‘, default, default)」）で実行することも可能です。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> TOP <span class="number">100</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> sys.fn_get_audit_file(<span class="string">&#x27;&lt;コピーしたURL&gt;&#x27;</span>, <span class="keyword">default</span>, <span class="keyword">default</span>)</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> event_time <span class="keyword">DESC</span></span><br></pre></td></tr></table></figure>
+<p><img src="/blog/Connectivity/connectivity-initial-investigation/queryeditor.png"></p>
+<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/sql/relational-databases/system-functions/sys-fn-get-audit-file-transact-sql?view=sql-server-ver16&tabs=sqlserver">sys.fn_get_audit_file のドキュメント</a></p>
+<div class="alert is-info"><p class="alert-title">Note</p><p>Azure ストレージに保存された監査ログファイルをローカルマシンにダウンロードし、SSMS から監査ログファイルを読み込み内容を確認することも可能です。</p></div>
+<h4 id="Log-Analytics-に保存された監査ログの確認"><a href="#Log-Analytics-に保存された監査ログの確認" class="headerlink" title="Log Analytics に保存された監査ログの確認"></a>Log Analytics に保存された監査ログの確認</h4><p>Log Analytics に保存された監査ログは以下の方法で Azure Portal より確認できます。<br>Azure SQL Database の監査ログは、Log Analytics の AzureDiagnostics テーブルに記録され、Category 項目が “SQLSecuriyAuditEvents” となります。 </p>
+<p>SQL データベース &gt; セキュリティ &gt; 監査 &gt; 監査ログの表示<br><img src="/blog/Connectivity/connectivity-initial-investigation/auditlog.png"></p>
+<p>Log Analytics<br><img src="/blog/Connectivity/connectivity-initial-investigation/loganalytics.png"></p>
+<p>クエリが自動で生成されます。KQL クエリを修正して、取得した情報を絞ったりフィルターを行ったりすることも可能です。<br>※Log Analytics ワークスペースのリソース画面の “ログ” ページからもログクエリ（KQL）を実行できます。<br><img src="/blog/Connectivity/connectivity-initial-investigation/loganalyticscode.png"></p>
+<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/azure-monitor/logs/log-analytics-tutorial">Log Analytics のドキュメント</a></p>
+<h3 id="step-4-接続エラーのトラブルシューティングについて"><a href="#step-4-接続エラーのトラブルシューティングについて" class="headerlink" title="step 4. 接続エラーのトラブルシューティングについて"></a>step 4. 接続エラーのトラブルシューティングについて</h3><p>接続エラーが解消しない場合のトラブルシューティング方法は過去の記事にて紹介しています。<br>以下の記事も併せてご参照ください。<br><a href="https://jp-azuresql.github.io/blog/Connectivity/connectivity-troubleshooting/">接続エラーのトラブルシューティングに関して</a> </p>
+
+      
+      
+        <div class="article-disclaimer">
+        
+          <p>※本情報の内容（添付文書、リンク先などを含む）は、作成日時点でのものであり、予告なく変更される場合があります。</p>
+        
+        </div>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Connectivity/" rel="tag">Connectivity</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Metric/" rel="tag">Metric</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/SQL-Database/" rel="tag">SQL Database</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Troubleshooting/" rel="tag">Troubleshooting</a></li></ul>
+
+        
+        <a href="https://github.com/jp-azuresql/blog/edit/main/articles/Connectivity/connectivity-initial-investigation.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
+        
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="../../Management/TDE_backup/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前の記事</strong>
+      <div class="article-nav-title">Azure SQL Managed Instance上で透過的なデータベース暗号化(TDE)により保護されたデータベースのCOPY_ONLYバックアップをとる</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最近の投稿</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="">接続エラー発生時の初動調査</a>
+          </li>
+        
+          <li>
+            <a href="../../Management/TDE_backup/">Azure SQL Managed Instance上で透過的なデータベース暗号化(TDE)により保護されたデータベースのCOPY_ONLYバックアップをとる</a>
+          </li>
+        
+          <li>
+            <a href="../../Management/timezone/">Azure SQL Database のタイムゾーンは UTC で変更できません、日本時間（JST）を取得する場合は変換が必要です</a>
+          </li>
+        
+          <li>
+            <a href="../../Performance/cpu-usage-high-tsg/">CPU 使用率が高騰した際の調査方法</a>
+          </li>
+        
+          <li>
+            <a href="../../Performance/show-execution-plan/">実行プランの確認方法</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">タグ</h3>
+    <div class="widget">
+      <!-- <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="../../tags/API-%E5%BB%83%E6%AD%A2/" rel="tag">API 廃止</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Alert/" rel="tag">Alert</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/AntiVirus/" rel="tag">AntiVirus</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Backup/" rel="tag">Backup</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/CPU-%E4%BD%BF%E7%94%A8%E7%8E%87/" rel="tag">CPU 使用率</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Connectivity/" rel="tag">Connectivity</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/FAQ/" rel="tag">FAQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Gateway/" rel="tag">Gateway</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Information/" rel="tag">Information</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Management/" rel="tag">Management</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Memory/" rel="tag">Memory</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Metric/" rel="tag">Metric</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Migration/" rel="tag">Migration</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Monitor/" rel="tag">Monitor</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Performance/" rel="tag">Performance</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/SQL-Database/" rel="tag">SQL Database</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/SQL-Managed-Instance/" rel="tag">SQL Managed Instance</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Security/" rel="tag">Security</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Support-Request/" rel="tag">Support Request</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Timestamp/" rel="tag">Timestamp</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Troubleshooting/" rel="tag">Troubleshooting</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Upgrade/" rel="tag">Upgrade</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Version/" rel="tag">Version</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/vulnerability-assessment/" rel="tag">vulnerability assessment</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E3%82%AF%E3%82%A8%E3%83%AA%E3%82%B9%E3%83%88%E3%82%A2/" rel="tag">クエリストア</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E3%82%BF%E3%82%A4%E3%83%A0%E3%82%B9%E3%82%BF%E3%83%B3%E3%83%97/" rel="tag">タイムスタンプ</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E4%BA%8B%E5%89%8D%E9%80%9A%E7%9F%A5/" rel="tag">事前通知</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E5%AE%9F%E8%A1%8C%E8%A8%88%E7%94%BB/" rel="tag">実行計画</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E6%97%A5%E6%99%82/" rel="tag">日時</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E6%97%A5%E6%9C%AC%E6%A8%99%E6%BA%96%E6%99%82/" rel="tag">日本標準時</a></li></ul>  -->
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Connectivity/">Connectivity</a><span class="tag-list-count">4</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Connectivity/Alert">Alert</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Connectivity/Gateway">Gateway</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Connectivity/Metric">Metric</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Connectivity/Migration">Migration</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Connectivity/SQL-Database">SQL Database</a><span class="tag-list-count">3</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Connectivity/SQL-Managed-Instance">SQL Managed Instance</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Connectivity/Troubleshooting">Troubleshooting</a><span class="tag-list-count">3</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Information/">Information</a><span class="tag-list-count">1</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Information/SQL-Database">SQL Database</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Information/SQL-Managed-Instance">SQL Managed Instance</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Information/Support-Request">Support Request</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Management/">Management</a><span class="tag-list-count">7</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Management/API-%E5%BB%83%E6%AD%A2">API 廃止</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Management/Backup">Backup</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Management/FAQ">FAQ</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Management/SQL-Database">SQL Database</a><span class="tag-list-count">6</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Management/SQL-Managed-Instance">SQL Managed Instance</a><span class="tag-list-count">5</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Management/Timestamp">Timestamp</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Management/Troubleshooting">Troubleshooting</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Management/Upgrade">Upgrade</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Management/Version">Version</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Management/vulnerability-assessment">vulnerability assessment</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Management/%E3%82%BF%E3%82%A4%E3%83%A0%E3%82%B9%E3%82%BF%E3%83%B3%E3%83%97">タイムスタンプ</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Management/%E4%BA%8B%E5%89%8D%E9%80%9A%E7%9F%A5">事前通知</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Management/%E6%97%A5%E6%99%82">日時</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Management/%E6%97%A5%E6%9C%AC%E6%A8%99%E6%BA%96%E6%99%82">日本標準時</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Performance/">Performance</a><span class="tag-list-count">4</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Performance/CPU-%E4%BD%BF%E7%94%A8%E7%8E%87">CPU 使用率</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Performance/Memory">Memory</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Performance/Metric">Metric</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Performance/Monitor">Monitor</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Performance/SQL-Database">SQL Database</a><span class="tag-list-count">4</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Performance/SQL-Managed-Instance">SQL Managed Instance</a><span class="tag-list-count">3</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Performance/Troubleshooting">Troubleshooting</a><span class="tag-list-count">3</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Performance/%E3%82%AF%E3%82%A8%E3%83%AA%E3%82%B9%E3%83%88%E3%82%A2">クエリストア</a><span class="tag-list-count">3</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Performance/%E5%AE%9F%E8%A1%8C%E8%A8%88%E7%94%BB">実行計画</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Security/">Security</a><span class="tag-list-count">1</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Security/AntiVirus">AntiVirus</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Security/FAQ">FAQ</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Security/SQL-Database">SQL Database</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Security/SQL-Managed-Instance">SQL Managed Instance</a><span class="tag-list-count">1</span></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">アーカイブ</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/09/">2024 / 09</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/08/">2024 / 08</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/12/">2023 / 12</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/08/">2023 / 08</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/07/">2023 / 07</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/05/">2023 / 05</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/04/">2023 / 04</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/03/">2023 / 03</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">タグクラウド</h3>
+    <div class="widget tagcloud">
+      <a href="../../tags/API-%E5%BB%83%E6%AD%A2/" style="font-size: 10px;">API 廃止</a> <a href="../../tags/Alert/" style="font-size: 10px;">Alert</a> <a href="../../tags/AntiVirus/" style="font-size: 10px;">AntiVirus</a> <a href="../../tags/Backup/" style="font-size: 11.67px;">Backup</a> <a href="../../tags/CPU-%E4%BD%BF%E7%94%A8%E7%8E%87/" style="font-size: 10px;">CPU 使用率</a> <a href="../../tags/Connectivity/" style="font-size: 15px;">Connectivity</a> <a href="../../tags/FAQ/" style="font-size: 11.67px;">FAQ</a> <a href="../../tags/Gateway/" style="font-size: 10px;">Gateway</a> <a href="../../tags/Information/" style="font-size: 10px;">Information</a> <a href="../../tags/Management/" style="font-size: 16.67px;">Management</a> <a href="../../tags/Memory/" style="font-size: 10px;">Memory</a> <a href="../../tags/Metric/" style="font-size: 11.67px;">Metric</a> <a href="../../tags/Migration/" style="font-size: 10px;">Migration</a> <a href="../../tags/Monitor/" style="font-size: 10px;">Monitor</a> <a href="../../tags/Performance/" style="font-size: 15px;">Performance</a> <a href="../../tags/SQL-Database/" style="font-size: 20px;">SQL Database</a> <a href="../../tags/SQL-Managed-Instance/" style="font-size: 18.33px;">SQL Managed Instance</a> <a href="../../tags/Security/" style="font-size: 10px;">Security</a> <a href="../../tags/Support-Request/" style="font-size: 10px;">Support Request</a> <a href="../../tags/Timestamp/" style="font-size: 10px;">Timestamp</a> <a href="../../tags/Troubleshooting/" style="font-size: 16.67px;">Troubleshooting</a> <a href="../../tags/Upgrade/" style="font-size: 10px;">Upgrade</a> <a href="../../tags/Version/" style="font-size: 10px;">Version</a> <a href="../../tags/vulnerability-assessment/" style="font-size: 11.67px;">vulnerability assessment</a> <a href="../../tags/%E3%82%AF%E3%82%A8%E3%83%AA%E3%82%B9%E3%83%88%E3%82%A2/" style="font-size: 13.33px;">クエリストア</a> <a href="../../tags/%E3%82%BF%E3%82%A4%E3%83%A0%E3%82%B9%E3%82%BF%E3%83%B3%E3%83%97/" style="font-size: 10px;">タイムスタンプ</a> <a href="../../tags/%E4%BA%8B%E5%89%8D%E9%80%9A%E7%9F%A5/" style="font-size: 10px;">事前通知</a> <a href="../../tags/%E5%AE%9F%E8%A1%8C%E8%A8%88%E7%94%BB/" style="font-size: 10px;">実行計画</a> <a href="../../tags/%E6%97%A5%E6%99%82/" style="font-size: 10px;">日時</a> <a href="../../tags/%E6%97%A5%E6%9C%AC%E6%A8%99%E6%BA%96%E6%99%82/" style="font-size: 10px;">日本標準時</a>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2024 Microsoft SQL Cloud Support Team<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="../../index.html" class="mobile-nav-link">Home</a>
+  
+    <a href="../../archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+<script src="../../js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
