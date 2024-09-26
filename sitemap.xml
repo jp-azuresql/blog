@@ -44,13 +44,6 @@
   </url>
   
   <url>
-    <loc>https://jp-azuresql.github.io/blog/Connectivity/mi-tcp-connectivity-test/</loc>
-    
-    <lastmod>2024-09-26</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://jp-azuresql.github.io/blog/Information/support-request-guidance/</loc>
     
     <lastmod>2024-09-26</lastmod>
@@ -94,6 +87,20 @@
   
   <url>
     <loc>https://jp-azuresql.github.io/blog/Performance/cpu-usage-high-tsg/</loc>
+    
+    <lastmod>2024-09-26</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://jp-azuresql.github.io/blog/Connectivity/mi-tcp-connectivity-test/</loc>
+    
+    <lastmod>2024-09-26</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://jp-azuresql.github.io/blog/Connectivity/mi-tls-support-ending/</loc>
     
     <lastmod>2024-09-26</lastmod>
     
