@@ -4,24 +4,27 @@
   <meta charset="utf-8">
   
   
-  <title>SQL Managed Instance からストレージアカウントやリンクサーバーへの接続テスト方法 | Japan SQL Cloud Support Blog</title>
+  <title>SQL Managed Instance における拡張イベントの設定手順 | Japan SQL Cloud Support Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="こんにちは。SQL Cloud サポート チームの川野辺です。 今回の投稿では、SQL Managed Instance (SQL MI) から、ストレージアカウントやリンクサーバーに接続できない場合の接続テスト方法に関してご案内します。">
+  <meta name="description" content="こんにちは。SQL Cloud サポート チームの太田です。今回の投稿では、SQL Managed Instance (SQL MI)における拡張イベントの設定方法についてご案内します。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="SQL Managed Instance からストレージアカウントやリンクサーバーへの接続テスト方法">
-<meta property="og:url" content="https://jp-azuresql.github.io/blog/Connectivity/mi-tcp-connectivity-test/index.html">
+<meta property="og:title" content="SQL Managed Instance における拡張イベントの設定手順">
+<meta property="og:url" content="https://jp-azuresql.github.io/blog/Management/mi-extened-event/index.html">
 <meta property="og:site_name" content="Japan SQL Cloud Support Blog">
-<meta property="og:description" content="こんにちは。SQL Cloud サポート チームの川野辺です。 今回の投稿では、SQL Managed Instance (SQL MI) から、ストレージアカウントやリンクサーバーに接続できない場合の接続テスト方法に関してご案内します。">
+<meta property="og:description" content="こんにちは。SQL Cloud サポート チームの太田です。今回の投稿では、SQL Managed Instance (SQL MI)における拡張イベントの設定方法についてご案内します。">
 <meta property="og:locale" content="ja_JP">
-<meta property="og:image" content="https://jp-azuresql.github.io/blog/Connectivity/mi-tcp-connectivity-test/image001.png">
-<meta property="article:published_time" content="2023-05-17T06:00:00.000Z">
-<meta property="article:modified_time" content="2024-09-27T07:29:07.117Z">
+<meta property="og:image" content="https://jp-azuresql.github.io/blog/Management/mi-extened-event/portal_sas.png">
+<meta property="og:image" content="https://jp-azuresql.github.io/blog/Management/mi-extened-event/sas.png">
+<meta property="og:image" content="https://jp-azuresql.github.io/blog/Management/mi-extened-event/sas_string.png">
+<meta property="og:image" content="https://jp-azuresql.github.io/blog/Management/mi-extened-event/ssms_exevent.png">
+<meta property="og:image" content="https://jp-azuresql.github.io/blog/Management/mi-extened-event/exevent_file.png">
+<meta property="article:published_time" content="2024-09-27T06:00:00.000Z">
+<meta property="article:modified_time" content="2024-09-27T07:29:07.119Z">
 <meta property="article:author" content="Microsoft SQL Cloud Support Team">
-<meta property="article:tag" content="Connectivity">
-<meta property="article:tag" content="Troubleshooting">
 <meta property="article:tag" content="SQL Managed Instance">
+<meta property="article:tag" content="Management">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://jp-azuresql.github.io/blog/Connectivity/mi-tcp-connectivity-test/image001.png">
+<meta name="twitter:image" content="https://jp-azuresql.github.io/blog/Management/mi-extened-event/portal_sas.png">
   
     <link rel="alternate" href="../../atom.xml" title="Japan SQL Cloud Support Blog" type="application/atom+xml">
   
@@ -83,7 +86,7 @@
 </header>
 
       <div class="outer">
-        <section id="main"><article id="post-Connectivity/mi-tcp-connectivity-test" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-Management/mi-extened-event" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
     
@@ -92,7 +95,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      SQL Managed Instance からストレージアカウントやリンクサーバーへの接続テスト方法
+      SQL Managed Instance における拡張イベントの設定手順
     </h1>
   
 
@@ -100,54 +103,45 @@
       <div class="article-share">
         Last Update: 
         <a href="" class="article-date-single">
-  <time datetime="2023-05-17T06:00:00.000Z" itemprop="datePublished">2023-05-17</time>
+  <time datetime="2024-09-27T06:00:00.000Z" itemprop="datePublished">2024-09-27</time>
 </a>
         
         
-        <a href="https://github.com/jp-azuresql/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+eef304ae-4561-5a52-8bc4-f13d4c5f3d15%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5BSQL+Managed+Instance+%E3%81%8B%E3%82%89%E3%82%B9%E3%83%88%E3%83%AC%E3%83%BC%E3%82%B8%E3%82%A2%E3%82%AB%E3%82%A6%E3%83%B3%E3%83%88%E3%82%84%E3%83%AA%E3%83%B3%E3%82%AF%E3%82%B5%E3%83%BC%E3%83%90%E3%83%BC%E3%81%B8%E3%81%AE%E6%8E%A5%E7%B6%9A%E3%83%86%E3%82%B9%E3%83%88%E6%96%B9%E6%B3%95%5D%28https%3A%2F%2Fjp-azuresql.github.io%2Fblog%2FConnectivity%2Fmi-tcp-connectivity-test%2F%29%0A*+Content+Source%3A+%5Barticles%2FConnectivity%2Fmi-tcp-connectivity-test.md%5D%28https%3A%2F%2Fgithub.com%2Fjp-azuresql%2Fblog%2Fblob%2Fmain%2Farticles%2FConnectivity%2Fmi-tcp-connectivity-test.md%29%0A*+Author%3A+" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
+        <a href="https://github.com/jp-azuresql/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+5b556dfd-7d58-5bd8-9d8b-ab2396bf5281%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5BSQL+Managed+Instance+%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B%E6%8B%A1%E5%BC%B5%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%81%AE%E8%A8%AD%E5%AE%9A%E6%89%8B%E9%A0%86%5D%28https%3A%2F%2Fjp-azuresql.github.io%2Fblog%2FManagement%2Fmi-extened-event%2F%29%0A*+Content+Source%3A+%5Barticles%2FManagement%2Fmi-extened-event.md%5D%28https%3A%2F%2Fgithub.com%2Fjp-azuresql%2Fblog%2Fblob%2Fmain%2Farticles%2FManagement%2Fmi-extened-event.md%29%0A*+Author%3A+" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
         
-        <a data-url="https://jp-azuresql.github.io/blog/Connectivity/mi-tcp-connectivity-test/" data-id="cm1kejr2t00040npb79v87uey" class="article-share-link">共有</a>
+        <a data-url="https://jp-azuresql.github.io/blog/Management/mi-extened-event/" data-id="cm1kejr2z000d0npbe2owfu22" class="article-share-link">共有</a>
       </div>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>こんにちは。SQL Cloud サポート チームの川野辺です。</p>
-<p>今回の投稿では、SQL Managed Instance (SQL MI) から、ストレージアカウントやリンクサーバーに接続できない場合の接続テスト方法に関してご案内します。</p>
-<span id="more"></span>
+        <p>こんにちは。SQL Cloud サポート チームの太田です。<br>今回の投稿では、SQL Managed Instance (SQL MI)における拡張イベントの設定方法についてご案内します。 </p>
+<span id="more"></span> 
+<h2 id="拡張イベント-XEvents-とは"><a href="#拡張イベント-XEvents-とは" class="headerlink" title="拡張イベント(XEvents)とは"></a>拡張イベント(XEvents)とは</h2><p>拡張イベント(XEvents)はデータベースのパフォーマンス監視やトラブルシューティングに用いられるシステムです。例えば、クエリの実行時間やデッドロックの発生状況など、特定のイベントデータを収集することができます。 </p>
+<p>&lt;関連ドキュメント&gt;<br><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/sql/relational-databases/extended-events/extended-events?view=sql-server-ver16">拡張イベントの概要</a> </p>
+<h2 id="拡張イベントの設定方法"><a href="#拡張イベントの設定方法" class="headerlink" title="拡張イベントの設定方法"></a>拡張イベントの設定方法</h2><p><strong>1. SAS (Shared Access Signature) の取得</strong><br>該当のストレージアカウントの [Shared Access Signature] の画面より、リソースの種類と時刻を設定します。<br>その後、[SAS と接続文字列を生成する] を選択し、生成された[SAS トークン]を控えておきます。 </p>
+<p><img src="./portal_sas.png"></p>
+<p><img src="./sas.png"></p>
+<p><strong>2. クレデンシャルの作成</strong><br>以下の T-SQL の&lt;&gt;内をご自身のストレージアカウント名、トークンに変更します（&lt;&gt;は不要です）。SAS トークンは ? を除く sv から始まる部分を記載してください。 </p>
+<p><img src="./sas_string.png"></p>
+<p>その後、SQL Server Management Studio(SSMS) から、SQL MI の master データベースに対して以下のクエリを実行します。 </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">IF <span class="keyword">EXISTS</span> </span><br><span class="line"> (<span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> sys.credentials <span class="keyword">WHERE</span> name <span class="operator">=</span> <span class="string">&#x27;&lt;ご自身のストレージアカウント名&gt;&#x27;</span>) </span><br><span class="line"><span class="keyword">BEGIN</span> </span><br><span class="line"> <span class="keyword">DROP</span> CREDENTIAL [<span class="operator">&lt;</span>ご自身のストレージアカウント名<span class="operator">&gt;</span>] ; </span><br><span class="line"><span class="keyword">END</span> </span><br><span class="line">GO </span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> CREDENTIAL [<span class="operator">&lt;</span>ご自身のストレージアカウント名<span class="operator">&gt;</span>]</span><br><span class="line"><span class="keyword">WITH</span> <span class="keyword">IDENTITY</span><span class="operator">=</span><span class="string">&#x27;SHARED ACCESS SIGNATURE&#x27;</span>,</span><br><span class="line">SECRET <span class="operator">=</span> <span class="string">&#x27;&lt;SAS トークン&gt;&#x27;</span> </span><br></pre></td></tr></table></figure>
 
-<h2 id="実施手順"><a href="#実施手順" class="headerlink" title="実施手順"></a>実施手順</h2><hr>
-<p>SQL MI はサブネット内にデプロイされるため、BULK INSERT などでストレージアカウントやリンクサーバーで異なる SQL MI などの外部リソースにアクセスを行う場合、サブネット内の SQL MI からの接続を許可するようにネットワークの構成を設定する必要があります。<br>その際、当該 SQL MI から外部リソースへの接続可否、および、名前解決結果を確認するため、以下の手順を活用いただけます。<br>なお、以下では PowerShell の Test-NetConnection コマンドレットを呼び出すジョブを SQL Managed Instance に作成し実行することで、実際に SQL MI から外部リソースへの接続可否、および、名前解決結果を確認します。</p>
-<ol>
-<li><p>対象インスタンスに接続します。</p>
-</li>
-<li><p>以下のコマンドの @endpoint に接続対象のエンドポイント (以下の例ではストレージアカウントの myaccount1.blob.core.windows.net) を指定し、スクリプトを実行ください。<br>@port には、BULK INSERT などを目的にストレージアカウントに接続する際には 443 ポート、リンクサーバーに対するテストは 1433 ポートを指定してください。</p>
-</li>
-</ol>
-<table>
-<thead>
-<tr>
-<th>接続テスト先</th>
-<th>Port</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>ストレージアカウント</td>
-<td>443</td>
-</tr>
-<tr>
-<td>リンクサーバー</td>
-<td>1433</td>
-</tr>
-</tbody></table>
-<p>以下にご案内しているスクリプトは、こちらで管理されておりますので、必要に応じてご参照ください。<br><a target="_blank" rel="noopener" href="https://github.com/Azure/sqlmi/blob/main/how-to/how-to-test-tcp-connection-from-mi/TestTCPNetworkConnection.sql">https://github.com/Azure/sqlmi/blob/main/how-to/how-to-test-tcp-connection-from-mi/TestTCPNetworkConnection.sql</a></p>
-<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">--<span class="built_in">START</span></span><br><span class="line">-- Parameters</span><br><span class="line">DECLARE @endpoint NVARCHAR(<span class="number">512</span>) = N&#x27;myaccount1.blob.core.windows.<span class="built_in">net</span>&#x27;</span><br><span class="line">DECLARE @port NVARCHAR(<span class="number">5</span>) = N&#x27;<span class="number">443</span>&#x27;</span><br><span class="line"></span><br><span class="line">--Script</span><br><span class="line">DECLARE @jobName NVARCHAR(<span class="number">512</span>) = N&#x27;TestTCPNetworkConnection&#x27;, @jobId BINARY(<span class="number">16</span>), @<span class="built_in">cmd</span> NVARCHAR(MAX)</span><br><span class="line"><span class="keyword">IF</span> EXISTS (SELECT job_id FROM msdb.dbo.sysjobs_view WHERE name = @jobName)</span><br><span class="line">EXEC msdb.dbo.sp_delete_job @job_name=@jobName, @delete_unused_schedule=<span class="number">1</span></span><br><span class="line">EXEC msdb.dbo.sp_add_job @job_name=@jobName, @enabled=<span class="number">1</span>, @job_id = @jobId OUTPUT</span><br><span class="line">DECLARE @stepName NVARCHAR(<span class="number">512</span>) = @endpoint + N&#x27;:&#x27; + @port</span><br><span class="line"><span class="built_in">SET</span> @<span class="built_in">cmd</span> = (N&#x27;tnc &#x27; + @endpoint + N&#x27; -port &#x27; + @port +&#x27; | select ComputerName, RemoteAddress, TcpTestSucceeded | <span class="built_in">Format</span>-List&#x27;)</span><br><span class="line">EXEC msdb.dbo.sp_add_jobstep @job_id=@jobId, @step_name=@stepName</span><br><span class="line">, @step_id=<span class="number">1</span>, @cmdexec_success_code=<span class="number">0</span>, @subsystem=N&#x27;PowerShell&#x27;, @command=@<span class="built_in">cmd</span>, @database_name=N&#x27;master&#x27;</span><br><span class="line"></span><br><span class="line">EXEC msdb.dbo.sp_add_jobserver @job_id = @jobId, @server_name = N&#x27;(local)&#x27;</span><br><span class="line">EXEC msdb.dbo.sp_start_job @job_name=@jobName</span><br><span class="line"></span><br><span class="line">--Check status every <span class="number">5</span> seconds</span><br><span class="line">DECLARE @RunStatus INT </span><br><span class="line"><span class="built_in">SET</span> @RunStatus=<span class="number">10</span></span><br><span class="line">WHILE ( @RunStatus &gt;= <span class="number">4</span>)</span><br><span class="line">BEGIN</span><br><span class="line">SELECT distinct @RunStatus  = run_status</span><br><span class="line">FROM [msdb].[dbo].[sysjobhistory] JH JOIN [msdb].[dbo].[sysjobs] J ON JH.job_id= J.job_id </span><br><span class="line">WHERE J.name=@jobName and step_id = <span class="number">0</span></span><br><span class="line">WAITFOR DELAY &#x27;<span class="number">00</span>:<span class="number">00</span>:<span class="number">05</span>&#x27;; </span><br><span class="line">END</span><br><span class="line"></span><br><span class="line">--Get logs once job completes</span><br><span class="line">SELECT [step_name] AS [Endpoint]</span><br><span class="line">,SUBSTRING([message], CHARINDEX(&#x27;TcpTestSucceeded&#x27;,[message]), CHARINDEX(&#x27;Process <span class="keyword">Exit</span>&#x27;,[message])-CHARINDEX(&#x27;TcpTestSucceeded&#x27;,[message])) as TcpTestResult</span><br><span class="line">,SUBSTRING([message], CHARINDEX(&#x27;RemoteAddress&#x27;,[message]), CHARINDEX(&#x27;TcpTestSucceeded&#x27;,[message])-CHARINDEX(&#x27;RemoteAddress&#x27;,[message])) as RemoteAddressResult</span><br><span class="line">,[run_status] ,[run_duration], [message]</span><br><span class="line">FROM [msdb].[dbo].[sysjobhistory] JH JOIN [msdb].[dbo].[sysjobs] J ON JH.job_id= J.job_id</span><br><span class="line">WHERE J.name=@jobName and step_id &lt;&gt; <span class="number">0</span></span><br><span class="line">--END</span><br></pre></td></tr></table></figure>
+<p>実行例）<br>ストレージアカウント名：<a target="_blank" rel="noopener" href="https://myblogstorage.blob.core.windows.net/myfolder">https://myblogstorage.blob.core.windows.net/myfolder</a><br>SAS トークン：sv=2018-03-28&amp;ss=bfqt&amp;srt=sco&amp;sp=rwdlacup&amp;se=2019-07-23T23:29:33Z&amp;st=2019-07-09T15:29:33Z&amp;spr=https&amp;sig=…%%3D </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">IF <span class="keyword">EXISTS</span> </span><br><span class="line"> (<span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> sys.credentials <span class="keyword">WHERE</span> name <span class="operator">=</span> <span class="string">&#x27;https://myblogstorage.blob.core.windows.net/myfolder&#x27;</span>) </span><br><span class="line"><span class="keyword">BEGIN</span> </span><br><span class="line"> <span class="keyword">DROP</span> CREDENTIAL [https:<span class="operator">/</span><span class="operator">/</span>myblogstorage.blob.core.windows.net<span class="operator">/</span>myfolder] ; </span><br><span class="line"><span class="keyword">END</span> </span><br><span class="line">GO </span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> CREDENTIAL [https:<span class="operator">/</span><span class="operator">/</span>myblogstorage.blob.core.windows.net<span class="operator">/</span>myfolder] </span><br><span class="line"><span class="keyword">WITH</span> <span class="keyword">IDENTITY</span><span class="operator">=</span><span class="string">&#x27;SHARED ACCESS SIGNATURE&#x27;</span>, </span><br><span class="line">SECRET <span class="operator">=</span> <span class="string">&#x27;sv=2018-03-28&amp;ss=bfqt&amp;srt=sco&amp;sp=rwdlacup&amp;se=2019-07-23T23:29:33Z&amp;st=2019-07-09T15:29:33Z&amp;spr=https&amp;sig=...%%3D&#x27;</span> </span><br></pre></td></tr></table></figure>
 
-<h2 id="出力結果の確認方法"><a href="#出力結果の確認方法" class="headerlink" title="出力結果の確認方法"></a>出力結果の確認方法</h2><hr>
-<p>上記のコマンドを実行すると、以下のような出力結果が得られます。こちらのスクリーンショットでは、ストレージアカウントへの接続テストの結果を紹介しています。<br>TcpTestSucceeded : True が想定される結果となりますが、False となっていた場合、TCP レベルでの接続が失敗していることを示します。そのため、ネットワークセキュリテイグループ (NSG) やルートテーブルの見直しを実施ください。<br>また、RemoteAddressResult には、接続先のエンドポイントに対する名前解決の結果が表示されます。こちらの結果が得られない場合や想定される結果でない場合は、名前解決の設定が適切でない場合がありますので、DNS サーバーなどの見直しを実施ください。</p>
-<p><img src="/blog/Connectivity/mi-tcp-connectivity-test/image001.png"></p>
-<h2 id="参考情報"><a href="#参考情報" class="headerlink" title="参考情報"></a>参考情報</h2><hr>
-<p>こちらの内容は、以下のブログ記事を参考に作成しています。</p>
-<p><a target="_blank" rel="noopener" href="https://techcommunity.microsoft.com/t5/azure-sql-blog/how-to-test-tcp-connectivity-from-a-sql-managed-instance/ba-p/3058458">https://techcommunity.microsoft.com/t5/azure-sql-blog/how-to-test-tcp-connectivity-from-a-sql-managed-instance/ba-p/3058458</a></p>
+<p><strong>3. 拡張イベントの作成</strong><br>以下のクエリを実行してください。filename については該当のストレージアカウントを指定ください。以下はサンプルのクエリとなりますので、取得したいイベントに合わせて設定してください。 </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> EVENT SESSION [<span class="number">01</span>Xevent] <span class="keyword">ON</span> SERVER  </span><br><span class="line"><span class="keyword">ADD</span> EVENT sqlserver.rpc_completed( </span><br><span class="line"> ACTION(package0.event_sequence,sqlserver.client_app_name,sqlserver.client_hostname,sqlserver.database_name,sqlserver.query_hash,sqlserver.query_plan_hash,sqlserver.request_id,sqlserver.session_id,sqlserver.sql_text,sqlserver.username)), </span><br><span class="line"><span class="keyword">ADD</span> EVENT sqlserver.sql_batch_completed( </span><br><span class="line"> ACTION(package0.event_sequence,sqlserver.client_app_name,sqlserver.client_hostname,sqlserver.database_name,sqlserver.query_hash,sqlserver.query_plan_hash,sqlserver.request_id,sqlserver.session_id,sqlserver.sql_text,sqlserver.username)) </span><br><span class="line"><span class="keyword">ADD</span> TARGET package0.asynchronous_file_target( </span><br><span class="line"><span class="keyword">SET</span> filename<span class="operator">=</span><span class="string">&#x27;&lt;ご自身のストレージアカウント名&gt;/XEvent1.xel&#x27;</span>) </span><br><span class="line"><span class="keyword">WITH</span> (MAX_MEMORY<span class="operator">=</span><span class="number">4096</span> KB,EVENT_RETENTION_MODE<span class="operator">=</span>ALLOW_SINGLE_EVENT_LOSS,MAX_DISPATCH_LATENCY<span class="operator">=</span><span class="number">30</span> SECONDS,MAX_EVENT_SIZE<span class="operator">=</span><span class="number">0</span> KB,MEMORY_PARTITION_MODE<span class="operator">=</span><span class="keyword">NONE</span>,TRACK_CAUSALITY<span class="operator">=</span><span class="keyword">ON</span>,STARTUP_STATE<span class="operator">=</span>OFF) </span><br></pre></td></tr></table></figure>
+
+<p>設定後、SSMS の「拡張イベント」の「セッション」において、適切に作成されていることを確認してください。 </p>
+<p><strong>4. 拡張イベントの実行</strong><br>以下のクエリを実行してください。拡張イベントセッションが開始され、以下の画像のようにセッションが表示されます。 </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> EVENT SESSION [<span class="number">01</span>Xevent] <span class="keyword">ON</span> server STATE <span class="operator">=</span> <span class="keyword">START</span>; </span><br></pre></td></tr></table></figure>
+
+<p><img src="./ssms_exevent.png"> </p>
+<p><strong>5. 拡張イベントの停止</strong><br>以下のクエリを実行いただくことで、拡張イベントセッションを停止することができます。 </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> EVENT SESSION [<span class="number">01</span>Xevent] <span class="keyword">ON</span> server STATE <span class="operator">=</span> STOP; </span><br></pre></td></tr></table></figure>
+
+<p><strong>6. 拡張イベントの確認</strong><br>取得した拡張イベントは、指定したストレージアカウントのコンテナーの配下にファイルが作成されます。<br>こちらをダウンロードすると、ファイルを開いて中身を確認することが可能です。</p>
+<p><img src="./exevent_file.png"> </p>
 
       
       
@@ -161,10 +155,10 @@
     <footer class="article-footer">
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Connectivity/" rel="tag">Connectivity</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/SQL-Managed-Instance/" rel="tag">SQL Managed Instance</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Troubleshooting/" rel="tag">Troubleshooting</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Management/" rel="tag">Management</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/SQL-Managed-Instance/" rel="tag">SQL Managed Instance</a></li></ul>
 
         
-        <a href="https://github.com/jp-azuresql/blog/edit/main/articles/Connectivity/mi-tcp-connectivity-test.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
+        <a href="https://github.com/jp-azuresql/blog/edit/main/articles/Management/mi-extened-event.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
         
     </footer>
   </div>
@@ -172,19 +166,10 @@
     
 <nav id="article-nav">
   
-    <a href="../../Performance/memory-usage/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">次の記事</strong>
-      <div class="article-nav-title">
-        
-          Azure SQL Database / SQL Managed Instance ではメモリ使用率の監視は不要です
-        
-      </div>
-    </a>
   
-  
-    <a href="../../Management/version/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="../../Connectivity/mi-tls-support-ending/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">前の記事</strong>
-      <div class="article-nav-title">Azure SQL Database / SQL Managed Instance のバージョンに関して</div>
+      <div class="article-nav-title">TLS 1.0/1.1の廃止と通信プロトコルの確認方法</div>
     </a>
   
 </nav>
@@ -203,23 +188,23 @@
       <ul>
         
           <li>
-            <a href="../../Management/mi-extened-event/">SQL Managed Instance における拡張イベントの設定手順</a>
+            <a href="">SQL Managed Instance における拡張イベントの設定手順</a>
           </li>
         
           <li>
-            <a href="../mi-tls-support-ending/">TLS 1.0/1.1の廃止と通信プロトコルの確認方法</a>
+            <a href="../../Connectivity/mi-tls-support-ending/">TLS 1.0/1.1の廃止と通信プロトコルの確認方法</a>
           </li>
         
           <li>
-            <a href="../connectivity-initial-investigation/">接続エラー発生時の初動調査</a>
+            <a href="../../Connectivity/connectivity-initial-investigation/">接続エラー発生時の初動調査</a>
           </li>
         
           <li>
-            <a href="../../Management/TDE_backup/">Azure SQL Managed Instance上で透過的なデータベース暗号化(TDE)により保護されたデータベースのCOPY_ONLYバックアップをとる</a>
+            <a href="../TDE_backup/">Azure SQL Managed Instance上で透過的なデータベース暗号化(TDE)により保護されたデータベースのCOPY_ONLYバックアップをとる</a>
           </li>
         
           <li>
-            <a href="../../Management/timezone/">Azure SQL Database のタイムゾーンは UTC で変更できません、日本時間（JST）を取得する場合は変換が必要です</a>
+            <a href="../timezone/">Azure SQL Database のタイムゾーンは UTC で変更できません、日本時間（JST）を取得する場合は変換が必要です</a>
           </li>
         
       </ul>
