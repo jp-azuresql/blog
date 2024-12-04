@@ -9,10 +9,7 @@ tags:
 --- 
 
 </BR>
-
-
 SQL Managed Instance (SQL MI) の計画メンテナンスの一覧を取得する方法を紹介します。    
-
 </BR>
 <!-- more --> 
 
