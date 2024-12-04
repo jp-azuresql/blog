@@ -15,7 +15,8 @@ SQL Managed Instance (SQL MI) の計画メンテナンスの一覧を取得す�
 
 </BR>
 <!-- more --> 
-##　手順 
+
+## 手順 
 
 **1. Azure Resource Graph Explorer への接続**  
 
