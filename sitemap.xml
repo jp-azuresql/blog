@@ -23,6 +23,13 @@
   </url>
   
   <url>
+    <loc>https://jp-azuresql.github.io/blog/Performance/show-execution-plan/</loc>
+    
+    <lastmod>2024-12-04</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://jp-azuresql.github.io/blog/Performance/memory-usage/</loc>
     
     <lastmod>2024-12-04</lastmod>
@@ -37,7 +44,42 @@
   </url>
   
   <url>
-    <loc>https://jp-azuresql.github.io/blog/Performance/show-execution-plan/</loc>
+    <loc>https://jp-azuresql.github.io/blog/Management/mi-list-maintenance/</loc>
+    
+    <lastmod>2024-12-04</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://jp-azuresql.github.io/blog/Management/timezone/</loc>
+    
+    <lastmod>2024-12-04</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://jp-azuresql.github.io/blog/Management/version/</loc>
+    
+    <lastmod>2024-12-04</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://jp-azuresql.github.io/blog/Performance/cpu-usage-high-tsg/</loc>
+    
+    <lastmod>2024-12-04</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://jp-azuresql.github.io/blog/Connectivity/mi-tcp-connectivity-test/</loc>
+    
+    <lastmod>2024-12-04</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://jp-azuresql.github.io/blog/Connectivity/mi-tls-support-ending/</loc>
     
     <lastmod>2024-12-04</lastmod>
     
@@ -79,49 +121,7 @@
   </url>
   
   <url>
-    <loc>https://jp-azuresql.github.io/blog/Management/mi-list-maintenance/</loc>
-    
-    <lastmod>2024-12-04</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://jp-azuresql.github.io/blog/Management/timezone/</loc>
-    
-    <lastmod>2024-12-04</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://jp-azuresql.github.io/blog/Management/version/</loc>
-    
-    <lastmod>2024-12-04</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://jp-azuresql.github.io/blog/Performance/cpu-usage-high-tsg/</loc>
-    
-    <lastmod>2024-12-04</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://jp-azuresql.github.io/blog/Connectivity/gateway-ip-migration-2023/</loc>
-    
-    <lastmod>2024-12-04</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://jp-azuresql.github.io/blog/Connectivity/mi-tcp-connectivity-test/</loc>
-    
-    <lastmod>2024-12-04</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://jp-azuresql.github.io/blog/Connectivity/mi-tls-support-ending/</loc>
     
     <lastmod>2024-12-04</lastmod>
     
