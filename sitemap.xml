@@ -23,13 +23,6 @@
   </url>
   
   <url>
-    <loc>https://jp-azuresql.github.io/blog/Performance/show-execution-plan/</loc>
-    
-    <lastmod>2024-12-28</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://jp-azuresql.github.io/blog/Performance/memory-usage/</loc>
     
     <lastmod>2024-12-28</lastmod>
@@ -44,35 +37,14 @@
   </url>
   
   <url>
-    <loc>https://jp-azuresql.github.io/blog/Management/mi-list-maintenance/</loc>
+    <loc>https://jp-azuresql.github.io/blog/Performance/query-timeout-tsg/</loc>
     
     <lastmod>2024-12-28</lastmod>
     
   </url>
   
   <url>
-    <loc>https://jp-azuresql.github.io/blog/Management/timezone/</loc>
-    
-    <lastmod>2024-12-28</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://jp-azuresql.github.io/blog/Management/version/</loc>
-    
-    <lastmod>2024-12-28</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://jp-azuresql.github.io/blog/Performance/cpu-usage-high-tsg/</loc>
-    
-    <lastmod>2024-12-28</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://jp-azuresql.github.io/blog/Connectivity/mi-tcp-connectivity-test/</loc>
+    <loc>https://jp-azuresql.github.io/blog/Performance/show-execution-plan/</loc>
     
     <lastmod>2024-12-28</lastmod>
     
@@ -121,7 +93,42 @@
   </url>
   
   <url>
+    <loc>https://jp-azuresql.github.io/blog/Management/mi-list-maintenance/</loc>
+    
+    <lastmod>2024-12-28</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://jp-azuresql.github.io/blog/Management/timezone/</loc>
+    
+    <lastmod>2024-12-28</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://jp-azuresql.github.io/blog/Management/version/</loc>
+    
+    <lastmod>2024-12-28</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://jp-azuresql.github.io/blog/Performance/cpu-usage-high-tsg/</loc>
+    
+    <lastmod>2024-12-28</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://jp-azuresql.github.io/blog/Connectivity/gateway-ip-migration-2023/</loc>
+    
+    <lastmod>2024-12-28</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://jp-azuresql.github.io/blog/Connectivity/mi-tcp-connectivity-test/</loc>
     
     <lastmod>2024-12-28</lastmod>
     
@@ -341,6 +348,20 @@
   
   <url>
     <loc>https://jp-azuresql.github.io/blog/tags/Monitor/</loc>
+    <lastmod>2024-12-28</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jp-azuresql.github.io/blog/tags/%E3%82%B3%E3%83%9E%E3%83%B3%E3%83%89%E3%82%BF%E3%82%A4%E3%83%A0%E3%82%A2%E3%82%A6%E3%83%88/</loc>
+    <lastmod>2024-12-28</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jp-azuresql.github.io/blog/tags/%E5%AE%9F%E8%A1%8C%E3%82%BF%E3%82%A4%E3%83%A0%E3%82%A2%E3%82%A6%E3%83%88/</loc>
     <lastmod>2024-12-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
