@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>並列クエリにおける CXSYNC_PORT 待ち | Japan SQL Cloud Support Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="適用対象SQL Managed InstanceSQL DatabaseSQL Server 2022 以降">
+<meta property="og:type" content="article">
+<meta property="og:title" content="並列クエリにおける CXSYNC_PORT 待ち">
+<meta property="og:url" content="https://jp-azuresql.github.io/blog/Performance/parallel-query-waits/index.html">
+<meta property="og:site_name" content="Japan SQL Cloud Support Blog">
+<meta property="og:description" content="適用対象SQL Managed InstanceSQL DatabaseSQL Server 2022 以降">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:image" content="https://jp-azuresql.github.io/blog/Performance/parallel-query-waits/threads.png">
+<meta property="og:image" content="https://jp-azuresql.github.io/blog/Performance/parallel-query-waits/multiple-parallelism.png">
+<meta property="og:image" content="https://jp-azuresql.github.io/blog/Performance/parallel-query-waits/syncport.PNG">
+<meta property="article:published_time" content="2025-01-05T15:00:00.000Z">
+<meta property="article:modified_time" content="2025-01-06T06:17:08.825Z">
+<meta property="article:author" content="Microsoft SQL Cloud Support Team">
+<meta property="article:tag" content="SQL Database">
+<meta property="article:tag" content="SQL Managed Instance">
+<meta property="article:tag" content="Performance">
+<meta property="article:tag" content="Waits">
+<meta property="article:tag" content="待機">
+<meta property="article:tag" content="Parallel Query">
+<meta property="article:tag" content="並列クエリ">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jp-azuresql.github.io/blog/Performance/parallel-query-waits/threads.png">
+  
+    <link rel="alternate" href="../../atom.xml" title="Japan SQL Cloud Support Blog" type="application/atom+xml">
+  
+
+  <link rel="icon" href="../../favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+  <link rel="manifest" href="../../site.webmanifest">
+  <link rel="mask-icon" href="../../safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="theme-color" content="#ffffff">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="../../css/style.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="site-header-logo"></div>
+  <div id="site-header-blog-wrapper"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        <div id="ms-logo"></div>
+        
+          <a class="main-nav-link" href="/blog/">Home</a>
+        
+          <a class="main-nav-link" href="/blog/archives">Archives</a>
+        
+        <a class="main-nav-link" target="_blank" rel="noopener" href="https://cssjpn.github.io/">サポート情報</a>
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="../../atom.xml" title="RSSフィード"></a>
+        
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//www.bing.com/search" method="get" accept-charset="UTF-8" name="bing-search" onsubmit="var f=this;if(f['q'].value){var searchUrl =  'https://www.bing.com/search?q=' +  encodeURIComponent(f['q'].value + ' site:' + f['sitesearch'].value) ;window.open(searchUrl, 'blank') };return false;" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="検索"><button type="submit" id="nav-search-btn" class="search-form-submit"></button><input type="hidden" name="sitesearch" value="https://jp-azuresql.github.io/blog"></form>
+      </div>
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="../../index.html" id="logo">Japan SQL Cloud Support Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="../../index.html" id="subtitle">日本マイクロソフト SQL Cloud チームによるサポートブログです。</a>
+        </h2>
+      
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Performance/parallel-query-waits" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header-single">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      並列クエリにおける CXSYNC_PORT 待ち
+    </h1>
+  
+
+      </header>
+      <div class="article-share">
+        Last Update: 
+        <a href="" class="article-date-single">
+  <time datetime="2025-01-05T15:00:00.000Z" itemprop="datePublished">2025-01-06</time>
+</a>
+        
+        
+        <a href="https://github.com/jp-azuresql/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+3674fbe6-8944-5a61-925d-2e837c050055%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5B%E4%B8%A6%E5%88%97%E3%82%AF%E3%82%A8%E3%83%AA%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B+CXSYNC_PORT+%E5%BE%85%E3%81%A1%5D%28https%3A%2F%2Fjp-azuresql.github.io%2Fblog%2FPerformance%2Fparallel-query-waits%2F%29%0A*+Content+Source%3A+%5Barticles%2FPerformance%2Fparallel-query-waits.md%5D%28https%3A%2F%2Fgithub.com%2Fjp-azuresql%2Fblog%2Fblob%2Fmain%2Farticles%2FPerformance%2Fparallel-query-waits.md%29%0A*+Author%3A+" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
+        
+        <a data-url="https://jp-azuresql.github.io/blog/Performance/parallel-query-waits/" data-id="cm5kng80r000q0nmz6u3r84rc" class="article-share-link">共有</a>
+      </div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        </BR>
+
+<p><strong>適用対象</strong><br>SQL Managed Instance<br>SQL Database<br>SQL Server 2022 以降</p>
+<span id="more"></span>
+
+</BR>
+</BR>
+
+<h2 id="初めに"><a href="#初めに" class="headerlink" title="初めに"></a>初めに</h2><p>この投稿は、実行プランを見てクエリがどのように実行されているのかを理解できることを前提としています。<br>実行プランの見方が分からない場合は、この投稿の前に以下の文書を読んで下さい。</p>
+<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/archive/blogs/jpsql/1">実行プランを読む - 基本編 (その 1)</a><br><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/archive/blogs/jpsql/2">実行プランを読む - 基本編 (その 2)</a></p>
+<p>以下の文書については、この投稿を読む上では必しも必要ではありませんが、上の 2 つの文書の関連となりますので参考としてここで紹介します。</p>
+<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/archive/blogs/jpsql/3">実行プランを読む - 基本編 (その 3)</a><br><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/archive/blogs/jpsql/4">実行プランを読む - 基本編 (その 4)</a></p>
+</BR>
+
+<h2 id="並列クエリ"><a href="#並列クエリ" class="headerlink" title="並列クエリ"></a>並列クエリ</h2><p>ひとつのクエリは通常ひとつのスレッドによって実行されますが、アクセス対象データ量が多いことが想定される場合、一つのクエリが複数のスレッドによって実行されることがあります。このようなクエリは並列クエリ (parallel query) と呼ばれます。</p>
+<p>並列クエリの実行プランには Parallelism 物理オペレーター (以降 Parallelism) が必ず含まれます。</p>
+</BR>
+
+<h2 id="スレッド間でのデータの受け渡し"><a href="#スレッド間でのデータの受け渡し" class="headerlink" title="スレッド間でのデータの受け渡し"></a>スレッド間でのデータの受け渡し</h2><p>Parallelism では、Parallelism の右側 (実行プラン内の下位) を実行する子スレッドから左側 (実行プラン内の上位) を実行する親スレッドへデータが渡されます。スレッド間でデータ交換を行うという観点から、Parallelism は Exchange とも呼ばれます。<br>子スレッドはデータを生成するという意味で Producer (生産者) と呼ばれ、親スレッドはデータを消費するという意味で Consumer (消費者) と呼ばれます。</p>
+<p>例えば、以下の実行プランが並列度 4 (degree of parallelism または DOP = 4) で実行された場合には、クエリの実行が開始され、メインスレッドが Parallelism に到達すると、並列度数に従って 4 つの子スレッドを起動します、従って、このクエリは、メインスレッド 1 つと子スレッド 4 つの合計 5 つのスレッドによって実行されることになります。<br>Producer は Parallelism の右側にある Sort - Filter - Table Scan を実行して Parallelism 上で Consumer に行を渡し、Consumer は 4 つの Producer から受け取った行をソート順を維持したままマージしてクエリの最終結果を生成し、クライアントに送ります。</p>
+</BR>
+
+<p><img src="/blog/Performance/parallel-query-waits/threads.png"></p>
+</BR>
+
+<p>Producer, Consumer は Parallelism 上での役割を表す表現であるため、実行プラン内に複数の Parallelism がある場合には、上位の Parallelism における Procuder は、下位の Parallelism では Consumer になります。</p>
+</BR>
+
+<p><img src="/blog/Performance/parallel-query-waits/multiple-parallelism.png"></p>
+</BR>
+
+
+<h2 id="CXSYNC-PORT-待ちとはどのような状態を示しているのか？"><a href="#CXSYNC-PORT-待ちとはどのような状態を示しているのか？" class="headerlink" title="CXSYNC_PORT 待ちとはどのような状態を示しているのか？"></a>CXSYNC_PORT 待ちとはどのような状態を示しているのか？</h2><p>並列クエリ固有の待ち状態である CXSYNC_PORT 待ちは、並列クエリを実行する各スレッドが、「自分自身はデータの受け渡しを開始できる状態になったので、他のすべてのスレッドもデータの受け渡しを開始できる状態になるのを待っている状態」です。もう少し実装寄りの表現を用いるなら、この Parallelism 上でデータ交換を行うすべてのスレッドがオペレーターの Open 呼び出しを完了して Exchange Port を Open するのを待っている状態です。</p>
+<p>すべてのスレッドがデータの受け渡しを開始できる状態になれば、実際のスレッド間データ受け渡しを含む処理を開始することが可能になりますので、その時点でこの待ちは解消します。</p>
+</BR>
+
+<h2 id="CXSYNC-PORT-待ちが発生した時に何か対処する必要があるのか？"><a href="#CXSYNC-PORT-待ちが発生した時に何か対処する必要があるのか？" class="headerlink" title="CXSYNC_PORT 待ちが発生した時に何か対処する必要があるのか？"></a>CXSYNC_PORT 待ちが発生した時に何か対処する必要があるのか？</h2><p>「CXSYNC_PORT 待ちは並列クエリ固有の待ちなのでこの待ちの原因は並列クエリであることだ。だから並列クエリをやめるために MAXDOP を 1 にする必要がある」や「MAXDOP を下げる必要がある」と短絡的に考える人がいますが、CXSYNC_PORT 待ちの発生が観察された時に対処の必要があるかどうかは、そのクエリの実行プランや各スレッドの実行状況に依存します。</p>
+<p>CXSYNC_PORT 待ちに対して何も対処を行わなかったとしても、そのクエリを単一スレッドで実行するよりも並列クエリとして実行した方が短時間でクエリを完了できる場合も多くあります。実行プランによってはそもそも対処の必要がない (CXSYNC_PORT 待ちをなくす必要がない) 場合もあります。また、何らかの対処を行った方がいい場合であっても、CXSYNC_PORT 待ちの原因が CXSYNC_PORT 待ちそのものにあることは稀で、ほとんどの場合は他にあります。</p>
+</BR>
+
+<h2 id="CXSYNC-PORT-待ちが発生した時の確認ポイント"><a href="#CXSYNC-PORT-待ちが発生した時の確認ポイント" class="headerlink" title="CXSYNC_PORT 待ちが発生した時の確認ポイント"></a>CXSYNC_PORT 待ちが発生した時の確認ポイント</h2></BR>
+
+<h4 id="確認ポイント-1-Stop-and-Go-オペレータを含む実行プランであるか"><a href="#確認ポイント-1-Stop-and-Go-オペレータを含む実行プランであるか" class="headerlink" title="- 確認ポイント 1: Stop and Go オペレータを含む実行プランであるか"></a>- 確認ポイント 1: Stop and Go オペレータを含む実行プランであるか</h4><p>例えば、以下の実行プランは Stop and Go オペレーターのひとつである Sort が子スレッドによって実行されています。Sort は指定されている順番に行を並べ、親オペレーターに対してソート順を維持したまま行を渡す必要があります。そのため、Sort がデータの受け渡しを開始できるようになるのは、すべての対象行を読み込んで指定されている順番に並び替えた後です。言い換えれば、Sort の Open から復帰した後です。<br>前述の通り、CXSYNC_PORT 待ちはすべてのスレッドがデータの受け渡しが可能になるのを待っている状態 (オペレーターの Open が完了して Port の Open をした状態) です。この例でいえば、各 Producer (Thread 1 ～ 4) は 50000 前後の行を読み取って並べ替えていますが、この 4 つの Producer スレッドすべてがこの処理を完了させるまでは Consumer (Thread 0) は CXSYNC_PORT 待ちです。つまり、このクエリは Consumer が CXSYNC_PORT 待ちの間にクエリ処理のほとんどを完了しており、CXSYNC_PORT 待ちが解消した後に行う必要のある処理は、Consumer が Producer 達からソート済みの結果を受け取って、ソート順を崩さないようにマージしてクライアントへ返送するだけです。</p>
+<p>このようなクエリについては、Consumer はクエリ全体の実行時間の多くを CXSYNC_PORT 待ちの状態で過ごすことが想定され、必ずしも CXSYNC_PORT 待ちを解消するために何かをする必要はない可能性があります。</p>
+<p><img src="/blog/Performance/parallel-query-waits/syncport.PNG"></p>
+<div class="alert is-info"><p class="alert-title">Note</p><p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/sql/relational-databases/system-dynamic-management-views/sys-dm-os-wait-stats-transact-sql?view=sql-server-ver16">sys.dm_os_wait_stats (Transact-SQL)</a> の CXSYNC_PORT の説明に「クエリ プランに長い並べ替え操作がある場合、Exchange 反復子ポートを同期する前に並べ替えを完了する必要があるため、 CXSYNC_PORT 待機が高くなる可能性があります。」(if a query plan has a long sort operation, CXSYNC_PORT waits might be higher because the sort must complete before the Exchange Iterator port can be synchronized.) と書かれているのはこの状況を指しています。</p></div>
+</BR>
+
+<h4 id="確認ポイント-2-CXSYNC-PORT-待ちの原因となっているスレッドが何かを待っていないか"><a href="#確認ポイント-2-CXSYNC-PORT-待ちの原因となっているスレッドが何かを待っていないか" class="headerlink" title="- 確認ポイント 2: CXSYNC_PORT 待ちの原因となっているスレッドが何かを待っていないか"></a>- 確認ポイント 2: CXSYNC_PORT 待ちの原因となっているスレッドが何かを待っていないか</h4><p>CXSYNC_PORT 待ちになるのは Consumer だけとは限らず、Procuder が CXSYNC_PORT 待ちになる場合もあります。例えば、前述の例で、ひとつの Producer の処理が他の Producerよりも時間がかかる状況になれば、Consumer と先に処理を完了した Producer は CXSYNC_PORT 待ちになります。この状況の場合、対処すべきポイントとなる可能性があるのは CXSYNC_PORT 待ちのスレッドではなく、処理に時間のかかっている CXSYNC_PORT 待ちではない Producer です。</p>
+<p>このような場合、処理が完了していない Producer が何らかの待ち状態になっていないかどうかを確認する必要があります。<br>待ち状態になっているのであれば、その待ちを解消することでその他のスレッドの CXSYNC_PORT 待ちも解消することができます。</p>
+<p>実行中のクエリの各スレッドの待ちは <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/sql/relational-databases/system-dynamic-management-views/sys-dm-os-waiting-tasks-transact-sql?view=sql-server-ver16">sys.dm_os_waiting_tasks (Transact-SQL)</a> で確認することができます。</p>
+<p>例えば、その Producer がロック獲得待ちになっているのであれば、そのロック待ち時間が最小になるようにすることで CXSYNC_PORT 待ちの時間も短くすることができます。ロック獲得待ちが発生する要因は、他のトランザクションと競合するロックを獲得しようとしているからであり、ロックが競合する確率は、獲得するロック数が多くなるほど高くなります。従って、CXSYNC_PORT 待ちとなっているクエリの観点においては、Producer が獲得する必要のあるロックが最小数になるようにチューニングすることが効果的です。そのためにはクエリのデータアクセス範囲が必要最小限になるようなインデックスが必要です。一方で、競合相手となっているトランザクションの観点においては、データアクセス範囲を最小限にするとともに、ロック保持期間、つまり、ロックを獲得してからトランザクションをコミットするまでの時間を最短にするためのチューニングが必要です。</p>
+</BR>
+
+<h4 id="上記確認ポイントに該当しない場合"><a href="#上記確認ポイントに該当しない場合" class="headerlink" title="- 上記確認ポイントに該当しない場合"></a>- 上記確認ポイントに該当しない場合</h4><p>おそらくそのクエリは最適に実行されていて、対処の必要はありません。</p>
+<p>もし、さらにパフォーマンスの改善余地があるのかどうかを確認したい場合は、クエリに対して適切なインデックスがあるか、統計情報が最新か、クエリ内で比較している列やパラメーターのデータ型が一致しているか、比較列を加工していないか、といった基本的な点を再確認し、デフラグのために対象テーブルやインデックスの再構築 (ALTER INDEX REBUILD, ALTER TABLE REBUILD) を行った後、改めてクエリを実行してパフォーマンスが改善するかどうか確認してみてください。</p>
+<div class="alert is-info"><p class="alert-title">Note</p><p>データ型を一致されることや比較列を加工しないようにすることの重要性については以下で説明しています。</p><p></BR></p><p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/archive/blogs/jpsql/dosdonts-2">絶対にやらなければいけないこと - データ型を一致させる</a></p><p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/archive/blogs/jpsql/dosdonts-4-where-join-on-123">やらない方がいいこと - クエリの 条件句 (WHERE や JOIN ON 等) で参照されている列の加工</a></p></div>
+</BR>
+</BR>
+
+<div style="text-align: right">神谷 雅紀</div>
+<div style="text-align: right">Azure SQL Managed Instance support, Microsoft</div>
+
+</BR>
+</BR>
+</BR>
+
+      
+      
+        <div class="article-disclaimer">
+        
+          <p>※本情報の内容（添付文書、リンク先などを含む）は、作成日時点でのものであり、予告なく変更される場合があります。</p>
+        
+        </div>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Parallel-Query/" rel="tag">Parallel Query</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Performance/" rel="tag">Performance</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/SQL-Database/" rel="tag">SQL Database</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/SQL-Managed-Instance/" rel="tag">SQL Managed Instance</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Waits/" rel="tag">Waits</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/%E4%B8%A6%E5%88%97%E3%82%AF%E3%82%A8%E3%83%AA/" rel="tag">並列クエリ</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/%E5%BE%85%E6%A9%9F/" rel="tag">待機</a></li></ul>
+
+        
+        <a href="https://github.com/jp-azuresql/blog/edit/main/articles/Performance/parallel-query-waits.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
+        
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="../query-timeout-tsg/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前の記事</strong>
+      <div class="article-nav-title">クエリタイムアウトが発生した際の調査方法</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最近の投稿</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="">並列クエリにおける CXSYNC_PORT 待ち</a>
+          </li>
+        
+          <li>
+            <a href="../query-timeout-tsg/">クエリタイムアウトが発生した際の調査方法</a>
+          </li>
+        
+          <li>
+            <a href="../../Management/mi-list-maintenance/">SQL Managed Instance の計画メンテナンス一覧を取得する方法</a>
+          </li>
+        
+          <li>
+            <a href="../../Management/mi-extened-event/">SQL Managed Instance における拡張イベントの設定手順</a>
+          </li>
+        
+          <li>
+            <a href="../../Connectivity/mi-tls-support-ending/">TLS 1.0/1.1の廃止と通信プロトコルの確認方法</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">タグ</h3>
+    <div class="widget">
+      <!-- <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="../../tags/API-%E5%BB%83%E6%AD%A2/" rel="tag">API 廃止</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Alert/" rel="tag">Alert</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/AntiVirus/" rel="tag">AntiVirus</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Backup/" rel="tag">Backup</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/CPU-%E4%BD%BF%E7%94%A8%E7%8E%87/" rel="tag">CPU 使用率</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Connectivity/" rel="tag">Connectivity</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/FAQ/" rel="tag">FAQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Gateway/" rel="tag">Gateway</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Information/" rel="tag">Information</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Maintenance/" rel="tag">Maintenance</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Management/" rel="tag">Management</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Memory/" rel="tag">Memory</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Metric/" rel="tag">Metric</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Migration/" rel="tag">Migration</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Monitor/" rel="tag">Monitor</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Parallel-Query/" rel="tag">Parallel Query</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Performance/" rel="tag">Performance</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/SQL-Database/" rel="tag">SQL Database</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/SQL-Managed-Instance/" rel="tag">SQL Managed Instance</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Security/" rel="tag">Security</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Support-Request/" rel="tag">Support Request</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Timestamp/" rel="tag">Timestamp</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Troubleshooting/" rel="tag">Troubleshooting</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Upgrade/" rel="tag">Upgrade</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Version/" rel="tag">Version</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Waits/" rel="tag">Waits</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/vulnerability-assessment/" rel="tag">vulnerability assessment</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E3%82%AF%E3%82%A8%E3%83%AA%E3%82%B9%E3%83%88%E3%82%A2/" rel="tag">クエリストア</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E3%82%B3%E3%83%9E%E3%83%B3%E3%83%89%E3%82%BF%E3%82%A4%E3%83%A0%E3%82%A2%E3%82%A6%E3%83%88/" rel="tag">コマンドタイムアウト</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E3%82%BF%E3%82%A4%E3%83%A0%E3%82%B9%E3%82%BF%E3%83%B3%E3%83%97/" rel="tag">タイムスタンプ</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E3%83%A1%E3%83%B3%E3%83%86%E3%83%8A%E3%83%B3%E3%82%B9/" rel="tag">メンテナンス</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E4%B8%A6%E5%88%97%E3%82%AF%E3%82%A8%E3%83%AA/" rel="tag">並列クエリ</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E4%BA%8B%E5%89%8D%E9%80%9A%E7%9F%A5/" rel="tag">事前通知</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E5%AE%9F%E8%A1%8C%E3%82%BF%E3%82%A4%E3%83%A0%E3%82%A2%E3%82%A6%E3%83%88/" rel="tag">実行タイムアウト</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E5%AE%9F%E8%A1%8C%E8%A8%88%E7%94%BB/" rel="tag">実行計画</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E5%BE%85%E6%A9%9F/" rel="tag">待機</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E6%97%A5%E6%99%82/" rel="tag">日時</a></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E6%97%A5%E6%9C%AC%E6%A8%99%E6%BA%96%E6%99%82/" rel="tag">日本標準時</a></li></ul>  -->
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Connectivity/">Connectivity</a><span class="tag-list-count">5</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Connectivity/Alert">Alert</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Connectivity/Gateway">Gateway</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Connectivity/Metric">Metric</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Connectivity/Migration">Migration</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Connectivity/SQL-Database">SQL Database</a><span class="tag-list-count">3</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Connectivity/SQL-Managed-Instance">SQL Managed Instance</a><span class="tag-list-count">3</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Connectivity/Troubleshooting">Troubleshooting</a><span class="tag-list-count">3</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Information/">Information</a><span class="tag-list-count">1</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Information/SQL-Database">SQL Database</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Information/SQL-Managed-Instance">SQL Managed Instance</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Information/Support-Request">Support Request</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Management/">Management</a><span class="tag-list-count">9</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Management/API-%E5%BB%83%E6%AD%A2">API 廃止</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Management/Backup">Backup</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Management/FAQ">FAQ</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Management/Maintenance">Maintenance</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Management/SQL-Database">SQL Database</a><span class="tag-list-count">6</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Management/SQL-Managed-Instance">SQL Managed Instance</a><span class="tag-list-count">7</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Management/Timestamp">Timestamp</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Management/Troubleshooting">Troubleshooting</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Management/Upgrade">Upgrade</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Management/Version">Version</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Management/vulnerability-assessment">vulnerability assessment</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Management/%E3%82%BF%E3%82%A4%E3%83%A0%E3%82%B9%E3%82%BF%E3%83%B3%E3%83%97">タイムスタンプ</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Management/%E3%83%A1%E3%83%B3%E3%83%86%E3%83%8A%E3%83%B3%E3%82%B9">メンテナンス</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Management/%E4%BA%8B%E5%89%8D%E9%80%9A%E7%9F%A5">事前通知</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Management/%E6%97%A5%E6%99%82">日時</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Management/%E6%97%A5%E6%9C%AC%E6%A8%99%E6%BA%96%E6%99%82">日本標準時</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Performance/">Performance</a><span class="tag-list-count">6</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Performance/CPU-%E4%BD%BF%E7%94%A8%E7%8E%87">CPU 使用率</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Performance/Memory">Memory</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Performance/Metric">Metric</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Performance/Monitor">Monitor</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Performance/Parallel-Query">Parallel Query</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Performance/SQL-Database">SQL Database</a><span class="tag-list-count">6</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Performance/SQL-Managed-Instance">SQL Managed Instance</a><span class="tag-list-count">4</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Performance/Troubleshooting">Troubleshooting</a><span class="tag-list-count">4</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Performance/Waits">Waits</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Performance/%E3%82%AF%E3%82%A8%E3%83%AA%E3%82%B9%E3%83%88%E3%82%A2">クエリストア</a><span class="tag-list-count">4</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Performance/%E3%82%B3%E3%83%9E%E3%83%B3%E3%83%89%E3%82%BF%E3%82%A4%E3%83%A0%E3%82%A2%E3%82%A6%E3%83%88">コマンドタイムアウト</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Performance/%E4%B8%A6%E5%88%97%E3%82%AF%E3%82%A8%E3%83%AA">並列クエリ</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Performance/%E5%AE%9F%E8%A1%8C%E3%82%BF%E3%82%A4%E3%83%A0%E3%82%A2%E3%82%A6%E3%83%88">実行タイムアウト</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Performance/%E5%AE%9F%E8%A1%8C%E8%A8%88%E7%94%BB">実行計画</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Performance/%E5%BE%85%E6%A9%9F">待機</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Security/">Security</a><span class="tag-list-count">1</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Security/AntiVirus">AntiVirus</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Security/FAQ">FAQ</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Security/SQL-Database">SQL Database</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Security/SQL-Managed-Instance">SQL Managed Instance</a><span class="tag-list-count">1</span></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">アーカイブ</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/01/">2025 / 01</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/12/">2024 / 12</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/11/">2024 / 11</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/09/">2024 / 09</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/08/">2024 / 08</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/12/">2023 / 12</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/08/">2023 / 08</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/07/">2023 / 07</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/05/">2023 / 05</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/04/">2023 / 04</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/03/">2023 / 03</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">タグクラウド</h3>
+    <div class="widget tagcloud">
+      <a href="../../tags/API-%E5%BB%83%E6%AD%A2/" style="font-size: 10px;">API 廃止</a> <a href="../../tags/Alert/" style="font-size: 10px;">Alert</a> <a href="../../tags/AntiVirus/" style="font-size: 10px;">AntiVirus</a> <a href="../../tags/Backup/" style="font-size: 11.25px;">Backup</a> <a href="../../tags/CPU-%E4%BD%BF%E7%94%A8%E7%8E%87/" style="font-size: 10px;">CPU 使用率</a> <a href="../../tags/Connectivity/" style="font-size: 13.75px;">Connectivity</a> <a href="../../tags/FAQ/" style="font-size: 11.25px;">FAQ</a> <a href="../../tags/Gateway/" style="font-size: 10px;">Gateway</a> <a href="../../tags/Information/" style="font-size: 10px;">Information</a> <a href="../../tags/Maintenance/" style="font-size: 10px;">Maintenance</a> <a href="../../tags/Management/" style="font-size: 17.5px;">Management</a> <a href="../../tags/Memory/" style="font-size: 10px;">Memory</a> <a href="../../tags/Metric/" style="font-size: 11.25px;">Metric</a> <a href="../../tags/Migration/" style="font-size: 10px;">Migration</a> <a href="../../tags/Monitor/" style="font-size: 10px;">Monitor</a> <a href="../../tags/Parallel-Query/" style="font-size: 10px;">Parallel Query</a> <a href="../../tags/Performance/" style="font-size: 15px;">Performance</a> <a href="../../tags/SQL-Database/" style="font-size: 20px;">SQL Database</a> <a href="../../tags/SQL-Managed-Instance/" style="font-size: 18.75px;">SQL Managed Instance</a> <a href="../../tags/Security/" style="font-size: 10px;">Security</a> <a href="../../tags/Support-Request/" style="font-size: 10px;">Support Request</a> <a href="../../tags/Timestamp/" style="font-size: 10px;">Timestamp</a> <a href="../../tags/Troubleshooting/" style="font-size: 16.25px;">Troubleshooting</a> <a href="../../tags/Upgrade/" style="font-size: 10px;">Upgrade</a> <a href="../../tags/Version/" style="font-size: 10px;">Version</a> <a href="../../tags/Waits/" style="font-size: 10px;">Waits</a> <a href="../../tags/vulnerability-assessment/" style="font-size: 11.25px;">vulnerability assessment</a> <a href="../../tags/%E3%82%AF%E3%82%A8%E3%83%AA%E3%82%B9%E3%83%88%E3%82%A2/" style="font-size: 12.5px;">クエリストア</a> <a href="../../tags/%E3%82%B3%E3%83%9E%E3%83%B3%E3%83%89%E3%82%BF%E3%82%A4%E3%83%A0%E3%82%A2%E3%82%A6%E3%83%88/" style="font-size: 10px;">コマンドタイムアウト</a> <a href="../../tags/%E3%82%BF%E3%82%A4%E3%83%A0%E3%82%B9%E3%82%BF%E3%83%B3%E3%83%97/" style="font-size: 10px;">タイムスタンプ</a> <a href="../../tags/%E3%83%A1%E3%83%B3%E3%83%86%E3%83%8A%E3%83%B3%E3%82%B9/" style="font-size: 10px;">メンテナンス</a> <a href="../../tags/%E4%B8%A6%E5%88%97%E3%82%AF%E3%82%A8%E3%83%AA/" style="font-size: 10px;">並列クエリ</a> <a href="../../tags/%E4%BA%8B%E5%89%8D%E9%80%9A%E7%9F%A5/" style="font-size: 10px;">事前通知</a> <a href="../../tags/%E5%AE%9F%E8%A1%8C%E3%82%BF%E3%82%A4%E3%83%A0%E3%82%A2%E3%82%A6%E3%83%88/" style="font-size: 10px;">実行タイムアウト</a> <a href="../../tags/%E5%AE%9F%E8%A1%8C%E8%A8%88%E7%94%BB/" style="font-size: 10px;">実行計画</a> <a href="../../tags/%E5%BE%85%E6%A9%9F/" style="font-size: 10px;">待機</a> <a href="../../tags/%E6%97%A5%E6%99%82/" style="font-size: 10px;">日時</a> <a href="../../tags/%E6%97%A5%E6%9C%AC%E6%A8%99%E6%BA%96%E6%99%82/" style="font-size: 10px;">日本標準時</a>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2025 Microsoft SQL Cloud Support Team<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="../../index.html" class="mobile-nav-link">Home</a>
+  
+    <a href="../../archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+<script src="../../js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
