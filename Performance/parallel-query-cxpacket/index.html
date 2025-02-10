@@ -4,24 +4,32 @@
   <meta charset="utf-8">
   
   
-  <title>SQL Managed Instance からストレージアカウントやリンクサーバーへの接続テスト方法 | Japan SQL Cloud Support Blog</title>
+  <title>並列クエリにおける CXCONSUMER および CXPACKET 待ち | Japan SQL Cloud Support Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="こんにちは。SQL Cloud サポート チームの川野辺です。 今回の投稿では、SQL Managed Instance (SQL MI) から、ストレージアカウントやリンクサーバーに接続できない場合の接続テスト方法に関してご案内します。">
+  <meta name="description" content="適用対象SQL Managed InstanceSQL DatabaseSQL Server 2022 以降">
 <meta property="og:type" content="article">
-<meta property="og:title" content="SQL Managed Instance からストレージアカウントやリンクサーバーへの接続テスト方法">
-<meta property="og:url" content="https://jp-azuresql.github.io/blog/Connectivity/mi-tcp-connectivity-test/index.html">
+<meta property="og:title" content="並列クエリにおける CXCONSUMER および CXPACKET 待ち">
+<meta property="og:url" content="https://jp-azuresql.github.io/blog/Performance/parallel-query-cxpacket/index.html">
 <meta property="og:site_name" content="Japan SQL Cloud Support Blog">
-<meta property="og:description" content="こんにちは。SQL Cloud サポート チームの川野辺です。 今回の投稿では、SQL Managed Instance (SQL MI) から、ストレージアカウントやリンクサーバーに接続できない場合の接続テスト方法に関してご案内します。">
+<meta property="og:description" content="適用対象SQL Managed InstanceSQL DatabaseSQL Server 2022 以降">
 <meta property="og:locale" content="ja_JP">
-<meta property="og:image" content="https://jp-azuresql.github.io/blog/Connectivity/mi-tcp-connectivity-test/image001.png">
-<meta property="article:published_time" content="2023-05-17T06:00:00.000Z">
-<meta property="article:modified_time" content="2025-02-10T06:47:37.998Z">
+<meta property="og:image" content="https://jp-azuresql.github.io/blog/Performance/parallel-query-cxpacket/threads.png">
+<meta property="og:image" content="https://jp-azuresql.github.io/blog/Performance/parallel-query-cxpacket/packets.png">
+<meta property="og:image" content="https://jp-azuresql.github.io/blog/Performance/parallel-query-cxpacket/logical_ops.PNG">
+<meta property="og:image" content="https://jp-azuresql.github.io/blog/Performance/parallel-query-cxpacket/cxconsumer.png">
+<meta property="og:image" content="https://jp-azuresql.github.io/blog/Performance/parallel-query-cxpacket/cxpacket.png">
+<meta property="article:published_time" content="2025-01-26T15:00:00.000Z">
+<meta property="article:modified_time" content="2025-02-10T06:47:38.006Z">
 <meta property="article:author" content="Microsoft SQL Cloud Support Team">
-<meta property="article:tag" content="Connectivity">
-<meta property="article:tag" content="Troubleshooting">
+<meta property="article:tag" content="SQL Database">
 <meta property="article:tag" content="SQL Managed Instance">
+<meta property="article:tag" content="Performance">
+<meta property="article:tag" content="Waits">
+<meta property="article:tag" content="待機">
+<meta property="article:tag" content="Parallel Query">
+<meta property="article:tag" content="並列クエリ">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://jp-azuresql.github.io/blog/Connectivity/mi-tcp-connectivity-test/image001.png">
+<meta name="twitter:image" content="https://jp-azuresql.github.io/blog/Performance/parallel-query-cxpacket/threads.png">
   
     <link rel="alternate" href="../../atom.xml" title="Japan SQL Cloud Support Blog" type="application/atom+xml">
   
@@ -83,7 +91,7 @@
 </header>
 
       <div class="outer">
-        <section id="main"><article id="post-Connectivity/mi-tcp-connectivity-test" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-Performance/parallel-query-cxpacket" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
     
@@ -92,7 +100,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      SQL Managed Instance からストレージアカウントやリンクサーバーへの接続テスト方法
+      並列クエリにおける CXCONSUMER および CXPACKET 待ち
     </h1>
   
 
@@ -100,54 +108,95 @@
       <div class="article-share">
         Last Update: 
         <a href="" class="article-date-single">
-  <time datetime="2023-05-17T06:00:00.000Z" itemprop="datePublished">2023-05-17</time>
+  <time datetime="2025-01-26T15:00:00.000Z" itemprop="datePublished">2025-01-27</time>
 </a>
         
         
-        <a href="https://github.com/jp-azuresql/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+eef304ae-4561-5a52-8bc4-f13d4c5f3d15%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5BSQL+Managed+Instance+%E3%81%8B%E3%82%89%E3%82%B9%E3%83%88%E3%83%AC%E3%83%BC%E3%82%B8%E3%82%A2%E3%82%AB%E3%82%A6%E3%83%B3%E3%83%88%E3%82%84%E3%83%AA%E3%83%B3%E3%82%AF%E3%82%B5%E3%83%BC%E3%83%90%E3%83%BC%E3%81%B8%E3%81%AE%E6%8E%A5%E7%B6%9A%E3%83%86%E3%82%B9%E3%83%88%E6%96%B9%E6%B3%95%5D%28https%3A%2F%2Fjp-azuresql.github.io%2Fblog%2FConnectivity%2Fmi-tcp-connectivity-test%2F%29%0A*+Content+Source%3A+%5Barticles%2FConnectivity%2Fmi-tcp-connectivity-test.md%5D%28https%3A%2F%2Fgithub.com%2Fjp-azuresql%2Fblog%2Fblob%2Fmain%2Farticles%2FConnectivity%2Fmi-tcp-connectivity-test.md%29%0A*+Author%3A+" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
+        <a href="https://github.com/jp-azuresql/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+6490ad18-b4f1-5a5c-a9e9-585f04f5264d%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5B%E4%B8%A6%E5%88%97%E3%82%AF%E3%82%A8%E3%83%AA%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B+CXCONSUMER+%E3%81%8A%E3%82%88%E3%81%B3+CXPACKET+%E5%BE%85%E3%81%A1%5D%28https%3A%2F%2Fjp-azuresql.github.io%2Fblog%2FPerformance%2Fparallel-query-cxpacket%2F%29%0A*+Content+Source%3A+%5Barticles%2FPerformance%2Fparallel-query-cxpacket.md%5D%28https%3A%2F%2Fgithub.com%2Fjp-azuresql%2Fblog%2Fblob%2Fmain%2Farticles%2FPerformance%2Fparallel-query-cxpacket.md%29%0A*+Author%3A+" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
         
-        <a data-url="https://jp-azuresql.github.io/blog/Connectivity/mi-tcp-connectivity-test/" data-id="cm6yoy9e600040nrz4zvw22do" class="article-share-link">共有</a>
+        <a data-url="https://jp-azuresql.github.io/blog/Performance/parallel-query-cxpacket/" data-id="cm6yoy9ek000q0nrzemmd2qhp" class="article-share-link">共有</a>
       </div>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>こんにちは。SQL Cloud サポート チームの川野辺です。</p>
-<p>今回の投稿では、SQL Managed Instance (SQL MI) から、ストレージアカウントやリンクサーバーに接続できない場合の接続テスト方法に関してご案内します。</p>
+        <p><strong>適用対象</strong><br>SQL Managed Instance<br>SQL Database<br>SQL Server 2022 以降</p>
 <span id="more"></span>
 
-<h2 id="実施手順"><a href="#実施手順" class="headerlink" title="実施手順"></a>実施手順</h2><hr>
-<p>SQL MI はサブネット内にデプロイされるため、BULK INSERT などでストレージアカウントやリンクサーバーで異なる SQL MI などの外部リソースにアクセスを行う場合、サブネット内の SQL MI からの接続を許可するようにネットワークの構成を設定する必要があります。<br>その際、当該 SQL MI から外部リソースへの接続可否、および、名前解決結果を確認するため、以下の手順を活用いただけます。<br>なお、以下では PowerShell の Test-NetConnection コマンドレットを呼び出すジョブを SQL Managed Instance に作成し実行することで、実際に SQL MI から外部リソースへの接続可否、および、名前解決結果を確認します。</p>
-<ol>
-<li><p>対象インスタンスに接続します。</p>
-</li>
-<li><p>以下のコマンドの @endpoint に接続対象のエンドポイント (以下の例ではストレージアカウントの myaccount1.blob.core.windows.net) を指定し、スクリプトを実行ください。<br>@port には、BULK INSERT などを目的にストレージアカウントに接続する際には 443 ポート、リンクサーバーに対するテストは 1433 ポートを指定してください。</p>
-</li>
-</ol>
+</BR>
+</BR>
+
+<h2 id="並列クエリとは"><a href="#並列クエリとは" class="headerlink" title="並列クエリとは"></a>並列クエリとは</h2><p>ひとつのクエリは通常ひとつのスレッドによって実行されます。しかしながら、アクセス対象データ量が多いことが想定される場合、一つのクエリが複数のスレッドを使って実行されることがあります。このようなクエリは並列クエリ (parallel query) と呼ばれます。</p>
+<p>並列クエリの実行プランには Parallelism 物理オペレーター (以降 Prallelism) が必ず含まれます。Parallelism は Exchange とも呼ばれます。</p>
+</BR>
+
+<h2 id="スレッド間でのデータの受け渡し"><a href="#スレッド間でのデータの受け渡し" class="headerlink" title="スレッド間でのデータの受け渡し"></a>スレッド間でのデータの受け渡し</h2><p>Parallelism 上では、Parallelism の右側 (実行プラン内の下位) を実行する子スレッドから左側 (実行プラン内の上位) を実行する親スレッドへデータが渡されます。子スレッドはデータを生成するという意味で Producer (生産者) と呼ばれ、親スレッドはデータを消費するという意味で Consumer (消費者) と呼ばれます。</p>
+<p>例えば、以下の実行プランが並列度 4 (degree of parallelism/DOP = 4) で実行された場合には、クエリのメインスレッドが Parallelism に達すると、並列度数に従って 4 つの子スレッドを起動します。従って、このクエリは、メインスレッド 1 つと子スレッド 4 つの合計 5 つのスレッドによって実行されることになります。<br>Producer は Parallelism の右側にある Sort - Filter - Table Scan を実行して Prallelism 上で Consumer に行を渡し、Consumer は 4 つの Producer から受け取った行をソート順を維持したままマージしてクエリの最終結果を生成し、クライアントへ送ります。</p>
+<p><img src="/blog/Performance/parallel-query-cxpacket/threads.png"></p>
+<p>Producer から Consumer へのデータの受け渡しは Exchange Packet を用いて行われます。Producer は空の Exchange Packet にデータを入れて Consumer に渡し、Consumer はデータで満たされた Exchange Packet を受け取って Exchange Packet からデータを取り出して処理します。</p>
+<p><img src="/blog/Performance/parallel-query-cxpacket/packets.png"></p>
+</BR>
+
+<h2 id="Parallelism-物理オペレーターの論理操作"><a href="#Parallelism-物理オペレーターの論理操作" class="headerlink" title="Parallelism 物理オペレーターの論理操作"></a>Parallelism 物理オペレーターの論理操作</h2><p>Parallelism には 3 つの論理操作があります。</p>
+<p><img src="/blog/Performance/parallel-query-cxpacket/logical_ops.PNG"></p>
 <table>
 <thead>
 <tr>
-<th>接続テスト先</th>
-<th>Port</th>
+<th>論理操作</th>
+<th>データ受け渡し</th>
 </tr>
 </thead>
 <tbody><tr>
-<td>ストレージアカウント</td>
-<td>443</td>
+<td>Gather Streams</td>
+<td>複数の Producer からひとつの Consumer へ</td>
 </tr>
 <tr>
-<td>リンクサーバー</td>
-<td>1433</td>
+<td>Repartition Streams</td>
+<td>複数の Producer から複数の Consumer へ</td>
+</tr>
+<tr>
+<td>Distribution Streams</td>
+<td>ひとつの Producer から複数の Consumer へ</td>
 </tr>
 </tbody></table>
-<p>以下にご案内しているスクリプトは、こちらで管理されておりますので、必要に応じてご参照ください。<br><a target="_blank" rel="noopener" href="https://github.com/Azure/sqlmi/blob/main/how-to/how-to-test-tcp-connection-from-mi/TestTCPNetworkConnection.sql">https://github.com/Azure/sqlmi/blob/main/how-to/how-to-test-tcp-connection-from-mi/TestTCPNetworkConnection.sql</a></p>
-<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">--<span class="built_in">START</span></span><br><span class="line">-- Parameters</span><br><span class="line">DECLARE @endpoint NVARCHAR(<span class="number">512</span>) = N&#x27;myaccount1.blob.core.windows.<span class="built_in">net</span>&#x27;</span><br><span class="line">DECLARE @port NVARCHAR(<span class="number">5</span>) = N&#x27;<span class="number">443</span>&#x27;</span><br><span class="line"></span><br><span class="line">--Script</span><br><span class="line">DECLARE @jobName NVARCHAR(<span class="number">512</span>) = N&#x27;TestTCPNetworkConnection&#x27;, @jobId BINARY(<span class="number">16</span>), @<span class="built_in">cmd</span> NVARCHAR(MAX)</span><br><span class="line"><span class="keyword">IF</span> EXISTS (SELECT job_id FROM msdb.dbo.sysjobs_view WHERE name = @jobName)</span><br><span class="line">EXEC msdb.dbo.sp_delete_job @job_name=@jobName, @delete_unused_schedule=<span class="number">1</span></span><br><span class="line">EXEC msdb.dbo.sp_add_job @job_name=@jobName, @enabled=<span class="number">1</span>, @job_id = @jobId OUTPUT</span><br><span class="line">DECLARE @stepName NVARCHAR(<span class="number">512</span>) = @endpoint + N&#x27;:&#x27; + @port</span><br><span class="line"><span class="built_in">SET</span> @<span class="built_in">cmd</span> = (N&#x27;tnc &#x27; + @endpoint + N&#x27; -port &#x27; + @port +&#x27; | select ComputerName, RemoteAddress, TcpTestSucceeded | <span class="built_in">Format</span>-List&#x27;)</span><br><span class="line">EXEC msdb.dbo.sp_add_jobstep @job_id=@jobId, @step_name=@stepName</span><br><span class="line">, @step_id=<span class="number">1</span>, @cmdexec_success_code=<span class="number">0</span>, @subsystem=N&#x27;PowerShell&#x27;, @command=@<span class="built_in">cmd</span>, @database_name=N&#x27;master&#x27;</span><br><span class="line"></span><br><span class="line">EXEC msdb.dbo.sp_add_jobserver @job_id = @jobId, @server_name = N&#x27;(local)&#x27;</span><br><span class="line">EXEC msdb.dbo.sp_start_job @job_name=@jobName</span><br><span class="line"></span><br><span class="line">--Check status every <span class="number">5</span> seconds</span><br><span class="line">DECLARE @RunStatus INT </span><br><span class="line"><span class="built_in">SET</span> @RunStatus=<span class="number">10</span></span><br><span class="line">WHILE ( @RunStatus &gt;= <span class="number">4</span>)</span><br><span class="line">BEGIN</span><br><span class="line">SELECT distinct @RunStatus  = run_status</span><br><span class="line">FROM [msdb].[dbo].[sysjobhistory] JH JOIN [msdb].[dbo].[sysjobs] J ON JH.job_id= J.job_id </span><br><span class="line">WHERE J.name=@jobName and step_id = <span class="number">0</span></span><br><span class="line">WAITFOR DELAY &#x27;<span class="number">00</span>:<span class="number">00</span>:<span class="number">05</span>&#x27;; </span><br><span class="line">END</span><br><span class="line"></span><br><span class="line">--Get logs once job completes</span><br><span class="line">SELECT [step_name] AS [Endpoint]</span><br><span class="line">,SUBSTRING([message], CHARINDEX(&#x27;TcpTestSucceeded&#x27;,[message]), CHARINDEX(&#x27;Process <span class="keyword">Exit</span>&#x27;,[message])-CHARINDEX(&#x27;TcpTestSucceeded&#x27;,[message])) as TcpTestResult</span><br><span class="line">,SUBSTRING([message], CHARINDEX(&#x27;RemoteAddress&#x27;,[message]), CHARINDEX(&#x27;TcpTestSucceeded&#x27;,[message])-CHARINDEX(&#x27;RemoteAddress&#x27;,[message])) as RemoteAddressResult</span><br><span class="line">,[run_status] ,[run_duration], [message]</span><br><span class="line">FROM [msdb].[dbo].[sysjobhistory] JH JOIN [msdb].[dbo].[sysjobs] J ON JH.job_id= J.job_id</span><br><span class="line">WHERE J.name=@jobName and step_id &lt;&gt; <span class="number">0</span></span><br><span class="line">--END</span><br></pre></td></tr></table></figure>
+</BR>
 
-<h2 id="出力結果の確認方法"><a href="#出力結果の確認方法" class="headerlink" title="出力結果の確認方法"></a>出力結果の確認方法</h2><hr>
-<p>上記のコマンドを実行すると、以下のような出力結果が得られます。こちらのスクリーンショットでは、ストレージアカウントへの接続テストの結果を紹介しています。<br>TcpTestSucceeded : True が想定される結果となりますが、False となっていた場合、TCP レベルでの接続が失敗していることを示します。そのため、ネットワークセキュリテイグループ (NSG) やルートテーブルの見直しを実施ください。<br>また、RemoteAddressResult には、接続先のエンドポイントに対する名前解決の結果が表示されます。こちらの結果が得られない場合や想定される結果でない場合は、名前解決の設定が適切でない場合がありますので、DNS サーバーなどの見直しを実施ください。</p>
-<p><img src="/blog/Connectivity/mi-tcp-connectivity-test/image001.png"></p>
-<h2 id="参考情報"><a href="#参考情報" class="headerlink" title="参考情報"></a>参考情報</h2><hr>
-<p>こちらの内容は、以下のブログ記事を参考に作成しています。</p>
-<p><a target="_blank" rel="noopener" href="https://techcommunity.microsoft.com/t5/azure-sql-blog/how-to-test-tcp-connectivity-from-a-sql-managed-instance/ba-p/3058458">https://techcommunity.microsoft.com/t5/azure-sql-blog/how-to-test-tcp-connectivity-from-a-sql-managed-instance/ba-p/3058458</a></p>
+<h2 id="CXCONSUMER-待ちとはどのような状態を示しているのか？"><a href="#CXCONSUMER-待ちとはどのような状態を示しているのか？" class="headerlink" title="CXCONSUMER 待ちとはどのような状態を示しているのか？"></a>CXCONSUMER 待ちとはどのような状態を示しているのか？</h2><p>Consumer がデータで満たされた Exchange Packet を待っている状態です。</p>
+<p><img src="/blog/Performance/parallel-query-cxpacket/cxconsumer.png"></p>
+</BR>
+
+<h2 id="CXPACKET-待ちとはどのような状態を示しているのか？"><a href="#CXPACKET-待ちとはどのような状態を示しているのか？" class="headerlink" title="CXPACKET 待ちとはどのような状態を示しているのか？"></a>CXPACKET 待ちとはどのような状態を示しているのか？</h2><p>Producer が空の Exchange Packet を待っている状態です。</p>
+<p><img src="/blog/Performance/parallel-query-cxpacket/cxpacket.png"></p>
+<h3 id="CXCONSUMER-待ちが発生した場合の確認ポイント"><a href="#CXCONSUMER-待ちが発生した場合の確認ポイント" class="headerlink" title="CXCONSUMER 待ちが発生した場合の確認ポイント"></a>CXCONSUMER 待ちが発生した場合の確認ポイント</h3><p>CXCONSUMER 待ちは Consumer がデータの入った Exchange Packet を待っている状態であるため、直接的には Producer が Consumer を待たせていることになります。そのため、まずは Producer の状態を確認します。</p>
+<p>実行中のクエリの各スレッドの待ちは <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/sql/relational-databases/system-dynamic-management-views/sys-dm-os-waiting-tasks-transact-sql?view=sql-server-ver16">sys.dm_os_waiting_tasks (Transact-SQL)</a> で確認することができます。</p>
+<h4 id="よくあるパターン-1-Producer-が待ち状態ではない場合"><a href="#よくあるパターン-1-Producer-が待ち状態ではない場合" class="headerlink" title="- よくあるパターン 1 : Producer が待ち状態ではない場合"></a>- よくあるパターン 1 : Producer が待ち状態ではない場合</h4><p>Producer がテーブルやインデックスの広範囲をスキャンしなければならない状況で、スキャン範囲内のほとんどの行が WHERE 条件を満たしていないなど対象外となるような場合には、Producer が Consumer へ渡すべき行を見つけるまでに時間がかかることになるため、CXCONSUMER 待ちが発生することは想定された状況です。この状況を改善するためには、Producer のスキャン範囲を狭めるために適切なインデックスを作成することが有効です。</p>
+<p>インデックス等によって Producer のスキャン範囲が既に最小範囲に限定されている状況であれば、CXCONSUMER 待ちは避けることができないものと考えられます。</p>
+<h4 id="よくあるパターン-2-CXCONSUMER-待ちが短時間"><a href="#よくあるパターン-2-CXCONSUMER-待ちが短時間" class="headerlink" title="- よくあるパターン 2 : CXCONSUMER 待ちが短時間"></a>- よくあるパターン 2 : CXCONSUMER 待ちが短時間</h4><p>CXCONSUMER 待ちの発生が断続的かつそれぞれの待ち時間もミリ秒単位の短いものであれば、おそらくクエリは効率的に実行されていて、特に対処の必要はないものと考えられます。</p>
+<h4 id="よくあるパターン-3-Producer-がロック獲得待ち"><a href="#よくあるパターン-3-Producer-がロック獲得待ち" class="headerlink" title="- よくあるパターン 3 : Producer がロック獲得待ち"></a>- よくあるパターン 3 : Producer がロック獲得待ち</h4><p>Producer が要求するロックが他のトランザクションが保持しているロックと競合した場合、Producer はロック獲得待ち (wait_type = LCK_M_*) となります。この状況では、Producer は Exchange Packet に新たな行を入れることはできませんので、Consumer は CXCONSUMER 待ちになります。Producer がロック獲得待ちになるのは、他のトランザクションとロックが競合しているからであり、ロックが競合する確率は、獲得するロック数が多くなるほど高くなります。従って、Producer が獲得する必要のあるロックが最小数になるようにチューニングすることが効果的です。そのためにはスキャン範囲が必要最小限になるようなインデックスが必要です。一方で、競合相手となっているトランザクションの観点においては、スキャン範囲を最小限にするとともに、ロック保持期間、つまり、トランザクションがコミットされるまでの時間を最短にするためのチューニングが必要です。</p>
+<p>ここで注意が必要な点として、ロックが獲得されるのはクエリの最終結果に含まれる行やキーだけではないという点があげられます。詳しくは、<a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/archive/blogs/jpsql/277">こちら</a>を参照してください。</p>
+<h4 id="よくあるパターン-4-Producer-が-PAGEIOLATCH-SH-などのファイル-IO-完了待ち"><a href="#よくあるパターン-4-Producer-が-PAGEIOLATCH-SH-などのファイル-IO-完了待ち" class="headerlink" title="- よくあるパターン 4 : Producer が PAGEIOLATCH_SH などのファイル IO 完了待ち"></a>- よくあるパターン 4 : Producer が PAGEIOLATCH_SH などのファイル IO 完了待ち</h4><p>Producer が PAGEIOLATCH_SH や PAGEIOLATCH_EX 待ち (ファイル IO 待ち) になっている場合、クエリによってアクセスされるデータの多くがキャッシュされていない状態であると考えられます。顕著な PAGEIOLATCH 待ちが見られる場合、改善のためには、ストレージが処理可能な IO 数を増やすか、クエリが発行する IO 数を減らすかのどちらかの対応が考えられます。</p>
+<p>処理可能な IO 数を増やすというアプローチで対応しようとすると、SQL Managed Instance (以降 SQL MI) General Purpose であればファイルサイズを大きくして<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/azure-sql/managed-instance/resource-limits?view=azuresql#file-io-characteristics-in-general-purpose-tier">IOPS の上限</a>を引き上げるか、Business Critical に移行するという方法が考えられます。<br>SQL MI Next-gen General Purpose や Business Critical であれば仮想コア数を追加して<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/azure-sql/managed-instance/resource-limits?view=azuresql#iops">IOPS の上限</a>を引き上げることが有効な場合があります。</p>
+<p>ストレージが処理可能な IO 数を増やすのではなく、クエリが発行する IO を減らすというアプローチで対応する場合は、クエリがアクセスするデータ量を減らすために、クエリの実行プランを確認し、インデックスの追加や変更、テーブル構成の見直し、クエリ内の WHERE や JOIN ON などの条件の見直しなどを行います。</p>
+<p>個々のクエリではなくインスタンス全体としてバッファプール内のデータの入れ替えが激しいためにファイル IO が多くなっている状況 (Page life expectancy が低い状況) であれば、キャッシュできるデータ量を増やすためにメモリサイズを大きくするといった対応が考えられます。SQL MI であれば<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/azure-sql/managed-instance/resource-limits?view=azuresql#max-memory">メモリサイズはコア数に比例</a>して大きくなります。</p>
+<h4 id="その他の待ち"><a href="#その他の待ち" class="headerlink" title="- その他の待ち"></a>- その他の待ち</h4><p>上記以外にも、Producer はいろいろな待ちになる可能性がありますので、どのような待ちであるのかを確認し、確認できた待ちに対応した対処が必要になります。</p>
+</BR>
+
+<h2 id="CXPACKET-待ちが発生した場合の確認ポイント"><a href="#CXPACKET-待ちが発生した場合の確認ポイント" class="headerlink" title="CXPACKET 待ちが発生した場合の確認ポイント"></a>CXPACKET 待ちが発生した場合の確認ポイント</h2><p>CXPACKET 待ちは、Producer が空の Exchange Packet を待っている状態であるため、直接的には Consumer が Producer を待たせていることになります。そのため、まずは Consumer の状態を確認します。<br>実行中のクエリの各スレッドの待ちは <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/sql/relational-databases/system-dynamic-management-views/sys-dm-os-waiting-tasks-transact-sql?view=sql-server-ver16">sys.dm_os_waiting_tasks (Transact-SQL)</a> で確認することができます。</p>
+<h4 id="よくあるパターン-1-Consumer-が待ち状態ではない場合や-CXPACKET-待ちが短時間である場合"><a href="#よくあるパターン-1-Consumer-が待ち状態ではない場合や-CXPACKET-待ちが短時間である場合" class="headerlink" title="- よくあるパターン 1 : Consumer が待ち状態ではない場合や CXPACKET 待ちが短時間である場合"></a>- よくあるパターン 1 : Consumer が待ち状態ではない場合や CXPACKET 待ちが短時間である場合</h4><p>Consumer が待ち状態ではない (sys.dm_os_waiting_tasks の結果に含まれない) 場合や CXPACKET 待ち時間がミリ秒単位の短い時間である場合、Producer のデータ生成に対して Consumer のデータ消費が追い付いていない状況ということになりますが、Parallelism の論理操作が Gather Streams であれば、ひとつの Consumer に対して複数の Producer という構成になるため、Producer の生成するデータ量が多い場合にはこの状況になりえます。この場合は、クエリは良好に実行されており、特に対処の必要はないものと考えられます。</p>
+<p>なお、このような場合であっても、MAXDOP 値を調整することでさらにクエリ全体の実行時間を短くすることができる場合もありますので、業務要件上さらなるクエリの短時間化が要求される場合は、実際に MAXDOP 値を変えながらクエリを実行して、そのクエリにとって最適な MAXDOP 値を見つけてみてください。</p>
+<h4 id="よくあるパターン-2-Consumer-が-ASYNC-NETWORKIO-待ち"><a href="#よくあるパターン-2-Consumer-が-ASYNC-NETWORKIO-待ち" class="headerlink" title="- よくあるパターン 2 : Consumer が ASYNC_NETWORKIO 待ち"></a>- よくあるパターン 2 : Consumer が ASYNC_NETWORKIO 待ち</h4><p>実行プラン内の最初の Parallelim の左側部分を実行する Consumer (この場合はメインスレッド) が ASYNC_NETWORK_IO 待ちである場合、CXPACKET 待ちの原因は、クエリを実行しているアプリケーションがクエリの結果を取得していないことです。</p>
+<p>クエリ結果が 1 つの TDS パケットに収まらない場合は複数のパケットに分割されて順次クライアントアプリケーションへ送信されることになりますが、クエリのメインスレッド (Consumer) は、クライアントアプリケーションが次の結果を要求するまではクライアントアプリケーションに結果を送信することができません。クライアントアプリケーションが次の結果を要求するまでの間、Consumer は ASYNC_NETWORK_IO 待ちとなります。クエリ結果がある程度大きい場合には、ネットワーク上を流れるパケット数も多くなるため、ASYNC_NETWORK_IO 待ちが観察されるのは想定される状況ですが、クエリ全体の実行時間に占める ASYNC_NETWORK_IO 待ちの割合が極端に多い場合は、クライアントアプリケーションの処理ロジックも含めて、なぜクライアントアプリケーションがタイムリーにクエリ結果を取得できていないのかを調査する必要があります。例えば、クエリの結果を取得している最中にユーザー入力を求めたり、ユーザーがスクロールダウンしてデータを表示しない限り次の結果を取得しないアプリケーションであれば、それは ASYNC_NETWORK_IO 待ち原因になるため、アプリケーションのデザインの見直しを検討する必要があるかもしれません。</p>
+<div class="alert is-info"><p class="alert-title">Note</p><p> クライアントが次の結果を要求せず、ASYNC_NETWORK_IO 待ちが継続している場合であっても ASYNC_NETWORK_IO 待ちの時間 (sys.dm_os_waiting_tasks や sys.dm_exec_requests の wait_time 列の値) は 2000 ミリ秒に達すると一度リセットされて 0 に戻ります。その後、再び増加します。</p></div>
+<h4 id="よくあるパターン-3-Consumer-が-CXCONSUMER-待ち"><a href="#よくあるパターン-3-Consumer-が-CXCONSUMER-待ち" class="headerlink" title="- よくあるパターン 3 : Consumer が CXCONSUMER 待ち"></a>- よくあるパターン 3 : Consumer が CXCONSUMER 待ち</h4><p>Procuder 1 ～ 3 は Consumer を待っていて、その Consumer が Producer 4 を待っているといった状況です。この場合は、待ち行列の先頭にある Producer 4 の状態を確認する必要があります。</p>
+<p>例えば、この投稿の冒頭の実行プランの場合、Consumer は Parrallelism 上でソート順を維持した状態で Producer から受け取ったデータをマージする必要があるため、いわゆるマージソートと同じ処理を実行する必要があり、Producer 1 ～ 4 すべてからデータを受け取る必要があります。従って、Producer の一つがロック待ちになると、Consumer は CXCONSUMER でその Producer 待ち、その Producer 以外の Producer は CXPACKET で Consumer 待ちという状況になります。この状況は、Producer のロック待ちが根本原因であるため、CXPACKET 待ちに対処するためには、ロック待ちを最小化する (短時間化する) 必要があります。</p>
+</BR>
+</BR>
+
+<div style="text-align: right">神谷 雅紀</div>
+<div style="text-align: right">Azure SQL Managed Instance support, Microsoft</div>
+
+</BR>
+</BR>
+</BR>
 
       
       
@@ -161,10 +210,10 @@
     <footer class="article-footer">
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Connectivity/" rel="tag">Connectivity</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/SQL-Managed-Instance/" rel="tag">SQL Managed Instance</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Troubleshooting/" rel="tag">Troubleshooting</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Parallel-Query/" rel="tag">Parallel Query</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Performance/" rel="tag">Performance</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/SQL-Database/" rel="tag">SQL Database</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/SQL-Managed-Instance/" rel="tag">SQL Managed Instance</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Waits/" rel="tag">Waits</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/%E4%B8%A6%E5%88%97%E3%82%AF%E3%82%A8%E3%83%AA/" rel="tag">並列クエリ</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/%E5%BE%85%E6%A9%9F/" rel="tag">待機</a></li></ul>
 
         
-        <a href="https://github.com/jp-azuresql/blog/edit/main/articles/Connectivity/mi-tcp-connectivity-test.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
+        <a href="https://github.com/jp-azuresql/blog/edit/main/articles/Performance/parallel-query-cxpacket.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
         
     </footer>
   </div>
@@ -172,19 +221,10 @@
     
 <nav id="article-nav">
   
-    <a href="../../Performance/memory-usage/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">次の記事</strong>
-      <div class="article-nav-title">
-        
-          Azure SQL Database / SQL Managed Instance ではメモリ使用率の監視は不要です
-        
-      </div>
-    </a>
   
-  
-    <a href="../../Management/version/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="../../Management/mi-extened-event/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">前の記事</strong>
-      <div class="article-nav-title">Azure SQL Database / SQL Managed Instance のバージョンに関して</div>
+      <div class="article-nav-title">SQL Managed Instance における拡張イベントの採取方法</div>
     </a>
   
 </nav>
@@ -203,7 +243,7 @@
       <ul>
         
           <li>
-            <a href="../../Performance/parallel-query-cxpacket/">並列クエリにおける CXCONSUMER および CXPACKET 待ち</a>
+            <a href="">並列クエリにおける CXCONSUMER および CXPACKET 待ち</a>
           </li>
         
           <li>
@@ -211,11 +251,11 @@
           </li>
         
           <li>
-            <a href="../../Performance/parallel-query-waits/">並列クエリにおける CXSYNC_PORT 待ち</a>
+            <a href="../parallel-query-waits/">並列クエリにおける CXSYNC_PORT 待ち</a>
           </li>
         
           <li>
-            <a href="../../Performance/query-timeout-tsg/">クエリタイムアウトが発生した際の調査方法</a>
+            <a href="../query-timeout-tsg/">クエリタイムアウトが発生した際の調査方法</a>
           </li>
         
           <li>

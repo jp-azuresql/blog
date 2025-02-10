@@ -37,6 +37,13 @@
   </url>
   
   <url>
+    <loc>https://jp-azuresql.github.io/blog/Performance/parallel-query-waits/</loc>
+    
+    <lastmod>2025-02-10</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://jp-azuresql.github.io/blog/Performance/performance-tsg/</loc>
     
     <lastmod>2025-02-10</lastmod>
@@ -51,7 +58,7 @@
   </url>
   
   <url>
-    <loc>https://jp-azuresql.github.io/blog/Performance/parallel-query-waits/</loc>
+    <loc>https://jp-azuresql.github.io/blog/Performance/parallel-query-cxpacket/</loc>
     
     <lastmod>2025-02-10</lastmod>
     
@@ -121,14 +128,14 @@
   </url>
   
   <url>
-    <loc>https://jp-azuresql.github.io/blog/Connectivity/mi-tcp-connectivity-test/</loc>
+    <loc>https://jp-azuresql.github.io/blog/Connectivity/mi-tls-support-ending/</loc>
     
     <lastmod>2025-02-10</lastmod>
     
   </url>
   
   <url>
-    <loc>https://jp-azuresql.github.io/blog/Connectivity/mi-tls-support-ending/</loc>
+    <loc>https://jp-azuresql.github.io/blog/Connectivity/mi-tcp-connectivity-test/</loc>
     
     <lastmod>2025-02-10</lastmod>
     
