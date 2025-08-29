@@ -4,7 +4,7 @@ date: 2025-08-15 00:00:00
 tags:
   - Connectivity
   - SQL Managed Instance
-  - fistributed transaction
+  - Distributed transaction
   - 分散トランザクション
   - DTC
   - MSDTC
