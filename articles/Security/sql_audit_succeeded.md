@@ -4,6 +4,7 @@ date: 2025-09-01 00:00:00
 tags:
   - Security
   - SQL Managed Instance
+  - SQL Database
   - Audit
   - 監査
 ---
@@ -72,3 +73,4 @@ succeeded 列は、[sys.fn_get_audit_file (Transact-SQL)](https://learn.microsof
 </BR>
 </BR>
 </BR>
+
