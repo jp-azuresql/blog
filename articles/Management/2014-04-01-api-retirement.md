@@ -1,5 +1,5 @@
 ---
-title: 古い API 廃止の通知「Upgrade Azure SQL Database 2014-04-01 APIs to a newer version by 31 October 2025」の対処法について
+title: 古い API 廃止の通知「Upgrade Azure SQL Database 2014-04-01 APIs to a newer version」の対処法について
 date: 2023-12-05 15:00:00
 tags:
   - Management
@@ -12,13 +12,17 @@ tags:
 
 こんにちは。SQL Cloud サポート チームの宮崎です。
 
-今回の投稿では、Azure SQL Database (SQL DB) において、2025 年 10 月 31 日に廃止される REST API バージョン 2014-04-01 の対処法についてご紹介します。
+今回の投稿では、Azure SQL Database (SQL DB) において、~~2025 年 10 月 31 日~~ **2026 年 6 月 30 日** に廃止される REST API バージョン 2014-04-01 の対処法についてご紹介します。
 
 <!-- more -->
 
 ## REST API バージョン 2014-04-01 の廃止について
 ---
-セキュリティやパフォーマンスの観点から、SQL DB の API は常に更新を行っています。その一環として、2025 年 10 月 31 日に 2014-04-01 Azure SQL DB API を廃止する予定です。
+セキュリティやパフォーマンスの観点から、SQL DB の API は常に更新を行っています。その一環として、~~2025 年 10 月 31 日~~ **2026 年 6 月 30 日** に 2014-04-01 Azure SQL DB API を廃止する予定です。
+
+> [!NOTE]
+> 当初 2025 年 10 月 31 日に予定されていた API バージョン 2014-04-01 の廃止は、お客様からのフィードバックに基づいて、廃止日を 8 か月延長して 2026 年 6 月 30 日まで延期しました。
+
 この廃止に伴い、当該 API バージョン（2014-04-01 バージョン）を使用しているお客様には、期限までに API バージョンの更新（API バージョンの書き換え）を行っていただく必要があります。
 
 [Azure SQL Database REST API 2014-04-01 廃止のお知らせ](https://learn.microsoft.com/ja-jp/rest/api/sql/retirement) 
@@ -48,4 +52,5 @@ tags:
 各 API におけるバージョンのマッピングにつきましては、下記のドキュメントに記載されています。
  
 [Azure SQL Database REST API 2014-04-01 廃止のお知らせ - 2014-04-01 から 2021-11-01 までの安定した API マッピング](https://learn.microsoft.com/ja-jp/rest/api/sql/retirement#stable-api-mappings-from-2014-04-01-to-2021-11-01) 
+
 
