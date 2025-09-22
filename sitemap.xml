@@ -114,20 +114,6 @@
   </url>
   
   <url>
-    <loc>https://jp-azuresql.github.io/blog/Management/autobackup/</loc>
-    
-    <lastmod>2025-09-22</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://jp-azuresql.github.io/blog/Management/mi-extened-event/</loc>
-    
-    <lastmod>2025-09-22</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://jp-azuresql.github.io/blog/Information/support-request-guidance/</loc>
     
     <lastmod>2025-09-22</lastmod>
@@ -143,6 +129,20 @@
   
   <url>
     <loc>https://jp-azuresql.github.io/blog/Management/TDE_backup/</loc>
+    
+    <lastmod>2025-09-22</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://jp-azuresql.github.io/blog/Management/autobackup/</loc>
+    
+    <lastmod>2025-09-22</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://jp-azuresql.github.io/blog/Management/mi-extened-event/</loc>
     
     <lastmod>2025-09-22</lastmod>
     
