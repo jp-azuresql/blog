@@ -23,12 +23,12 @@
 <meta property="og:image" content="https://jp-azuresql.github.io/blog/Connectivity/connectivity-initial-investigation/loganalytics.png">
 <meta property="og:image" content="https://jp-azuresql.github.io/blog/Connectivity/connectivity-initial-investigation/loganalyticscode.png">
 <meta property="article:published_time" content="2024-09-20T06:00:00.000Z">
-<meta property="article:modified_time" content="2025-09-22T05:29:40.265Z">
+<meta property="article:modified_time" content="2026-06-29T07:38:19.000Z">
 <meta property="article:author" content="Microsoft SQL Cloud Support Team">
 <meta property="article:tag" content="Connectivity">
+<meta property="article:tag" content="Metric">
 <meta property="article:tag" content="SQL Database">
 <meta property="article:tag" content="Troubleshooting">
-<meta property="article:tag" content="Metric">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://jp-azuresql.github.io/blog/Connectivity/connectivity-initial-investigation/failed_connections.png">
   
@@ -49,7 +49,7 @@
   
 <link rel="stylesheet" href="../../css/style.css">
 
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.1"></head>
 
 <body>
   <div id="container">
@@ -67,7 +67,7 @@
         
           <a class="main-nav-link" href="/blog/archives">Archives</a>
         
-        <a class="main-nav-link" target="_blank" rel="noopener" href="https://cssjpn.github.io/">サポート情報</a>
+        <a class="main-nav-link" href="https://cssjpn.github.io/">サポート情報</a>
       </nav>
       <nav id="sub-nav">
         
@@ -115,7 +115,7 @@
         
         <a href="https://github.com/jp-azuresql/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+05ce36d5-9f3c-59dd-84b8-09d91427c1e4%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5B%E6%8E%A5%E7%B6%9A%E3%82%A8%E3%83%A9%E3%83%BC%E7%99%BA%E7%94%9F%E6%99%82%E3%81%AE%E5%88%9D%E5%8B%95%E8%AA%BF%E6%9F%BB%5D%28https%3A%2F%2Fjp-azuresql.github.io%2Fblog%2FConnectivity%2Fconnectivity-initial-investigation%2F%29%0A*+Content+Source%3A+%5Barticles%2FConnectivity%2Fconnectivity-initial-investigation.md%5D%28https%3A%2F%2Fgithub.com%2Fjp-azuresql%2Fblog%2Fblob%2Fmain%2Farticles%2FConnectivity%2Fconnectivity-initial-investigation.md%29%0A*+Author%3A+" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
         
-        <a data-url="https://jp-azuresql.github.io/blog/Connectivity/connectivity-initial-investigation/" data-id="cmfuosspq00000nqz023abqn1" class="article-share-link">共有</a>
+        <a data-url="https://jp-azuresql.github.io/blog/Connectivity/connectivity-initial-investigation/" data-id="cuidujxt-uTEYGOS0tiHRPYSw" class="article-share-link">共有</a>
       </div>
     
     <div class="article-entry" itemprop="articleBody">
@@ -154,42 +154,42 @@
 <p>Failed Connections メトリックには 2 つ種類があり、「Failed Connections: System Errors」 は、メンテナンス時のフェールオーバーや仮想コア数の増減といったスケーリング操作時のように、データベース基盤側に起因して発生した接続失敗を意味します。<br>一方、「Failed Connections: User Errors」は、ユーザー名・パスワードの指定間違いや、データベースユーザーの設定不備など、システム起因以外のユーザー側の問題に起因して発生した接続失敗を意味します。</p>
 <p>Failed Connections: System Errors に記録がある場合、併せて以下を確認します。</p>
 <ul>
-<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/azure-sql/database/resource-health-to-troubleshoot-connectivity?view=azuresql">リソース正常性</a></li>
-<li>スケーリングが行われたか<ul>
-<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/azure-sql/database/monitoring-sql-database-azure-monitor?view=azuresql#azure-activity-log">アクティビティログ</a>で確認する</li>
+<li><p><a href="https://learn.microsoft.com/ja-jp/azure/azure-sql/database/resource-health-to-troubleshoot-connectivity?view=azuresql">リソース正常性</a></p>
+</li>
+<li><p>スケーリングが行われたか</p>
+<ul>
+<li><a href="https://learn.microsoft.com/ja-jp/azure/azure-sql/database/monitoring-sql-database-azure-monitor?view=azuresql#azure-activity-log">アクティビティログ</a>で確認する</li>
 <li>以下はスケールアップの例<br><img src="/blog/Connectivity/connectivity-initial-investigation/scaleuplog.png"></li>
 </ul>
 </li>
-</ul>
+<li><p>フェールオーバーが行われたか</p>
 <ul>
-<li>フェールオーバーが行われたか<ul>
 <li>アクティビティログで確認する</li>
 <li>以下はユーザーによる手動フェールオーバーの例</li>
 <li><img src="/blog/Connectivity/connectivity-initial-investigation/failoverlog.png"></li>
 </ul>
 </li>
-</ul>
-<ul>
-<li>メンテナンスイベントが行われたか（<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/azure-sql/database/planned-maintenance?view=azuresql#maintenance-windows-and-advance-notifications">メンテナンス期間と事前通知</a>を設定している場合）</li>
+<li><p>メンテナンスイベントが行われたか（<a href="https://learn.microsoft.com/ja-jp/azure/azure-sql/database/planned-maintenance?view=azuresql#maintenance-windows-and-advance-notifications">メンテナンス期間と事前通知</a>を設定している場合）</p>
+</li>
 </ul>
 <h4 id="データベース側のファイアウォールによるブロック状況の確認"><a href="#データベース側のファイアウォールによるブロック状況の確認" class="headerlink" title="データベース側のファイアウォールによるブロック状況の確認"></a>データベース側のファイアウォールによるブロック状況の確認</h4><p>Azure SQL Database のファイアウォールでは、既定ではすべての接続をブロックし、許可された接続のみアクセスできる方式（ホワイトリスト方式）となっているため、ファイアウォールにて許可されていない接続元からの接続は、ファイアウォールにてブロックされ、メトリックにも記録されます。</p>
 <p>SQL database &gt; 監視 &gt; メトリック &gt; Blocked by Firewall<br><img src="/blog/Connectivity/connectivity-initial-investigation/blocked_by_firewall.png"> </p>
 <h3 id="step-3-監査ログの確認"><a href="#step-3-監査ログの確認" class="headerlink" title="step 3. 監査ログの確認"></a>step 3. 監査ログの確認</h3><p>データベースイベントを追跡する監査ログ（既定では無効）を活用することで、接続エラーの履歴を確認することができます。<br>過去の事象でエラーメッセージを確認する場合は、監査ログを活用することも有用です。また監査ログには接続元クライアント IP アドレスや、ホスト名も記録されるため、接続試行が行われたクライアントマシンを確認することもできます。</p>
 <div class="alert is-warning"><p class="alert-title">警告</p><p>Azure portal のメトリックも監査ログもデータベースへ接続が届いていない場合は記録されません。例えば、クライアントマシン側のファイアウォールでブロックされた場合や、名前解決が失敗しデータベースへ通信が届かない場合は、記録されません。</p></div>
-<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/azure-sql/database/auditing-overview?view=azuresql">監査の概要</a><br><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/azure-sql/database/auditing-setup?view=azuresql">監査の設定方法</a>  </p>
+<p><a href="https://learn.microsoft.com/ja-jp/azure/azure-sql/database/auditing-overview?view=azuresql">監査の概要</a><br><a href="https://learn.microsoft.com/ja-jp/azure/azure-sql/database/auditing-setup?view=azuresql">監査の設定方法</a>  </p>
 <p>以下は、監査ログを Azure ストレージ・Log Analytics へ保存した場合の監査ログの確認方法の例です。</p>
 <h4 id="Azure-ストレージに保存された監査ログの確認"><a href="#Azure-ストレージに保存された監査ログの確認" class="headerlink" title="Azure ストレージに保存された監査ログの確認"></a>Azure ストレージに保存された監査ログの確認</h4><p>Azure ストレージに保存された監査ログは以下の方法で Azure Portal より確認できます。</p>
 <p>STEP 1.  ログファイルの URL を確認する<br>ストレージアカウント &gt; ストレージブラウザー（もしくはデータストレージ “コンテナー”） &gt; BLOBコンテナー &gt; sqldbauditlogs &gt; 該当ファイル名をクリックする &gt; URLをコピーする<br><img src="/blog/Connectivity/connectivity-initial-investigation/storagebrowser.png"></p>
-<p>STEP 2. 監査ログを確認する<br>SQLデータベース &gt; クエリエディター &gt; 以下のステートメントを実行する<br>Azure portal のクエリエディター以外にも、SQL Server Management Studio（SSMS）からクエリを実行することでも監査ログの内容を確認できます。<br>※複数のログファイルが存在している場合、ログファイル名を省略した形（「sys.fn_get_audit_file(‘…/YYYY-MM-DD/‘, default, default)」）で実行することも可能です。</p>
+<p>STEP 2. 監査ログを確認する<br>SQLデータベース &gt; クエリエディター &gt; 以下のステートメントを実行する<br>Azure portal のクエリエディター以外にも、SQL Server Management Studio（SSMS）からクエリを実行することでも監査ログの内容を確認できます。<br>※複数のログファイルが存在している場合、ログファイル名を省略した形（「sys.fn_get_audit_file(‘…&#x2F;YYYY-MM-DD&#x2F;‘, default, default)」）で実行することも可能です。</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> TOP <span class="number">100</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> sys.fn_get_audit_file(<span class="string">&#x27;&lt;コピーしたURL&gt;&#x27;</span>, <span class="keyword">default</span>, <span class="keyword">default</span>)</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> event_time <span class="keyword">DESC</span></span><br></pre></td></tr></table></figure>
 <p><img src="/blog/Connectivity/connectivity-initial-investigation/queryeditor.png"></p>
-<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/sql/relational-databases/system-functions/sys-fn-get-audit-file-transact-sql?view=sql-server-ver16&tabs=sqlserver">sys.fn_get_audit_file のドキュメント</a></p>
+<p><a href="https://learn.microsoft.com/ja-jp/sql/relational-databases/system-functions/sys-fn-get-audit-file-transact-sql?view=sql-server-ver16&tabs=sqlserver">sys.fn_get_audit_file のドキュメント</a></p>
 <div class="alert is-info"><p class="alert-title">Note</p><p>Azure ストレージに保存された監査ログファイルをローカルマシンにダウンロードし、SSMS から監査ログファイルを読み込み内容を確認することも可能です。</p></div>
 <h4 id="Log-Analytics-に保存された監査ログの確認"><a href="#Log-Analytics-に保存された監査ログの確認" class="headerlink" title="Log Analytics に保存された監査ログの確認"></a>Log Analytics に保存された監査ログの確認</h4><p>Log Analytics に保存された監査ログは以下の方法で Azure Portal より確認できます。<br>Azure SQL Database の監査ログは、Log Analytics の AzureDiagnostics テーブルに記録され、Category 項目が “SQLSecuriyAuditEvents” となります。 </p>
 <p>SQL データベース &gt; セキュリティ &gt; 監査 &gt; 監査ログの表示<br><img src="/blog/Connectivity/connectivity-initial-investigation/auditlog.png"></p>
 <p>Log Analytics<br><img src="/blog/Connectivity/connectivity-initial-investigation/loganalytics.png"></p>
 <p>クエリが自動で生成されます。KQL クエリを修正して、取得した情報を絞ったりフィルターを行ったりすることも可能です。<br>※Log Analytics ワークスペースのリソース画面の “ログ” ページからもログクエリ（KQL）を実行できます。<br><img src="/blog/Connectivity/connectivity-initial-investigation/loganalyticscode.png"></p>
-<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/azure-monitor/logs/log-analytics-tutorial">Log Analytics のドキュメント</a></p>
+<p><a href="https://learn.microsoft.com/ja-jp/azure/azure-monitor/logs/log-analytics-tutorial">Log Analytics のドキュメント</a></p>
 <h3 id="step-4-接続エラーのトラブルシューティングについて"><a href="#step-4-接続エラーのトラブルシューティングについて" class="headerlink" title="step 4. 接続エラーのトラブルシューティングについて"></a>step 4. 接続エラーのトラブルシューティングについて</h3><p>接続エラーが解消しない場合のトラブルシューティング方法は過去の記事にて紹介しています。<br>以下の記事も併せてご参照ください。<br><a href="https://jp-azuresql.github.io/blog/Connectivity/connectivity-troubleshooting/">接続エラーのトラブルシューティングに関して</a> </p>
 
       
@@ -246,6 +246,10 @@
       <ul>
         
           <li>
+            <a href="../../Management/2014-04-01-api-retirement/">古い API 廃止の通知「Upgrade Azure SQL Database 2014-04-01 APIs to a newer version」の対処法について</a>
+          </li>
+        
+          <li>
             <a href="../../Performance/dtu-percent-high/">DTU 使用率が高騰した際の初動調査</a>
           </li>
         
@@ -259,10 +263,6 @@
         
           <li>
             <a href="../../Performance/force-execution-plan/">実行プラン強制の注意点と手順</a>
-          </li>
-        
-          <li>
-            <a href="../../Performance/parallel-query-cxpacket/">並列クエリにおける CXCONSUMER および CXPACKET 待ち</a>
           </li>
         
       </ul>
@@ -285,7 +285,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">アーカイブ</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/09/">2025 / 09</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/08/">2025 / 08</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/07/">2025 / 07</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/01/">2025 / 01</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/12/">2024 / 12</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/11/">2024 / 11</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/09/">2024 / 09</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/08/">2024 / 08</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/12/">2023 / 12</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/08/">2023 / 08</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/07/">2023 / 07</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/05/">2023 / 05</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/04/">2023 / 04</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/03/">2023 / 03</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2026/06/">2026 / 06</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/09/">2025 / 09</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/08/">2025 / 08</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/07/">2025 / 07</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/01/">2025 / 01</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/12/">2024 / 12</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/11/">2024 / 11</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/09/">2024 / 09</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/08/">2024 / 08</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/12/">2023 / 12</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/08/">2023 / 08</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/07/">2023 / 07</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/05/">2023 / 05</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/04/">2023 / 04</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/03/">2023 / 03</a></li></ul>
     </div>
   </div>
 
@@ -307,7 +307,7 @@
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2025 Microsoft SQL Cloud Support Team<br>
+      &copy; 2026 Microsoft SQL Cloud Support Team<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>

@@ -23,12 +23,12 @@
 <meta property="og:image" content="https://jp-azuresql.github.io/blog/Connectivity/connectivity-troubleshooting/image008.png">
 <meta property="og:image" content="https://jp-azuresql.github.io/blog/Connectivity/connectivity-troubleshooting/image009.png">
 <meta property="article:published_time" content="2023-04-06T06:00:00.000Z">
-<meta property="article:modified_time" content="2025-09-22T05:29:40.299Z">
+<meta property="article:modified_time" content="2026-06-29T07:38:19.034Z">
 <meta property="article:author" content="Microsoft SQL Cloud Support Team">
 <meta property="article:tag" content="Connectivity">
 <meta property="article:tag" content="SQL Database">
-<meta property="article:tag" content="Troubleshooting">
 <meta property="article:tag" content="SQL Managed Instance">
+<meta property="article:tag" content="Troubleshooting">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://jp-azuresql.github.io/blog/Connectivity/connectivity-troubleshooting/image001.png">
   
@@ -49,7 +49,7 @@
   
 <link rel="stylesheet" href="../../css/style.css">
 
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.1"></head>
 
 <body>
   <div id="container">
@@ -67,7 +67,7 @@
         
           <a class="main-nav-link" href="/blog/archives">Archives</a>
         
-        <a class="main-nav-link" target="_blank" rel="noopener" href="https://cssjpn.github.io/">サポート情報</a>
+        <a class="main-nav-link" href="https://cssjpn.github.io/">サポート情報</a>
       </nav>
       <nav id="sub-nav">
         
@@ -115,7 +115,7 @@
         
         <a href="https://github.com/jp-azuresql/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+64be903a-fb42-5261-8c69-2a85ff5b60ba%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5B%E6%8E%A5%E7%B6%9A%E3%82%A8%E3%83%A9%E3%83%BC%E3%81%AE%E3%83%88%E3%83%A9%E3%83%96%E3%83%AB%E3%82%B7%E3%83%A5%E3%83%BC%E3%83%86%E3%82%A3%E3%83%B3%E3%82%B0%E3%81%AB%E9%96%A2%E3%81%97%E3%81%A6%5D%28https%3A%2F%2Fjp-azuresql.github.io%2Fblog%2FConnectivity%2Fconnectivity-troubleshooting%2F%29%0A*+Content+Source%3A+%5Barticles%2FConnectivity%2Fconnectivity-troubleshooting.md%5D%28https%3A%2F%2Fgithub.com%2Fjp-azuresql%2Fblog%2Fblob%2Fmain%2Farticles%2FConnectivity%2Fconnectivity-troubleshooting.md%29%0A*+Author%3A+" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
         
-        <a data-url="https://jp-azuresql.github.io/blog/Connectivity/connectivity-troubleshooting/" data-id="cmfuosspu00010nqzafib06i0" class="article-share-link">共有</a>
+        <a data-url="https://jp-azuresql.github.io/blog/Connectivity/connectivity-troubleshooting/" data-id="cuidU1lQoY8rtBEn210ofKjA5" class="article-share-link">共有</a>
       </div>
     
     <div class="article-entry" itemprop="articleBody">
@@ -126,12 +126,12 @@
 
 <h2 id="Azure-SQL-Connectivity-Checker-とは"><a href="#Azure-SQL-Connectivity-Checker-とは" class="headerlink" title="Azure SQL Connectivity Checker とは"></a>Azure SQL Connectivity Checker とは</h2><hr>
 <p>Azure SQL Connectivity Checker とは、指定した SQL DB、SQL MI に対して接続テストを行い、接続に必要な TCP ポートの解放の有無、名前解決の可否などを明らかにできるツールとなります。<br>そのため、適切に構成したつもりなのに SQL DB へ接続できない、特定のクライアントからのみ SQL MI に接続できないなどの接続に関する問題の解決に有効です。</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/Azure/SQL-Connectivity-Checker">Azure SQL Connectivity Checker</a></p>
+<p><a href="https://github.com/Azure/SQL-Connectivity-Checker">Azure SQL Connectivity Checker</a></p>
 <p>特に、Error: 10060 のように、エラーメッセージからは接続が確立できなかったことしか明らかでない接続エラーが発生した際に、問題の切り分けとして有効です。</p>
 <blockquote>
 <p>A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: TCP Provider, error: 0 - A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond.) (Microsoft SQL Server, Error: 10060)</p>
 </blockquote>
-<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/troubleshoot/sql/database-engine/connect/network-related-or-instance-specific-error-occurred-while-establishing-connection">SQL Server への接続を確立している間に、ネットワーク関連またはインスタンス固有のエラーが発生しました</a></p>
+<p><a href="https://learn.microsoft.com/ja-jp/troubleshoot/sql/database-engine/connect/network-related-or-instance-specific-error-occurred-while-establishing-connection">SQL Server への接続を確立している間に、ネットワーク関連またはインスタンス固有のエラーが発生しました</a></p>
 <h2 id="実施方法-Windows-環境のクライアント"><a href="#実施方法-Windows-環境のクライアント" class="headerlink" title="実施方法 Windows 環境のクライアント"></a>実施方法 Windows 環境のクライアント</h2><hr>
 <ol>
 <li>対象クライアントにて PowerShell を [管理者として実行] で起動します。<br>スクリプトを新規作成します。</li>
@@ -154,14 +154,14 @@
 <li>下記のようなメッセージが出力され、実行が終了します。<br>出力されたパスに接続テストツールの結果ファイルが出力されます。</li>
 </ol>
 <blockquote>
-<p>Log file can be found at C:\Users\user001\AppData\Local\Temp\AzureSQLConnectivityCheckerResults\20210209T021953<br>A zip file with all the files can be found at C:\Users\user001\AppData\Local\Temp\AzureSQLConnectivityCheckerResults\20210209T021953/AllFiles.zip</p>
+<p>Log file can be found at C:\Users\user001\AppData\Local\Temp\AzureSQLConnectivityCheckerResults\20210209T021953<br>A zip file with all the files can be found at C:\Users\user001\AppData\Local\Temp\AzureSQLConnectivityCheckerResults\20210209T021953&#x2F;AllFiles.zip</p>
 </blockquote>
 <h2 id="実施方法-ネットワークアクセスが制限されている場合"><a href="#実施方法-ネットワークアクセスが制限されている場合" class="headerlink" title="実施方法 ネットワークアクセスが制限されている場合"></a>実施方法 ネットワークアクセスが制限されている場合</h2><hr>
 <p>クライアントにてネットワークアクセスが制限されている場合も、インターネットアクセスが可能な端末でファイルをダウンロードし、対象クライアントに渡すことで、Azure SQL Connectivity Checker を実施いただけます。</p>
 <ol>
 <li>以下の URL に接続し、[Download ZIP] を選択ください。</li>
 </ol>
-<p><a target="_blank" rel="noopener" href="https://github.com/Azure/SQL-Connectivity-Checker">https://github.com/Azure/SQL-Connectivity-Checker</a></p>
+<p><a href="https://github.com/Azure/SQL-Connectivity-Checker">https://github.com/Azure/SQL-Connectivity-Checker</a></p>
 <p><img src="/blog/Connectivity/connectivity-troubleshooting/image005.png"></p>
 <ol start="2">
 <li><p>ダウンロードされたファイル [SQL-Connectivity-Checker-master.zip] を調査対象クライアントに移動させ、全てのファイルを解凍ください。</p>
@@ -177,13 +177,13 @@
 </li>
 </ol>
 <blockquote>
-<p>Log file can be found at C:\Users\user001\AppData\Local\Temp\AzureSQLConnectivityCheckerResults\20210209T021953<br>A zip file with all the files can be found at C:\Users\user001\AppData\Local\Temp\AzureSQLConnectivityCheckerResults\20210209T021953/AllFiles.zip</p>
+<p>Log file can be found at C:\Users\user001\AppData\Local\Temp\AzureSQLConnectivityCheckerResults\20210209T021953<br>A zip file with all the files can be found at C:\Users\user001\AppData\Local\Temp\AzureSQLConnectivityCheckerResults\20210209T021953&#x2F;AllFiles.zip</p>
 </blockquote>
-<p>詳細はこちらにもございますので、必要に応じてご確認ください。<br><a target="_blank" rel="noopener" href="https://github.com/Azure/SQL-Connectivity-Checker#how-to-run-this-from-machines-without-internet-access">How to run this from machines without Internet access</a></p>
+<p>詳細はこちらにもございますので、必要に応じてご確認ください。<br><a href="https://github.com/Azure/SQL-Connectivity-Checker#how-to-run-this-from-machines-without-internet-access">How to run this from machines without Internet access</a></p>
 <h2 id="実施方法-Linux-環境のクライアント"><a href="#実施方法-Linux-環境のクライアント" class="headerlink" title="実施方法　Linux 環境のクライアント"></a>実施方法　Linux 環境のクライアント</h2><hr>
 <p>Linux 環境からも、PowerShell をインストールすることで、Azure SQL Connectivity Checker を実施可能です。</p>
 <ol>
-<li><p>Linux 環境上に PowerShell がインストールされていなければ、以下の URL よりインストールください。<br><a target="_blank" rel="noopener" href="https://docs.microsoft.com/powershell/scripting/install/installing-powershell-core-on-linux">https://docs.microsoft.com/powershell/scripting/install/installing-powershell-core-on-linux</a></p>
+<li><p>Linux 環境上に PowerShell がインストールされていなければ、以下の URL よりインストールください。<br><a href="https://docs.microsoft.com/powershell/scripting/install/installing-powershell-core-on-linux">https://docs.microsoft.com/powershell/scripting/install/installing-powershell-core-on-linux</a></p>
 </li>
 <li><p>ターミナルより pwsh を起動ください。</p>
 </li>
@@ -196,7 +196,7 @@
 <li>テストの完了後、以下のように接続テストの結果が表示されますので、こちらをご確認ください。</li>
 </ol>
 <p><img src="/blog/Connectivity/connectivity-troubleshooting/image007.png"></p>
-<p>詳細はこちらにもございますので、必要に応じてご確認ください。<br><a target="_blank" rel="noopener" href="https://github.com/Azure/SQL-Connectivity-Checker#run-from-linux">Run from Linux</a></p>
+<p>詳細はこちらにもございますので、必要に応じてご確認ください。<br><a href="https://github.com/Azure/SQL-Connectivity-Checker#run-from-linux">Run from Linux</a></p>
 <h2 id="出力結果の確認方法"><a href="#出力結果の確認方法" class="headerlink" title="出力結果の確認方法"></a>出力結果の確認方法</h2><hr>
 <p>Azure SQL Connectivity Checker の実行後には、自動でログがファイルに出力されます。<br>実施結果に関しては、以下のスクリーンショットのように [Log_~] の形式のファイルに出力され、こちらの [SUMMARY] にテスト結果、 適切に構成されていない場合は [RECOMMENDED ACTION(S)] に推奨事項が記載されます。</p>
 <p><img src="/blog/Connectivity/connectivity-troubleshooting/image008.png"></p>
@@ -257,6 +257,10 @@
       <ul>
         
           <li>
+            <a href="../../Management/2014-04-01-api-retirement/">古い API 廃止の通知「Upgrade Azure SQL Database 2014-04-01 APIs to a newer version」の対処法について</a>
+          </li>
+        
+          <li>
             <a href="../../Performance/dtu-percent-high/">DTU 使用率が高騰した際の初動調査</a>
           </li>
         
@@ -270,10 +274,6 @@
         
           <li>
             <a href="../../Performance/force-execution-plan/">実行プラン強制の注意点と手順</a>
-          </li>
-        
-          <li>
-            <a href="../../Performance/parallel-query-cxpacket/">並列クエリにおける CXCONSUMER および CXPACKET 待ち</a>
           </li>
         
       </ul>
@@ -296,7 +296,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">アーカイブ</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/09/">2025 / 09</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/08/">2025 / 08</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/07/">2025 / 07</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/01/">2025 / 01</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/12/">2024 / 12</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/11/">2024 / 11</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/09/">2024 / 09</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/08/">2024 / 08</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/12/">2023 / 12</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/08/">2023 / 08</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/07/">2023 / 07</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/05/">2023 / 05</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/04/">2023 / 04</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/03/">2023 / 03</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2026/06/">2026 / 06</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/09/">2025 / 09</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/08/">2025 / 08</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/07/">2025 / 07</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/01/">2025 / 01</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/12/">2024 / 12</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/11/">2024 / 11</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/09/">2024 / 09</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/08/">2024 / 08</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/12/">2023 / 12</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/08/">2023 / 08</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/07/">2023 / 07</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/05/">2023 / 05</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/04/">2023 / 04</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/03/">2023 / 03</a></li></ul>
     </div>
   </div>
 
@@ -318,7 +318,7 @@
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2025 Microsoft SQL Cloud Support Team<br>
+      &copy; 2026 Microsoft SQL Cloud Support Team<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>

@@ -20,10 +20,10 @@
 <meta property="og:image" content="https://jp-azuresql.github.io/blog/Management/mi-extened-event/ssms_exevent.png">
 <meta property="og:image" content="https://jp-azuresql.github.io/blog/Management/mi-extened-event/exevent_file.png">
 <meta property="article:published_time" content="2025-01-24T08:00:00.000Z">
-<meta property="article:modified_time" content="2025-09-22T05:29:40.306Z">
+<meta property="article:modified_time" content="2026-06-29T07:38:19.042Z">
 <meta property="article:author" content="Microsoft SQL Cloud Support Team">
-<meta property="article:tag" content="SQL Managed Instance">
 <meta property="article:tag" content="Management">
+<meta property="article:tag" content="SQL Managed Instance">
 <meta property="article:tag" content="xevent">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://jp-azuresql.github.io/blog/Management/mi-extened-event/portal_sas.png">
@@ -45,7 +45,7 @@
   
 <link rel="stylesheet" href="../../css/style.css">
 
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.1"></head>
 
 <body>
   <div id="container">
@@ -63,7 +63,7 @@
         
           <a class="main-nav-link" href="/blog/archives">Archives</a>
         
-        <a class="main-nav-link" target="_blank" rel="noopener" href="https://cssjpn.github.io/">サポート情報</a>
+        <a class="main-nav-link" href="https://cssjpn.github.io/">サポート情報</a>
       </nav>
       <nav id="sub-nav">
         
@@ -111,7 +111,7 @@
         
         <a href="https://github.com/jp-azuresql/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+5b556dfd-7d58-5bd8-9d8b-ab2396bf5281%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5BSQL+Managed+Instance+%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B%E6%8B%A1%E5%BC%B5%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%81%AE%E6%8E%A1%E5%8F%96%E6%96%B9%E6%B3%95%5D%28https%3A%2F%2Fjp-azuresql.github.io%2Fblog%2FManagement%2Fmi-extened-event%2F%29%0A*+Content+Source%3A+%5Barticles%2FManagement%2Fmi-extened-event.md%5D%28https%3A%2F%2Fgithub.com%2Fjp-azuresql%2Fblog%2Fblob%2Fmain%2Farticles%2FManagement%2Fmi-extened-event.md%29%0A*+Author%3A+" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
         
-        <a data-url="https://jp-azuresql.github.io/blog/Management/mi-extened-event/" data-id="cmfuossq4000e0nqz1fmk1it8" class="article-share-link">共有</a>
+        <a data-url="https://jp-azuresql.github.io/blog/Management/mi-extened-event/" data-id="cuidq8q7WkkurDxijB4zAAWh-" class="article-share-link">共有</a>
       </div>
     
     <div class="article-entry" itemprop="articleBody">
@@ -119,7 +119,7 @@
         <p>こんにちは。SQL Cloud サポート チームの太田です。<br>今回の投稿では、SQL Managed Instance (SQL MI)における拡張イベントの採取方法についてご案内します。 </p>
 <span id="more"></span> 
 <h2 id="拡張イベント-Extended-Events-とは"><a href="#拡張イベント-Extended-Events-とは" class="headerlink" title="拡張イベント(Extended Events)とは"></a>拡張イベント(Extended Events)とは</h2><p>拡張イベントは、SQL Managed Instance データベースエンジンに組み込まれているデータベースのパフォーマンス監視やトラブルシューティングに有用なツールです。例えば、クエリの実行時間やデッドロックの発生状況など、特定のイベントデータを収集することができます。 </p>
-<p>&lt;関連ドキュメント&gt;<br><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/sql/relational-databases/extended-events/extended-events?view=sql-server-ver16">拡張イベントの概要</a> </p>
+<p>&lt;関連ドキュメント&gt;<br><a href="https://learn.microsoft.com/ja-jp/sql/relational-databases/extended-events/extended-events?view=sql-server-ver16">拡張イベントの概要</a> </p>
 <h2 id="拡張イベントの設定方法"><a href="#拡張イベントの設定方法" class="headerlink" title="拡張イベントの設定方法"></a>拡張イベントの設定方法</h2><p><strong>1. SAS (Shared Access Signature) の取得</strong><br>該当のストレージアカウントの [Shared Access Signature] の画面より、リソースの種類と時刻を設定します。<br>その後、[SAS と接続文字列を生成する] を選択し、生成された[SAS トークン]を控えておきます。 </p>
 <p><img src="./portal_sas.png"></p>
 <p><img src="./sas.png"></p>
@@ -128,7 +128,7 @@
 <p>その後、SQL Server Management Studio (以降 SSMS) から、SQL MI の master データベースに対して以下のクエリを実行します。 </p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">IF <span class="keyword">EXISTS</span> </span><br><span class="line"> (<span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> sys.credentials <span class="keyword">WHERE</span> name <span class="operator">=</span> <span class="string">&#x27;&lt;ストレージアカウントコンテナ URI&gt;&#x27;</span>) </span><br><span class="line"><span class="keyword">BEGIN</span> </span><br><span class="line"> <span class="keyword">DROP</span> CREDENTIAL [<span class="operator">&lt;</span>ストレージアカウントコンテナ URI<span class="operator">&gt;</span>] ; </span><br><span class="line"><span class="keyword">END</span> </span><br><span class="line">GO </span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> CREDENTIAL [<span class="operator">&lt;</span>ストレージアカウントコンテナ URI<span class="operator">&gt;</span>]</span><br><span class="line"><span class="keyword">WITH</span> <span class="keyword">IDENTITY</span><span class="operator">=</span><span class="string">&#x27;SHARED ACCESS SIGNATURE&#x27;</span>,</span><br><span class="line">SECRET <span class="operator">=</span> <span class="string">&#x27;&lt;SAS トークン&gt;&#x27;</span> </span><br></pre></td></tr></table></figure>
 
-<p>実行例）<br>ストレージアカウントコンテナ URI：<a target="_blank" rel="noopener" href="https://myblogstorage.blob.core.windows.net/myfolder">https://myblogstorage.blob.core.windows.net/myfolder</a><br>SAS トークン：sv=2018-03-28&amp;ss=bfqt&amp;srt=sco&amp;sp=rwdlacup&amp;se=2019-07-23T23:29:33Z&amp;st=2019-07-09T15:29:33Z&amp;spr=https&amp;sig=…%%3D </p>
+<p>実行例）<br>ストレージアカウントコンテナ URI：<a href="https://myblogstorage.blob.core.windows.net/myfolder">https://myblogstorage.blob.core.windows.net/myfolder</a><br>SAS トークン：sv&#x3D;2018-03-28&amp;ss&#x3D;bfqt&amp;srt&#x3D;sco&amp;sp&#x3D;rwdlacup&amp;se&#x3D;2019-07-23T23:29:33Z&amp;st&#x3D;2019-07-09T15:29:33Z&amp;spr&#x3D;https&amp;sig&#x3D;…%%3D </p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">IF <span class="keyword">EXISTS</span> </span><br><span class="line"> (<span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> sys.credentials <span class="keyword">WHERE</span> name <span class="operator">=</span> <span class="string">&#x27;https://myblogstorage.blob.core.windows.net/myfolder&#x27;</span>) </span><br><span class="line"><span class="keyword">BEGIN</span> </span><br><span class="line"> <span class="keyword">DROP</span> CREDENTIAL [https:<span class="operator">/</span><span class="operator">/</span>myblogstorage.blob.core.windows.net<span class="operator">/</span>myfolder] ; </span><br><span class="line"><span class="keyword">END</span> </span><br><span class="line">GO </span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> CREDENTIAL [https:<span class="operator">/</span><span class="operator">/</span>myblogstorage.blob.core.windows.net<span class="operator">/</span>myfolder] </span><br><span class="line"><span class="keyword">WITH</span> <span class="keyword">IDENTITY</span><span class="operator">=</span><span class="string">&#x27;SHARED ACCESS SIGNATURE&#x27;</span>, </span><br><span class="line">SECRET <span class="operator">=</span> <span class="string">&#x27;sv=2018-03-28&amp;ss=bfqt&amp;srt=sco&amp;sp=rwdlacup&amp;se=2019-07-23T23:29:33Z&amp;st=2019-07-09T15:29:33Z&amp;spr=https&amp;sig=...%%3D&#x27;</span> </span><br></pre></td></tr></table></figure>
 
 <p><strong>3. 拡張イベントの作成</strong><br>以下のクエリを実行してください。filename については該当のストレージアカウントを指定ください。以下はサンプルのクエリとなりますので、取得したいイベントに合わせて設定してください。 </p>
@@ -269,6 +269,10 @@
       <ul>
         
           <li>
+            <a href="../2014-04-01-api-retirement/">古い API 廃止の通知「Upgrade Azure SQL Database 2014-04-01 APIs to a newer version」の対処法について</a>
+          </li>
+        
+          <li>
             <a href="../../Performance/dtu-percent-high/">DTU 使用率が高騰した際の初動調査</a>
           </li>
         
@@ -282,10 +286,6 @@
         
           <li>
             <a href="../../Performance/force-execution-plan/">実行プラン強制の注意点と手順</a>
-          </li>
-        
-          <li>
-            <a href="../../Performance/parallel-query-cxpacket/">並列クエリにおける CXCONSUMER および CXPACKET 待ち</a>
           </li>
         
       </ul>
@@ -308,7 +308,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">アーカイブ</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/09/">2025 / 09</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/08/">2025 / 08</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/07/">2025 / 07</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/01/">2025 / 01</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/12/">2024 / 12</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/11/">2024 / 11</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/09/">2024 / 09</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/08/">2024 / 08</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/12/">2023 / 12</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/08/">2023 / 08</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/07/">2023 / 07</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/05/">2023 / 05</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/04/">2023 / 04</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/03/">2023 / 03</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2026/06/">2026 / 06</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/09/">2025 / 09</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/08/">2025 / 08</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/07/">2025 / 07</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/01/">2025 / 01</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/12/">2024 / 12</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/11/">2024 / 11</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/09/">2024 / 09</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/08/">2024 / 08</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/12/">2023 / 12</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/08/">2023 / 08</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/07/">2023 / 07</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/05/">2023 / 05</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/04/">2023 / 04</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/03/">2023 / 03</a></li></ul>
     </div>
   </div>
 
@@ -330,7 +330,7 @@
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2025 Microsoft SQL Cloud Support Team<br>
+      &copy; 2026 Microsoft SQL Cloud Support Team<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>

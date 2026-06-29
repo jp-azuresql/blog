@@ -15,11 +15,11 @@
 <meta property="og:locale" content="ja_JP">
 <meta property="og:image" content="https://jp-azuresql.github.io/blog/Connectivity/mi-tcp-connectivity-test/image001.png">
 <meta property="article:published_time" content="2023-05-17T06:00:00.000Z">
-<meta property="article:modified_time" content="2025-09-22T05:29:40.304Z">
+<meta property="article:modified_time" content="2026-06-29T07:38:19.040Z">
 <meta property="article:author" content="Microsoft SQL Cloud Support Team">
 <meta property="article:tag" content="Connectivity">
-<meta property="article:tag" content="Troubleshooting">
 <meta property="article:tag" content="SQL Managed Instance">
+<meta property="article:tag" content="Troubleshooting">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://jp-azuresql.github.io/blog/Connectivity/mi-tcp-connectivity-test/image001.png">
   
@@ -40,7 +40,7 @@
   
 <link rel="stylesheet" href="../../css/style.css">
 
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.1"></head>
 
 <body>
   <div id="container">
@@ -58,7 +58,7 @@
         
           <a class="main-nav-link" href="/blog/archives">Archives</a>
         
-        <a class="main-nav-link" target="_blank" rel="noopener" href="https://cssjpn.github.io/">サポート情報</a>
+        <a class="main-nav-link" href="https://cssjpn.github.io/">サポート情報</a>
       </nav>
       <nav id="sub-nav">
         
@@ -106,7 +106,7 @@
         
         <a href="https://github.com/jp-azuresql/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+eef304ae-4561-5a52-8bc4-f13d4c5f3d15%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5BSQL+Managed+Instance+%E3%81%8B%E3%82%89%E3%82%B9%E3%83%88%E3%83%AC%E3%83%BC%E3%82%B8%E3%82%A2%E3%82%AB%E3%82%A6%E3%83%B3%E3%83%88%E3%82%84%E3%83%AA%E3%83%B3%E3%82%AF%E3%82%B5%E3%83%BC%E3%83%90%E3%83%BC%E3%81%B8%E3%81%AE%E6%8E%A5%E7%B6%9A%E3%83%86%E3%82%B9%E3%83%88%E6%96%B9%E6%B3%95%5D%28https%3A%2F%2Fjp-azuresql.github.io%2Fblog%2FConnectivity%2Fmi-tcp-connectivity-test%2F%29%0A*+Content+Source%3A+%5Barticles%2FConnectivity%2Fmi-tcp-connectivity-test.md%5D%28https%3A%2F%2Fgithub.com%2Fjp-azuresql%2Fblog%2Fblob%2Fmain%2Farticles%2FConnectivity%2Fmi-tcp-connectivity-test.md%29%0A*+Author%3A+" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
         
-        <a data-url="https://jp-azuresql.github.io/blog/Connectivity/mi-tcp-connectivity-test/" data-id="cmfuosspy00050nqz80doeqn8" class="article-share-link">共有</a>
+        <a data-url="https://jp-azuresql.github.io/blog/Connectivity/mi-tcp-connectivity-test/" data-id="cuidb-FV7DcoB3ES31LQNqnse" class="article-share-link">共有</a>
       </div>
     
     <div class="article-entry" itemprop="articleBody">
@@ -139,7 +139,7 @@
 <td>1433</td>
 </tr>
 </tbody></table>
-<p>以下にご案内しているスクリプトは、こちらで管理されておりますので、必要に応じてご参照ください。<br><a target="_blank" rel="noopener" href="https://github.com/Azure/sqlmi/blob/main/how-to/how-to-test-tcp-connection-from-mi/TestTCPNetworkConnection.sql">https://github.com/Azure/sqlmi/blob/main/how-to/how-to-test-tcp-connection-from-mi/TestTCPNetworkConnection.sql</a></p>
+<p>以下にご案内しているスクリプトは、こちらで管理されておりますので、必要に応じてご参照ください。<br><a href="https://github.com/Azure/sqlmi/blob/main/how-to/how-to-test-tcp-connection-from-mi/TestTCPNetworkConnection.sql">https://github.com/Azure/sqlmi/blob/main/how-to/how-to-test-tcp-connection-from-mi/TestTCPNetworkConnection.sql</a></p>
 <figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">--<span class="built_in">START</span></span><br><span class="line">-- Parameters</span><br><span class="line">DECLARE @endpoint NVARCHAR(<span class="number">512</span>) = N&#x27;myaccount1.blob.core.windows.<span class="built_in">net</span>&#x27;</span><br><span class="line">DECLARE @port NVARCHAR(<span class="number">5</span>) = N&#x27;<span class="number">443</span>&#x27;</span><br><span class="line"></span><br><span class="line">--Script</span><br><span class="line">DECLARE @jobName NVARCHAR(<span class="number">512</span>) = N&#x27;TestTCPNetworkConnection&#x27;, @jobId BINARY(<span class="number">16</span>), @<span class="built_in">cmd</span> NVARCHAR(MAX)</span><br><span class="line"><span class="keyword">IF</span> EXISTS (SELECT job_id FROM msdb.dbo.sysjobs_view WHERE name = @jobName)</span><br><span class="line">EXEC msdb.dbo.sp_delete_job @job_name=@jobName, @delete_unused_schedule=<span class="number">1</span></span><br><span class="line">EXEC msdb.dbo.sp_add_job @job_name=@jobName, @enabled=<span class="number">1</span>, @job_id = @jobId OUTPUT</span><br><span class="line">DECLARE @stepName NVARCHAR(<span class="number">512</span>) = @endpoint + N&#x27;:&#x27; + @port</span><br><span class="line"><span class="built_in">SET</span> @<span class="built_in">cmd</span> = (N&#x27;tnc &#x27; + @endpoint + N&#x27; -port &#x27; + @port +&#x27; | select ComputerName, RemoteAddress, TcpTestSucceeded | <span class="built_in">Format</span>-List&#x27;)</span><br><span class="line">EXEC msdb.dbo.sp_add_jobstep @job_id=@jobId, @step_name=@stepName</span><br><span class="line">, @step_id=<span class="number">1</span>, @cmdexec_success_code=<span class="number">0</span>, @subsystem=N&#x27;PowerShell&#x27;, @command=@<span class="built_in">cmd</span>, @database_name=N&#x27;master&#x27;</span><br><span class="line"></span><br><span class="line">EXEC msdb.dbo.sp_add_jobserver @job_id = @jobId, @server_name = N&#x27;(local)&#x27;</span><br><span class="line">EXEC msdb.dbo.sp_start_job @job_name=@jobName</span><br><span class="line"></span><br><span class="line">--Check status every <span class="number">5</span> seconds</span><br><span class="line">DECLARE @RunStatus INT </span><br><span class="line"><span class="built_in">SET</span> @RunStatus=<span class="number">10</span></span><br><span class="line">WHILE ( @RunStatus &gt;= <span class="number">4</span>)</span><br><span class="line">BEGIN</span><br><span class="line">SELECT distinct @RunStatus  = run_status</span><br><span class="line">FROM [msdb].[dbo].[sysjobhistory] JH JOIN [msdb].[dbo].[sysjobs] J ON JH.job_id= J.job_id </span><br><span class="line">WHERE J.name=@jobName and step_id = <span class="number">0</span></span><br><span class="line">WAITFOR DELAY &#x27;<span class="number">00</span>:<span class="number">00</span>:<span class="number">05</span>&#x27;; </span><br><span class="line">END</span><br><span class="line"></span><br><span class="line">--Get logs once job completes</span><br><span class="line">SELECT [step_name] AS [Endpoint]</span><br><span class="line">,SUBSTRING([message], CHARINDEX(&#x27;TcpTestSucceeded&#x27;,[message]), CHARINDEX(&#x27;Process <span class="keyword">Exit</span>&#x27;,[message])-CHARINDEX(&#x27;TcpTestSucceeded&#x27;,[message])) as TcpTestResult</span><br><span class="line">,SUBSTRING([message], CHARINDEX(&#x27;RemoteAddress&#x27;,[message]), CHARINDEX(&#x27;TcpTestSucceeded&#x27;,[message])-CHARINDEX(&#x27;RemoteAddress&#x27;,[message])) as RemoteAddressResult</span><br><span class="line">,[run_status] ,[run_duration], [message]</span><br><span class="line">FROM [msdb].[dbo].[sysjobhistory] JH JOIN [msdb].[dbo].[sysjobs] J ON JH.job_id= J.job_id</span><br><span class="line">WHERE J.name=@jobName and step_id &lt;&gt; <span class="number">0</span></span><br><span class="line">--END</span><br></pre></td></tr></table></figure>
 
 <h2 id="出力結果の確認方法"><a href="#出力結果の確認方法" class="headerlink" title="出力結果の確認方法"></a>出力結果の確認方法</h2><hr>
@@ -147,7 +147,7 @@
 <p><img src="/blog/Connectivity/mi-tcp-connectivity-test/image001.png"></p>
 <h2 id="参考情報"><a href="#参考情報" class="headerlink" title="参考情報"></a>参考情報</h2><hr>
 <p>こちらの内容は、以下のブログ記事を参考に作成しています。</p>
-<p><a target="_blank" rel="noopener" href="https://techcommunity.microsoft.com/t5/azure-sql-blog/how-to-test-tcp-connectivity-from-a-sql-managed-instance/ba-p/3058458">https://techcommunity.microsoft.com/t5/azure-sql-blog/how-to-test-tcp-connectivity-from-a-sql-managed-instance/ba-p/3058458</a></p>
+<p><a href="https://techcommunity.microsoft.com/t5/azure-sql-blog/how-to-test-tcp-connectivity-from-a-sql-managed-instance/ba-p/3058458">https://techcommunity.microsoft.com/t5/azure-sql-blog/how-to-test-tcp-connectivity-from-a-sql-managed-instance/ba-p/3058458</a></p>
 
       
       
@@ -203,6 +203,10 @@
       <ul>
         
           <li>
+            <a href="../../Management/2014-04-01-api-retirement/">古い API 廃止の通知「Upgrade Azure SQL Database 2014-04-01 APIs to a newer version」の対処法について</a>
+          </li>
+        
+          <li>
             <a href="../../Performance/dtu-percent-high/">DTU 使用率が高騰した際の初動調査</a>
           </li>
         
@@ -216,10 +220,6 @@
         
           <li>
             <a href="../../Performance/force-execution-plan/">実行プラン強制の注意点と手順</a>
-          </li>
-        
-          <li>
-            <a href="../../Performance/parallel-query-cxpacket/">並列クエリにおける CXCONSUMER および CXPACKET 待ち</a>
           </li>
         
       </ul>
@@ -242,7 +242,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">アーカイブ</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/09/">2025 / 09</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/08/">2025 / 08</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/07/">2025 / 07</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/01/">2025 / 01</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/12/">2024 / 12</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/11/">2024 / 11</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/09/">2024 / 09</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/08/">2024 / 08</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/12/">2023 / 12</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/08/">2023 / 08</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/07/">2023 / 07</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/05/">2023 / 05</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/04/">2023 / 04</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/03/">2023 / 03</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2026/06/">2026 / 06</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/09/">2025 / 09</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/08/">2025 / 08</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/07/">2025 / 07</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/01/">2025 / 01</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/12/">2024 / 12</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/11/">2024 / 11</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/09/">2024 / 09</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/08/">2024 / 08</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/12/">2023 / 12</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/08/">2023 / 08</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/07/">2023 / 07</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/05/">2023 / 05</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/04/">2023 / 04</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/03/">2023 / 03</a></li></ul>
     </div>
   </div>
 
@@ -264,7 +264,7 @@
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2025 Microsoft SQL Cloud Support Team<br>
+      &copy; 2026 Microsoft SQL Cloud Support Team<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>

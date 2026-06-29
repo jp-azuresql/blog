@@ -17,12 +17,12 @@
 <meta property="og:image" content="https://jp-azuresql.github.io/blog/Performance/dtu-percent-high/metric.png">
 <meta property="og:image" content="https://jp-azuresql.github.io/blog/Performance/dtu-percent-high/cpu_metric.png">
 <meta property="article:published_time" content="2025-09-19T07:00:00.000Z">
-<meta property="article:modified_time" content="2025-09-22T05:29:40.312Z">
+<meta property="article:modified_time" content="2026-06-29T07:38:19.048Z">
 <meta property="article:author" content="Microsoft SQL Cloud Support Team">
+<meta property="article:tag" content="DTU">
+<meta property="article:tag" content="Performance">
 <meta property="article:tag" content="SQL Database">
 <meta property="article:tag" content="Troubleshooting">
-<meta property="article:tag" content="Performance">
-<meta property="article:tag" content="DTU">
 <meta property="article:tag" content="リソース負荷">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://jp-azuresql.github.io/blog/Performance/dtu-percent-high/search_sqldb.png">
@@ -44,7 +44,7 @@
   
 <link rel="stylesheet" href="../../css/style.css">
 
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.1"></head>
 
 <body>
   <div id="container">
@@ -62,7 +62,7 @@
         
           <a class="main-nav-link" href="/blog/archives">Archives</a>
         
-        <a class="main-nav-link" target="_blank" rel="noopener" href="https://cssjpn.github.io/">サポート情報</a>
+        <a class="main-nav-link" href="https://cssjpn.github.io/">サポート情報</a>
       </nav>
       <nav id="sub-nav">
         
@@ -110,7 +110,7 @@
         
         <a href="https://github.com/jp-azuresql/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+7136c51f-3f57-509d-b520-60a3237a5072%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5BDTU+%E4%BD%BF%E7%94%A8%E7%8E%87%E3%81%8C%E9%AB%98%E9%A8%B0%E3%81%97%E3%81%9F%E9%9A%9B%E3%81%AE%E5%88%9D%E5%8B%95%E8%AA%BF%E6%9F%BB%5D%28https%3A%2F%2Fjp-azuresql.github.io%2Fblog%2FPerformance%2Fdtu-percent-high%2F%29%0A*+Content+Source%3A+%5Barticles%2FPerformance%2Fdtu-percent-high.md%5D%28https%3A%2F%2Fgithub.com%2Fjp-azuresql%2Fblog%2Fblob%2Fmain%2Farticles%2FPerformance%2Fdtu-percent-high.md%29%0A*+Author%3A+" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
         
-        <a data-url="https://jp-azuresql.github.io/blog/Performance/dtu-percent-high/" data-id="cmfuossqb000q0nqzgj01cz6s" class="article-share-link">共有</a>
+        <a data-url="https://jp-azuresql.github.io/blog/Performance/dtu-percent-high/" data-id="cuidAOTlF2B8nYHwn3oM_ClIK" class="article-share-link">共有</a>
       </div>
     
     <div class="article-entry" itemprop="articleBody">
@@ -124,15 +124,15 @@
 <li><a href="#DTU-%E3%81%AE%E6%84%8F%E5%91%B3%E3%81%A8%E6%A7%8B%E6%88%90%E8%A6%81%E7%B4%A0">DTU の意味と構成要素</a></li>
 <li><a href="#Azure-portal-%E3%81%A7%E3%81%AE%E3%83%A1%E3%83%88%E3%83%AA%E3%83%83%E3%82%AF%E7%A2%BA%E8%AA%8D%E6%96%B9%E6%B3%95-%EF%BD%9E%E9%AB%98%E9%A8%B0%E3%81%97%E3%81%9F%E6%A7%8B%E6%88%90%E8%A6%81%E7%B4%A0%E3%81%AE%E7%89%B9%E5%AE%9A%EF%BD%9E">Azure portal でのメトリック確認方法 ～高騰した構成要素の特定～</a></li>
 </ul>
-<div class="alert is-warning"><p class="alert-title">警告</p><p>本記事は DTU 購入モデルが対象です。仮想コア購入モデルでは DTU という指標はありません。</p><p>各モデルの比較や違いは <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/azure-sql/database/purchasing-models?view=azuresql">こちら</a> や <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/azure-sql/database/service-tiers-dtu?view=azuresql">こちら</a> のドキュメントを参照ください。</p></div>
+<div class="alert is-warning"><p class="alert-title">警告</p><p>本記事は DTU 購入モデルが対象です。仮想コア購入モデルでは DTU という指標はありません。</p><p>各モデルの比較や違いは <a href="https://learn.microsoft.com/ja-jp/azure/azure-sql/database/purchasing-models?view=azuresql">こちら</a> や <a href="https://learn.microsoft.com/ja-jp/azure/azure-sql/database/service-tiers-dtu?view=azuresql">こちら</a> のドキュメントを参照ください。</p></div>
 <h2 id="DTU-の意味と構成要素"><a href="#DTU-の意味と構成要素" class="headerlink" title="DTU の意味と構成要素"></a>DTU の意味と構成要素</h2><hr>
-<p>DTU（データベース トランザクション ユニット）は、SQL DB のパフォーマンス/スペックを表す指標で、CPU・メモリ・読み取り/書き込み（Data IO と Log IO）のリソースを組み合わせたものです。<br>DTU 使用率が高騰した場合は、これらのリソース（構成要素）負荷※のうちいずれか、もしくは、複数のリソース負荷が高騰している可能性があります。</p>
+<p>DTU（データベース トランザクション ユニット）は、SQL DB のパフォーマンス&#x2F;スペックを表す指標で、CPU・メモリ・読み取り&#x2F;書き込み（Data IO と Log IO）のリソースを組み合わせたものです。<br>DTU 使用率が高騰した場合は、これらのリソース（構成要素）負荷※のうちいずれか、もしくは、複数のリソース負荷が高騰している可能性があります。</p>
 <div class="alert is-warning"><p class="alert-title">警告</p><p>※DTU にはメモリリソースも含まれますが、DTU 使用率にはメモリ使用率は含まれません。SQL DB ではメモリはデータをキャッシュするために使用され、恒常的にメモリ使用率が高い状態であることが理由です。SQL DB におけるメモリ使用率については <a href="https://jp-azuresql.github.io/blog/Performance/memory-usage/">こちら</a> のブログ記事で紹介しているので、併せてご参照ください。</p></div>
-<p>DTU 数が多いほど、より多くの計算・I/O リソースが割り当てられ、パフォーマンスが向上します。<br>DTU 使用率は、以下の 3 つのリソース使用率の中の最大値で算出されます。そのため、DTU 使用率が高騰した場合、どの構成要素の負荷が高いのか調べる必要があります。</p>
+<p>DTU 数が多いほど、より多くの計算・I&#x2F;O リソースが割り当てられ、パフォーマンスが向上します。<br>DTU 使用率は、以下の 3 つのリソース使用率の中の最大値で算出されます。そのため、DTU 使用率が高騰した場合、どの構成要素の負荷が高いのか調べる必要があります。</p>
 <p><strong>CPU 使用率:</strong><br>CPU 使用率とは、割り当てられた CPU リソースに対してどれだけ CPU を使用しているかを指します。</p>
 <p><strong>Data IO 使用率:</strong><br>Data IO 使用率とは、データベースがストレージからデータを読み込む際に発生する物理読み取り処理の負荷を指します。</p>
 <p><strong>Log IO 使用率:</strong><br>Log IO 使用率とは、データ変更クエリ（INSERT、DELETE、UPDATE 等）により生成されるトランザクションログの書き込み負荷を指します。</p>
-<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/azure-sql/database/service-tiers-dtu?view=azuresql#determine-dtu-utilization">DTU ベースの購入モデルの概要 - DTU 使用率を決定する</a></p>
+<p><a href="https://learn.microsoft.com/ja-jp/azure/azure-sql/database/service-tiers-dtu?view=azuresql#determine-dtu-utilization">DTU ベースの購入モデルの概要 - DTU 使用率を決定する</a></p>
 <h2 id="Azure-portal-でのメトリック確認方法-～高騰した構成要素の特定～"><a href="#Azure-portal-でのメトリック確認方法-～高騰した構成要素の特定～" class="headerlink" title="Azure portal でのメトリック確認方法 ～高騰した構成要素の特定～"></a>Azure portal でのメトリック確認方法 ～高騰した構成要素の特定～</h2><hr>
 <p>Azure portal から対象データベースのメトリックを確認することで、CPU 使用率、Data IO 使用率、Log IO 使用率を確認することができます。<br>以下の手順で DTU 構成要素の使用率をグラフで確認できます。</p>
 <ol>
@@ -169,6 +169,15 @@
     
 <nav id="article-nav">
   
+    <a href="../../Management/2014-04-01-api-retirement/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">次の記事</strong>
+      <div class="article-nav-title">
+        
+          古い API 廃止の通知「Upgrade Azure SQL Database 2014-04-01 APIs to a newer version」の対処法について
+        
+      </div>
+    </a>
+  
   
     <a href="../../Security/sql_audit_succeeded/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">前の記事</strong>
@@ -191,6 +200,10 @@
       <ul>
         
           <li>
+            <a href="../../Management/2014-04-01-api-retirement/">古い API 廃止の通知「Upgrade Azure SQL Database 2014-04-01 APIs to a newer version」の対処法について</a>
+          </li>
+        
+          <li>
             <a href="">DTU 使用率が高騰した際の初動調査</a>
           </li>
         
@@ -204,10 +217,6 @@
         
           <li>
             <a href="../force-execution-plan/">実行プラン強制の注意点と手順</a>
-          </li>
-        
-          <li>
-            <a href="../parallel-query-cxpacket/">並列クエリにおける CXCONSUMER および CXPACKET 待ち</a>
           </li>
         
       </ul>
@@ -230,7 +239,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">アーカイブ</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/09/">2025 / 09</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/08/">2025 / 08</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/07/">2025 / 07</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/01/">2025 / 01</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/12/">2024 / 12</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/11/">2024 / 11</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/09/">2024 / 09</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/08/">2024 / 08</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/12/">2023 / 12</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/08/">2023 / 08</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/07/">2023 / 07</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/05/">2023 / 05</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/04/">2023 / 04</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/03/">2023 / 03</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2026/06/">2026 / 06</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/09/">2025 / 09</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/08/">2025 / 08</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/07/">2025 / 07</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/01/">2025 / 01</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/12/">2024 / 12</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/11/">2024 / 11</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/09/">2024 / 09</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/08/">2024 / 08</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/12/">2023 / 12</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/08/">2023 / 08</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/07/">2023 / 07</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/05/">2023 / 05</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/04/">2023 / 04</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/03/">2023 / 03</a></li></ul>
     </div>
   </div>
 
@@ -252,7 +261,7 @@
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2025 Microsoft SQL Cloud Support Team<br>
+      &copy; 2026 Microsoft SQL Cloud Support Team<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>

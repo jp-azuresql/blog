@@ -19,15 +19,15 @@
 <meta property="og:image" content="https://jp-azuresql.github.io/blog/Performance/parallel-query-cxpacket/cxconsumer.png">
 <meta property="og:image" content="https://jp-azuresql.github.io/blog/Performance/parallel-query-cxpacket/cxpacket.png">
 <meta property="article:published_time" content="2025-01-26T15:00:00.000Z">
-<meta property="article:modified_time" content="2025-09-22T05:29:40.339Z">
+<meta property="article:modified_time" content="2026-06-29T07:38:19.076Z">
 <meta property="article:author" content="Microsoft SQL Cloud Support Team">
+<meta property="article:tag" content="Parallel Query">
+<meta property="article:tag" content="Performance">
 <meta property="article:tag" content="SQL Database">
 <meta property="article:tag" content="SQL Managed Instance">
-<meta property="article:tag" content="Performance">
 <meta property="article:tag" content="Waits">
-<meta property="article:tag" content="待機">
-<meta property="article:tag" content="Parallel Query">
 <meta property="article:tag" content="並列クエリ">
+<meta property="article:tag" content="待機">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://jp-azuresql.github.io/blog/Performance/parallel-query-cxpacket/threads.png">
   
@@ -48,7 +48,7 @@
   
 <link rel="stylesheet" href="../../css/style.css">
 
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.1"></head>
 
 <body>
   <div id="container">
@@ -66,7 +66,7 @@
         
           <a class="main-nav-link" href="/blog/archives">Archives</a>
         
-        <a class="main-nav-link" target="_blank" rel="noopener" href="https://cssjpn.github.io/">サポート情報</a>
+        <a class="main-nav-link" href="https://cssjpn.github.io/">サポート情報</a>
       </nav>
       <nav id="sub-nav">
         
@@ -114,7 +114,7 @@
         
         <a href="https://github.com/jp-azuresql/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+6490ad18-b4f1-5a5c-a9e9-585f04f5264d%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5B%E4%B8%A6%E5%88%97%E3%82%AF%E3%82%A8%E3%83%AA%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B+CXCONSUMER+%E3%81%8A%E3%82%88%E3%81%B3+CXPACKET+%E5%BE%85%E3%81%A1%5D%28https%3A%2F%2Fjp-azuresql.github.io%2Fblog%2FPerformance%2Fparallel-query-cxpacket%2F%29%0A*+Content+Source%3A+%5Barticles%2FPerformance%2Fparallel-query-cxpacket.md%5D%28https%3A%2F%2Fgithub.com%2Fjp-azuresql%2Fblog%2Fblob%2Fmain%2Farticles%2FPerformance%2Fparallel-query-cxpacket.md%29%0A*+Author%3A+" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
         
-        <a data-url="https://jp-azuresql.github.io/blog/Performance/parallel-query-cxpacket/" data-id="cmfuossqg000u0nqz880qaslp" class="article-share-link">共有</a>
+        <a data-url="https://jp-azuresql.github.io/blog/Performance/parallel-query-cxpacket/" data-id="cuidVHbIiYErI_5k1Deh9dmlc" class="article-share-link">共有</a>
       </div>
     
     <div class="article-entry" itemprop="articleBody">
@@ -130,7 +130,7 @@
 </BR>
 
 <h2 id="スレッド間でのデータの受け渡し"><a href="#スレッド間でのデータの受け渡し" class="headerlink" title="スレッド間でのデータの受け渡し"></a>スレッド間でのデータの受け渡し</h2><p>Parallelism 上では、Parallelism の右側 (実行プラン内の下位) を実行する子スレッドから左側 (実行プラン内の上位) を実行する親スレッドへデータが渡されます。子スレッドはデータを生成するという意味で Producer (生産者) と呼ばれ、親スレッドはデータを消費するという意味で Consumer (消費者) と呼ばれます。</p>
-<p>例えば、以下の実行プランが並列度 4 (degree of parallelism/DOP = 4) で実行された場合には、クエリのメインスレッドが Parallelism に達すると、並列度数に従って 4 つの子スレッドを起動します。従って、このクエリは、メインスレッド 1 つと子スレッド 4 つの合計 5 つのスレッドによって実行されることになります。<br>Producer は Parallelism の右側にある Sort - Filter - Table Scan を実行して Prallelism 上で Consumer に行を渡し、Consumer は 4 つの Producer から受け取った行をソート順を維持したままマージしてクエリの最終結果を生成し、クライアントへ送ります。</p>
+<p>例えば、以下の実行プランが並列度 4 (degree of parallelism&#x2F;DOP &#x3D; 4) で実行された場合には、クエリのメインスレッドが Parallelism に達すると、並列度数に従って 4 つの子スレッドを起動します。従って、このクエリは、メインスレッド 1 つと子スレッド 4 つの合計 5 つのスレッドによって実行されることになります。<br>Producer は Parallelism の右側にある Sort - Filter - Table Scan を実行して Prallelism 上で Consumer に行を渡し、Consumer は 4 つの Producer から受け取った行をソート順を維持したままマージしてクエリの最終結果を生成し、クライアントへ送ります。</p>
 <p><img src="/blog/Performance/parallel-query-cxpacket/threads.png"></p>
 <p>Producer から Consumer へのデータの受け渡しは Exchange Packet を用いて行われます。Producer は空の Exchange Packet にデータを入れて Consumer に渡し、Consumer はデータで満たされた Exchange Packet を受け取って Exchange Packet からデータを取り出して処理します。</p>
 <p><img src="/blog/Performance/parallel-query-cxpacket/packets.png"></p>
@@ -167,20 +167,20 @@
 <h2 id="CXPACKET-待ちとはどのような状態を示しているのか？"><a href="#CXPACKET-待ちとはどのような状態を示しているのか？" class="headerlink" title="CXPACKET 待ちとはどのような状態を示しているのか？"></a>CXPACKET 待ちとはどのような状態を示しているのか？</h2><p>Producer が空の Exchange Packet を待っている状態です。</p>
 <p><img src="/blog/Performance/parallel-query-cxpacket/cxpacket.png"></p>
 <h3 id="CXCONSUMER-待ちが発生した場合の確認ポイント"><a href="#CXCONSUMER-待ちが発生した場合の確認ポイント" class="headerlink" title="CXCONSUMER 待ちが発生した場合の確認ポイント"></a>CXCONSUMER 待ちが発生した場合の確認ポイント</h3><p>CXCONSUMER 待ちは Consumer がデータの入った Exchange Packet を待っている状態であるため、直接的には Producer が Consumer を待たせていることになります。そのため、まずは Producer の状態を確認します。</p>
-<p>実行中のクエリの各スレッドの待ちは <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/sql/relational-databases/system-dynamic-management-views/sys-dm-os-waiting-tasks-transact-sql?view=sql-server-ver16">sys.dm_os_waiting_tasks (Transact-SQL)</a> で確認することができます。</p>
+<p>実行中のクエリの各スレッドの待ちは <a href="https://learn.microsoft.com/ja-jp/sql/relational-databases/system-dynamic-management-views/sys-dm-os-waiting-tasks-transact-sql?view=sql-server-ver16">sys.dm_os_waiting_tasks (Transact-SQL)</a> で確認することができます。</p>
 <h4 id="よくあるパターン-1-Producer-が待ち状態ではない場合"><a href="#よくあるパターン-1-Producer-が待ち状態ではない場合" class="headerlink" title="- よくあるパターン 1 : Producer が待ち状態ではない場合"></a>- よくあるパターン 1 : Producer が待ち状態ではない場合</h4><p>Producer がテーブルやインデックスの広範囲をスキャンしなければならない状況で、スキャン範囲内のほとんどの行が WHERE 条件を満たしていないなど対象外となるような場合には、Producer が Consumer へ渡すべき行を見つけるまでに時間がかかることになるため、CXCONSUMER 待ちが発生することは想定された状況です。この状況を改善するためには、Producer のスキャン範囲を狭めるために適切なインデックスを作成することが有効です。</p>
 <p>インデックス等によって Producer のスキャン範囲が既に最小範囲に限定されている状況であれば、CXCONSUMER 待ちは避けることができないものと考えられます。</p>
 <h4 id="よくあるパターン-2-CXCONSUMER-待ちが短時間"><a href="#よくあるパターン-2-CXCONSUMER-待ちが短時間" class="headerlink" title="- よくあるパターン 2 : CXCONSUMER 待ちが短時間"></a>- よくあるパターン 2 : CXCONSUMER 待ちが短時間</h4><p>CXCONSUMER 待ちの発生が断続的かつそれぞれの待ち時間もミリ秒単位の短いものであれば、おそらくクエリは効率的に実行されていて、特に対処の必要はないものと考えられます。</p>
-<h4 id="よくあるパターン-3-Producer-がロック獲得待ち"><a href="#よくあるパターン-3-Producer-がロック獲得待ち" class="headerlink" title="- よくあるパターン 3 : Producer がロック獲得待ち"></a>- よくあるパターン 3 : Producer がロック獲得待ち</h4><p>Producer が要求するロックが他のトランザクションが保持しているロックと競合した場合、Producer はロック獲得待ち (wait_type = LCK_M_*) となります。この状況では、Producer は Exchange Packet に新たな行を入れることはできませんので、Consumer は CXCONSUMER 待ちになります。Producer がロック獲得待ちになるのは、他のトランザクションとロックが競合しているからであり、ロックが競合する確率は、獲得するロック数が多くなるほど高くなります。従って、Producer が獲得する必要のあるロックが最小数になるようにチューニングすることが効果的です。そのためにはスキャン範囲が必要最小限になるようなインデックスが必要です。一方で、競合相手となっているトランザクションの観点においては、スキャン範囲を最小限にするとともに、ロック保持期間、つまり、トランザクションがコミットされるまでの時間を最短にするためのチューニングが必要です。</p>
-<p>ここで注意が必要な点として、ロックが獲得されるのはクエリの最終結果に含まれる行やキーだけではないという点があげられます。詳しくは、<a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/archive/blogs/jpsql/277">こちら</a>を参照してください。</p>
+<h4 id="よくあるパターン-3-Producer-がロック獲得待ち"><a href="#よくあるパターン-3-Producer-がロック獲得待ち" class="headerlink" title="- よくあるパターン 3 : Producer がロック獲得待ち"></a>- よくあるパターン 3 : Producer がロック獲得待ち</h4><p>Producer が要求するロックが他のトランザクションが保持しているロックと競合した場合、Producer はロック獲得待ち (wait_type &#x3D; LCK_M_*) となります。この状況では、Producer は Exchange Packet に新たな行を入れることはできませんので、Consumer は CXCONSUMER 待ちになります。Producer がロック獲得待ちになるのは、他のトランザクションとロックが競合しているからであり、ロックが競合する確率は、獲得するロック数が多くなるほど高くなります。従って、Producer が獲得する必要のあるロックが最小数になるようにチューニングすることが効果的です。そのためにはスキャン範囲が必要最小限になるようなインデックスが必要です。一方で、競合相手となっているトランザクションの観点においては、スキャン範囲を最小限にするとともに、ロック保持期間、つまり、トランザクションがコミットされるまでの時間を最短にするためのチューニングが必要です。</p>
+<p>ここで注意が必要な点として、ロックが獲得されるのはクエリの最終結果に含まれる行やキーだけではないという点があげられます。詳しくは、<a href="https://learn.microsoft.com/en-us/archive/blogs/jpsql/277">こちら</a>を参照してください。</p>
 <h4 id="よくあるパターン-4-Producer-が-PAGEIOLATCH-SH-などのファイル-IO-完了待ち"><a href="#よくあるパターン-4-Producer-が-PAGEIOLATCH-SH-などのファイル-IO-完了待ち" class="headerlink" title="- よくあるパターン 4 : Producer が PAGEIOLATCH_SH などのファイル IO 完了待ち"></a>- よくあるパターン 4 : Producer が PAGEIOLATCH_SH などのファイル IO 完了待ち</h4><p>Producer が PAGEIOLATCH_SH や PAGEIOLATCH_EX 待ち (ファイル IO 待ち) になっている場合、クエリによってアクセスされるデータの多くがキャッシュされていない状態であると考えられます。顕著な PAGEIOLATCH 待ちが見られる場合、改善のためには、ストレージが処理可能な IO 数を増やすか、クエリが発行する IO 数を減らすかのどちらかの対応が考えられます。</p>
-<p>処理可能な IO 数を増やすというアプローチで対応しようとすると、SQL Managed Instance (以降 SQL MI) General Purpose であればファイルサイズを大きくして<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/azure-sql/managed-instance/resource-limits?view=azuresql#file-io-characteristics-in-general-purpose-tier">IOPS の上限</a>を引き上げるか、Business Critical に移行するという方法が考えられます。<br>SQL MI Next-gen General Purpose や Business Critical であれば仮想コア数を追加して<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/azure-sql/managed-instance/resource-limits?view=azuresql#iops">IOPS の上限</a>を引き上げることが有効な場合があります。</p>
+<p>処理可能な IO 数を増やすというアプローチで対応しようとすると、SQL Managed Instance (以降 SQL MI) General Purpose であればファイルサイズを大きくして<a href="https://learn.microsoft.com/ja-jp/azure/azure-sql/managed-instance/resource-limits?view=azuresql#file-io-characteristics-in-general-purpose-tier">IOPS の上限</a>を引き上げるか、Business Critical に移行するという方法が考えられます。<br>SQL MI Next-gen General Purpose や Business Critical であれば仮想コア数を追加して<a href="https://learn.microsoft.com/ja-jp/azure/azure-sql/managed-instance/resource-limits?view=azuresql#iops">IOPS の上限</a>を引き上げることが有効な場合があります。</p>
 <p>ストレージが処理可能な IO 数を増やすのではなく、クエリが発行する IO を減らすというアプローチで対応する場合は、クエリがアクセスするデータ量を減らすために、クエリの実行プランを確認し、インデックスの追加や変更、テーブル構成の見直し、クエリ内の WHERE や JOIN ON などの条件の見直しなどを行います。</p>
-<p>個々のクエリではなくインスタンス全体としてバッファプール内のデータの入れ替えが激しいためにファイル IO が多くなっている状況 (Page life expectancy が低い状況) であれば、キャッシュできるデータ量を増やすためにメモリサイズを大きくするといった対応が考えられます。SQL MI であれば<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/azure-sql/managed-instance/resource-limits?view=azuresql#max-memory">メモリサイズはコア数に比例</a>して大きくなります。</p>
+<p>個々のクエリではなくインスタンス全体としてバッファプール内のデータの入れ替えが激しいためにファイル IO が多くなっている状況 (Page life expectancy が低い状況) であれば、キャッシュできるデータ量を増やすためにメモリサイズを大きくするといった対応が考えられます。SQL MI であれば<a href="https://learn.microsoft.com/ja-jp/azure/azure-sql/managed-instance/resource-limits?view=azuresql#max-memory">メモリサイズはコア数に比例</a>して大きくなります。</p>
 <h4 id="その他の待ち"><a href="#その他の待ち" class="headerlink" title="- その他の待ち"></a>- その他の待ち</h4><p>上記以外にも、Producer はいろいろな待ちになる可能性がありますので、どのような待ちであるのかを確認し、確認できた待ちに対応した対処が必要になります。</p>
 </BR>
 
-<h2 id="CXPACKET-待ちが発生した場合の確認ポイント"><a href="#CXPACKET-待ちが発生した場合の確認ポイント" class="headerlink" title="CXPACKET 待ちが発生した場合の確認ポイント"></a>CXPACKET 待ちが発生した場合の確認ポイント</h2><p>CXPACKET 待ちは、Producer が空の Exchange Packet を待っている状態であるため、直接的には Consumer が Producer を待たせていることになります。そのため、まずは Consumer の状態を確認します。<br>実行中のクエリの各スレッドの待ちは <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/sql/relational-databases/system-dynamic-management-views/sys-dm-os-waiting-tasks-transact-sql?view=sql-server-ver16">sys.dm_os_waiting_tasks (Transact-SQL)</a> で確認することができます。</p>
+<h2 id="CXPACKET-待ちが発生した場合の確認ポイント"><a href="#CXPACKET-待ちが発生した場合の確認ポイント" class="headerlink" title="CXPACKET 待ちが発生した場合の確認ポイント"></a>CXPACKET 待ちが発生した場合の確認ポイント</h2><p>CXPACKET 待ちは、Producer が空の Exchange Packet を待っている状態であるため、直接的には Consumer が Producer を待たせていることになります。そのため、まずは Consumer の状態を確認します。<br>実行中のクエリの各スレッドの待ちは <a href="https://learn.microsoft.com/ja-jp/sql/relational-databases/system-dynamic-management-views/sys-dm-os-waiting-tasks-transact-sql?view=sql-server-ver16">sys.dm_os_waiting_tasks (Transact-SQL)</a> で確認することができます。</p>
 <h4 id="よくあるパターン-1-Consumer-が待ち状態ではない場合や-CXPACKET-待ちが短時間である場合"><a href="#よくあるパターン-1-Consumer-が待ち状態ではない場合や-CXPACKET-待ちが短時間である場合" class="headerlink" title="- よくあるパターン 1 : Consumer が待ち状態ではない場合や CXPACKET 待ちが短時間である場合"></a>- よくあるパターン 1 : Consumer が待ち状態ではない場合や CXPACKET 待ちが短時間である場合</h4><p>Consumer が待ち状態ではない (sys.dm_os_waiting_tasks の結果に含まれない) 場合や CXPACKET 待ち時間がミリ秒単位の短い時間である場合、Producer のデータ生成に対して Consumer のデータ消費が追い付いていない状況ということになりますが、Parallelism の論理操作が Gather Streams であれば、ひとつの Consumer に対して複数の Producer という構成になるため、Producer の生成するデータ量が多い場合にはこの状況になりえます。この場合は、クエリは良好に実行されており、特に対処の必要はないものと考えられます。</p>
 <p>なお、このような場合であっても、MAXDOP 値を調整することでさらにクエリ全体の実行時間を短くすることができる場合もありますので、業務要件上さらなるクエリの短時間化が要求される場合は、実際に MAXDOP 値を変えながらクエリを実行して、そのクエリにとって最適な MAXDOP 値を見つけてみてください。</p>
 <h4 id="よくあるパターン-2-Consumer-が-ASYNC-NETWORKIO-待ち"><a href="#よくあるパターン-2-Consumer-が-ASYNC-NETWORKIO-待ち" class="headerlink" title="- よくあるパターン 2 : Consumer が ASYNC_NETWORKIO 待ち"></a>- よくあるパターン 2 : Consumer が ASYNC_NETWORKIO 待ち</h4><p>実行プラン内の最初の Parallelim の左側部分を実行する Consumer (この場合はメインスレッド) が ASYNC_NETWORK_IO 待ちである場合、CXPACKET 待ちの原因は、クエリを実行しているアプリケーションがクエリの結果を取得していないことです。</p>
@@ -252,6 +252,10 @@
       <ul>
         
           <li>
+            <a href="../../Management/2014-04-01-api-retirement/">古い API 廃止の通知「Upgrade Azure SQL Database 2014-04-01 APIs to a newer version」の対処法について</a>
+          </li>
+        
+          <li>
             <a href="../dtu-percent-high/">DTU 使用率が高騰した際の初動調査</a>
           </li>
         
@@ -265,10 +269,6 @@
         
           <li>
             <a href="../force-execution-plan/">実行プラン強制の注意点と手順</a>
-          </li>
-        
-          <li>
-            <a href="">並列クエリにおける CXCONSUMER および CXPACKET 待ち</a>
           </li>
         
       </ul>
@@ -291,7 +291,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">アーカイブ</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/09/">2025 / 09</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/08/">2025 / 08</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/07/">2025 / 07</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/01/">2025 / 01</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/12/">2024 / 12</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/11/">2024 / 11</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/09/">2024 / 09</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/08/">2024 / 08</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/12/">2023 / 12</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/08/">2023 / 08</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/07/">2023 / 07</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/05/">2023 / 05</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/04/">2023 / 04</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/03/">2023 / 03</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2026/06/">2026 / 06</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/09/">2025 / 09</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/08/">2025 / 08</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/07/">2025 / 07</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/01/">2025 / 01</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/12/">2024 / 12</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/11/">2024 / 11</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/09/">2024 / 09</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/08/">2024 / 08</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/12/">2023 / 12</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/08/">2023 / 08</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/07/">2023 / 07</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/05/">2023 / 05</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/04/">2023 / 04</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/03/">2023 / 03</a></li></ul>
     </div>
   </div>
 
@@ -313,7 +313,7 @@
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2025 Microsoft SQL Cloud Support Team<br>
+      &copy; 2026 Microsoft SQL Cloud Support Team<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>

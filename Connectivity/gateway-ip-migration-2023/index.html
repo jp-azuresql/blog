@@ -17,13 +17,13 @@
 <meta property="og:image" content="https://jp-azuresql.github.io/blog/Connectivity/gateway-ip-migration-2023/nsg.png">
 <meta property="og:image" content="https://jp-azuresql.github.io/blog/Connectivity/gateway-ip-migration-2023/windows-defender.png">
 <meta property="article:published_time" content="2023-08-01T06:00:00.000Z">
-<meta property="article:modified_time" content="2025-09-22T05:29:40.302Z">
+<meta property="article:modified_time" content="2026-06-29T07:38:19.038Z">
 <meta property="article:author" content="Microsoft SQL Cloud Support Team">
-<meta property="article:tag" content="Connectivity">
-<meta property="article:tag" content="SQL Database">
-<meta property="article:tag" content="Gateway">
 <meta property="article:tag" content="Alert">
+<meta property="article:tag" content="Connectivity">
+<meta property="article:tag" content="Gateway">
 <meta property="article:tag" content="Migration">
+<meta property="article:tag" content="SQL Database">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://jp-azuresql.github.io/blog/Connectivity/gateway-ip-migration-2023/connectivity-architecture.png">
   
@@ -44,7 +44,7 @@
   
 <link rel="stylesheet" href="../../css/style.css">
 
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.1"></head>
 
 <body>
   <div id="container">
@@ -62,7 +62,7 @@
         
           <a class="main-nav-link" href="/blog/archives">Archives</a>
         
-        <a class="main-nav-link" target="_blank" rel="noopener" href="https://cssjpn.github.io/">サポート情報</a>
+        <a class="main-nav-link" href="https://cssjpn.github.io/">サポート情報</a>
       </nav>
       <nav id="sub-nav">
         
@@ -110,27 +110,27 @@
         
         <a href="https://github.com/jp-azuresql/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+1652c8ef-58bb-59e6-a0a7-ac9c0dccc7bb%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5BAzure+SQL+Database+%E3%82%B2%E3%83%BC%E3%83%88%E3%82%A6%E3%82%A7%E3%82%A4+IP+%E7%A7%BB%E8%A1%8C%E3%81%AE%E9%80%9A%E7%9F%A5%E3%81%B8%E3%81%AE%E5%AF%BE%E5%BF%9C%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6+-+FK_B-9T8+%2F+WS_W-1T0+%E7%AD%89%5D%28https%3A%2F%2Fjp-azuresql.github.io%2Fblog%2FConnectivity%2Fgateway-ip-migration-2023%2F%29%0A*+Content+Source%3A+%5Barticles%2FConnectivity%2Fgateway-ip-migration-2023.md%5D%28https%3A%2F%2Fgithub.com%2Fjp-azuresql%2Fblog%2Fblob%2Fmain%2Farticles%2FConnectivity%2Fgateway-ip-migration-2023.md%29%0A*+Author%3A+" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
         
-        <a data-url="https://jp-azuresql.github.io/blog/Connectivity/gateway-ip-migration-2023/" data-id="cmfuosspx00040nqzejhdbc8a" class="article-share-link">共有</a>
+        <a data-url="https://jp-azuresql.github.io/blog/Connectivity/gateway-ip-migration-2023/" data-id="cuidQHNNWMXx_dKNW0lyjZ24I" class="article-share-link">共有</a>
       </div>
     
     <div class="article-entry" itemprop="articleBody">
       
         <p>こんにちは。SQL Cloud サポート チームの宮崎です。</p>
-<p>今回の投稿では、Azure SQL Database (SQL DB) において、2023 年 8 月 31 日以降に実施予定のゲートウェイ IP アドレスの移行（追跡 ID - FK_B-9T8 / WS_W-1T0 等）の概要とユーザー側での対応の要否、対処方法について説明します。</p>
+<p>今回の投稿では、Azure SQL Database (SQL DB) において、2023 年 8 月 31 日以降に実施予定のゲートウェイ IP アドレスの移行（追跡 ID - FK_B-9T8 &#x2F; WS_W-1T0 等）の概要とユーザー側での対応の要否、対処方法について説明します。</p>
 <span id="more"></span>
 
 <h2 id="Azure-SQL-Database-ゲートウェイ-IP-アドレス移行の概要"><a href="#Azure-SQL-Database-ゲートウェイ-IP-アドレス移行の概要" class="headerlink" title="Azure SQL Database ゲートウェイ IP アドレス移行の概要"></a>Azure SQL Database ゲートウェイ IP アドレス移行の概要</h2><hr>
 <p>SQL DB の接続アーキテクチャでは、アプリケーションから SQL DB へ接続する際に Azure 内部のゲートウェイを経由します。</p>
 <p><img src="/blog/Connectivity/gateway-ip-migration-2023/connectivity-architecture.png"></p>
-<p>今回の追跡 ID （FK_B-9T8/WS_W-1T0 等）の通知は、この度このゲートウェイの IP アドレスが追加されることにより、アプリケーションが動作するクライアントマシンのファイアウォールや仮想ネットワークのネットワークセキュリティグループ（NSG）にて通信の送受信を制限している場合、その制限ルールによっては変更後のゲートウェイへの通信がブロックされてしまうため、ユーザー側で新しいゲートウェイの IP アドレスへの通信を許可する必要がある、という内容です。</p>
+<p>今回の追跡 ID （FK_B-9T8&#x2F;WS_W-1T0 等）の通知は、この度このゲートウェイの IP アドレスが追加されることにより、アプリケーションが動作するクライアントマシンのファイアウォールや仮想ネットワークのネットワークセキュリティグループ（NSG）にて通信の送受信を制限している場合、その制限ルールによっては変更後のゲートウェイへの通信がブロックされてしまうため、ユーザー側で新しいゲートウェイの IP アドレスへの通信を許可する必要がある、という内容です。</p>
 <div class="alert is-info"><p class="alert-title">Note</p><p>今回のゲートウェイ IP の移行は、特定の SQL DB リソースのみではなく、すべての SQL Database が対象となります。</p></div>
 <h2 id="ユーザー側の対応の要否と対処方法について"><a href="#ユーザー側の対応の要否と対処方法について" class="headerlink" title="ユーザー側の対応の要否と対処方法について"></a>ユーザー側の対応の要否と対処方法について</h2><hr>
 <h3 id="対応が必要な通信経路"><a href="#対応が必要な通信経路" class="headerlink" title="対応が必要な通信経路"></a>対応が必要な通信経路</h3><p>アプリケーションから SQL DB に接続する場合、以下の 3 つの経路（接続方式）があります。</p>
 <p>A. パブリックネットワークアクセス<br>B. 仮想ネットワークからサービスエンドポイント経由の接続<br>C. プライベートエンドポイント経由でのプライベート接続</p>
 <p>今回通知の影響を受ける接続方式は、A と B のみとなります。</p>
 <div class="alert is-important"><p class="alert-title">重要</p><p>プライベートエンドポイント接続のみをご利用の場合は、当該通知による影響の対象外となりユーザー側での対応は不要です。</p><p>アプリケーションからプライベートエンドポイントへの接続となり、プライベートエンドポイントからゲートウェイへの通信制御は Azure 内部で行われるためです。</p></div>
-<h3 id="ゲートウェイへの通信可否の確認方法と対処方法"><a href="#ゲートウェイへの通信可否の確認方法と対処方法" class="headerlink" title="ゲートウェイへの通信可否の確認方法と対処方法"></a>ゲートウェイへの通信可否の確認方法と対処方法</h3><p>当該通知に関してユーザー側で対応が必要かどうかに関しては、SQL DB へ接続を行うアプリケーション（クライアントマシン）のネットワーク設定や仮想ネットワーク/サブネットのネットワークセキュリティグループ（NSG）のアウトバウンド通信ルール、OS のファイアウォールルールなどを確認します。<br>以下ドキュメントに記載の対象リージョン（使用している SQL DB が存在するリージョン）のゲートウェイ IP アドレスとゲートウェイ IP アドレスのサブネットレンジすべてへの通信が行える状態になっているか（ファイアウォールのアウトバウンド通信制御にてゲートウェイアドレスへの通信がブロックされる設定になっていないか等）を確認する必要があります。</p>
-<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/azure-sql/database/connectivity-architecture?view=azuresql-db#gateway-ip-addresses">ゲートウェイ IP アドレス</a></p>
+<h3 id="ゲートウェイへの通信可否の確認方法と対処方法"><a href="#ゲートウェイへの通信可否の確認方法と対処方法" class="headerlink" title="ゲートウェイへの通信可否の確認方法と対処方法"></a>ゲートウェイへの通信可否の確認方法と対処方法</h3><p>当該通知に関してユーザー側で対応が必要かどうかに関しては、SQL DB へ接続を行うアプリケーション（クライアントマシン）のネットワーク設定や仮想ネットワーク&#x2F;サブネットのネットワークセキュリティグループ（NSG）のアウトバウンド通信ルール、OS のファイアウォールルールなどを確認します。<br>以下ドキュメントに記載の対象リージョン（使用している SQL DB が存在するリージョン）のゲートウェイ IP アドレスとゲートウェイ IP アドレスのサブネットレンジすべてへの通信が行える状態になっているか（ファイアウォールのアウトバウンド通信制御にてゲートウェイアドレスへの通信がブロックされる設定になっていないか等）を確認する必要があります。</p>
+<p><a href="https://learn.microsoft.com/ja-jp/azure/azure-sql/database/connectivity-architecture?view=azuresql-db#gateway-ip-addresses">ゲートウェイ IP アドレス</a></p>
 <p>以下東日本リージョンのゲートウェイ IP アドレスとゲートウェイ IP アドレス サブネットの抜粋</p>
 <table>
 <thead>
@@ -143,7 +143,7 @@
 <tbody><tr>
 <td>Japan East</td>
 <td>40.79.184.8, 40.79.192.5,<br> 13.78.104.32, 40.79.184.32</td>
-<td>13.78.104.32/29, 40.79.184.32/29,<br> 40.79.192.32/29, 20.191.165.160/27</td>
+<td>13.78.104.32&#x2F;29, 40.79.184.32&#x2F;29,<br> 40.79.192.32&#x2F;29, 20.191.165.160&#x2F;27</td>
 </tr>
 </tbody></table>
 <p>以下西日本リージョンのゲートウェイ IP アドレスとゲートウェイ IP アドレス サブネットの抜粋</p>
@@ -158,10 +158,10 @@
 <tbody><tr>
 <td>Japan West</td>
 <td>104.214.148.156, 40.74.97.10</td>
-<td>40.74.96.32/29, 20.18.179.192/29, <br> 20.189.225.160/27</td>
+<td>40.74.96.32&#x2F;29, 20.18.179.192&#x2F;29, <br> 20.189.225.160&#x2F;27</td>
 </tr>
 </tbody></table>
-<div class="alert is-info"><p class="alert-title">Note</p><p>上記ドキュメントに記載のゲートウェイアドレス/サブネットに関して、現時点ではまだ稼働していないゲートウェイのアドレス（今後利用予定のアドレス）もあるため、Test-NetConnection 等のゲートウェイアドレスに対する疎通確認コマンドにてすべてのゲートウェイアドレスへの通信可否を確認することはできません。</p><p>そのため、アプリケーション側のネットワーク、ファイアウォールの設定を確認する必要があります。</p></div>
+<div class="alert is-info"><p class="alert-title">Note</p><p>上記ドキュメントに記載のゲートウェイアドレス&#x2F;サブネットに関して、現時点ではまだ稼働していないゲートウェイのアドレス（今後利用予定のアドレス）もあるため、Test-NetConnection 等のゲートウェイアドレスに対する疎通確認コマンドにてすべてのゲートウェイアドレスへの通信可否を確認することはできません。</p><p>そのため、アプリケーション側のネットワーク、ファイアウォールの設定を確認する必要があります。</p></div>
 <h4 id="NSG-ルール"><a href="#NSG-ルール" class="headerlink" title="NSG ルール"></a>NSG ルール</h4><p>NSG のアウトバウンド通信設定を確認する場合は、Azure portal より該当の NSG の「送信セキュリティ規則」画面から、設定されているルールを確認します。<br>SQL DB のゲートウェイへのアウトバウンド通信がブロックされるような Deny ルールがある場合は、より高い優先度（優先度の値が低い）で、すべての SQL DB のゲートウェイ IP アドレスとゲートウェイ IP アドレスのサブネットレンジへの通信を許可するルールを追加します。</p>
 <p><img src="/blog/Connectivity/gateway-ip-migration-2023/nsg.png"></p>
 <div class="alert is-important"><p class="alert-title">重要</p><p>NSG の送信セキュリティ規則にて、SQL DB（ゲートウェイ）への通信の宛先にサービスタグ Sql.&lt;リージョン&gt; を設定している場合は NSG のルールの変更や追加は不要です。</p><p>サービスタグ Sql.&lt;リージョン&gt; には、該当リージョンのすべてのゲートウェイ IP アドレスとゲートウェイ IP アドレスのサブネットレンジが含まれています。</p></div>
@@ -194,11 +194,11 @@
     
 <nav id="article-nav">
   
-    <a href="../../Security/vulnerabilityAssessmentQA/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="../../Security/vulnerabilityAssessment/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">次の記事</strong>
       <div class="article-nav-title">
         
-          Azure SQL Database / SQL Managed Instance の脆弱性評価に関する FAQ
+          Azure SQL Database / SQL Managed Instance 脆弱性評価の概要と有効化/無効化の手順
         
       </div>
     </a>
@@ -225,6 +225,10 @@
       <ul>
         
           <li>
+            <a href="../../Management/2014-04-01-api-retirement/">古い API 廃止の通知「Upgrade Azure SQL Database 2014-04-01 APIs to a newer version」の対処法について</a>
+          </li>
+        
+          <li>
             <a href="../../Performance/dtu-percent-high/">DTU 使用率が高騰した際の初動調査</a>
           </li>
         
@@ -238,10 +242,6 @@
         
           <li>
             <a href="../../Performance/force-execution-plan/">実行プラン強制の注意点と手順</a>
-          </li>
-        
-          <li>
-            <a href="../../Performance/parallel-query-cxpacket/">並列クエリにおける CXCONSUMER および CXPACKET 待ち</a>
           </li>
         
       </ul>
@@ -264,7 +264,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">アーカイブ</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/09/">2025 / 09</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/08/">2025 / 08</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/07/">2025 / 07</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/01/">2025 / 01</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/12/">2024 / 12</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/11/">2024 / 11</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/09/">2024 / 09</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/08/">2024 / 08</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/12/">2023 / 12</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/08/">2023 / 08</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/07/">2023 / 07</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/05/">2023 / 05</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/04/">2023 / 04</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/03/">2023 / 03</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2026/06/">2026 / 06</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/09/">2025 / 09</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/08/">2025 / 08</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/07/">2025 / 07</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/01/">2025 / 01</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/12/">2024 / 12</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/11/">2024 / 11</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/09/">2024 / 09</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/08/">2024 / 08</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/12/">2023 / 12</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/08/">2023 / 08</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/07/">2023 / 07</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/05/">2023 / 05</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/04/">2023 / 04</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/03/">2023 / 03</a></li></ul>
     </div>
   </div>
 
@@ -286,7 +286,7 @@
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2025 Microsoft SQL Cloud Support Team<br>
+      &copy; 2026 Microsoft SQL Cloud Support Team<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>

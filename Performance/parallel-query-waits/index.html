@@ -17,15 +17,15 @@
 <meta property="og:image" content="https://jp-azuresql.github.io/blog/Performance/parallel-query-waits/multiple-parallelism.png">
 <meta property="og:image" content="https://jp-azuresql.github.io/blog/Performance/parallel-query-waits/syncport.PNG">
 <meta property="article:published_time" content="2025-01-05T15:00:00.000Z">
-<meta property="article:modified_time" content="2025-09-22T05:29:40.340Z">
+<meta property="article:modified_time" content="2026-06-29T07:38:19.077Z">
 <meta property="article:author" content="Microsoft SQL Cloud Support Team">
+<meta property="article:tag" content="Parallel Query">
+<meta property="article:tag" content="Performance">
 <meta property="article:tag" content="SQL Database">
 <meta property="article:tag" content="SQL Managed Instance">
-<meta property="article:tag" content="Performance">
 <meta property="article:tag" content="Waits">
-<meta property="article:tag" content="待機">
-<meta property="article:tag" content="Parallel Query">
 <meta property="article:tag" content="並列クエリ">
+<meta property="article:tag" content="待機">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://jp-azuresql.github.io/blog/Performance/parallel-query-waits/threads.png">
   
@@ -46,7 +46,7 @@
   
 <link rel="stylesheet" href="../../css/style.css">
 
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.1"></head>
 
 <body>
   <div id="container">
@@ -64,7 +64,7 @@
         
           <a class="main-nav-link" href="/blog/archives">Archives</a>
         
-        <a class="main-nav-link" target="_blank" rel="noopener" href="https://cssjpn.github.io/">サポート情報</a>
+        <a class="main-nav-link" href="https://cssjpn.github.io/">サポート情報</a>
       </nav>
       <nav id="sub-nav">
         
@@ -112,7 +112,7 @@
         
         <a href="https://github.com/jp-azuresql/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+3674fbe6-8944-5a61-925d-2e837c050055%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5B%E4%B8%A6%E5%88%97%E3%82%AF%E3%82%A8%E3%83%AA%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B+CXSYNC_PORT+%E5%BE%85%E3%81%A1%5D%28https%3A%2F%2Fjp-azuresql.github.io%2Fblog%2FPerformance%2Fparallel-query-waits%2F%29%0A*+Content+Source%3A+%5Barticles%2FPerformance%2Fparallel-query-waits.md%5D%28https%3A%2F%2Fgithub.com%2Fjp-azuresql%2Fblog%2Fblob%2Fmain%2Farticles%2FPerformance%2Fparallel-query-waits.md%29%0A*+Author%3A+" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
         
-        <a data-url="https://jp-azuresql.github.io/blog/Performance/parallel-query-waits/" data-id="cmfuossqg000v0nqzhilyajs6" class="article-share-link">共有</a>
+        <a data-url="https://jp-azuresql.github.io/blog/Performance/parallel-query-waits/" data-id="cuidCqyFgNoFwdd-Kc_LEmhRj" class="article-share-link">共有</a>
       </div>
     
     <div class="article-entry" itemprop="articleBody">
@@ -126,9 +126,9 @@
 </BR>
 
 <h2 id="初めに"><a href="#初めに" class="headerlink" title="初めに"></a>初めに</h2><p>この投稿は、実行プランを見てクエリがどのように実行されているのかを理解できることを前提としています。<br>実行プランの見方が分からない場合は、この投稿の前に以下の文書を読んで下さい。</p>
-<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/archive/blogs/jpsql/1">実行プランを読む - 基本編 (その 1)</a><br><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/archive/blogs/jpsql/2">実行プランを読む - 基本編 (その 2)</a></p>
+<p><a href="https://learn.microsoft.com/en-us/archive/blogs/jpsql/1">実行プランを読む - 基本編 (その 1)</a><br><a href="https://learn.microsoft.com/en-us/archive/blogs/jpsql/2">実行プランを読む - 基本編 (その 2)</a></p>
 <p>以下の文書については、この投稿を読む上では必しも必要ではありませんが、上の 2 つの文書の関連となりますので参考としてここで紹介します。</p>
-<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/archive/blogs/jpsql/3">実行プランを読む - 基本編 (その 3)</a><br><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/archive/blogs/jpsql/4">実行プランを読む - 基本編 (その 4)</a></p>
+<p><a href="https://learn.microsoft.com/en-us/archive/blogs/jpsql/3">実行プランを読む - 基本編 (その 3)</a><br><a href="https://learn.microsoft.com/en-us/archive/blogs/jpsql/4">実行プランを読む - 基本編 (その 4)</a></p>
 </BR>
 
 <h2 id="並列クエリ"><a href="#並列クエリ" class="headerlink" title="並列クエリ"></a>並列クエリ</h2><p>ひとつのクエリは通常ひとつのスレッドによって実行されますが、アクセス対象データ量が多いことが想定される場合、一つのクエリが複数のスレッドによって実行されることがあります。このようなクエリは並列クエリ (parallel query) と呼ばれます。</p>
@@ -136,7 +136,7 @@
 </BR>
 
 <h2 id="スレッド間でのデータの受け渡し"><a href="#スレッド間でのデータの受け渡し" class="headerlink" title="スレッド間でのデータの受け渡し"></a>スレッド間でのデータの受け渡し</h2><p>Parallelism では、Parallelism の右側 (実行プラン内の下位) を実行する子スレッドから左側 (実行プラン内の上位) を実行する親スレッドへデータが渡されます。スレッド間でデータ交換を行うという観点から、Parallelism は Exchange とも呼ばれます。<br>子スレッドはデータを生成するという意味で Producer (生産者) と呼ばれ、親スレッドはデータを消費するという意味で Consumer (消費者) と呼ばれます。</p>
-<p>例えば、以下の実行プランが並列度 4 (degree of parallelism または DOP = 4) で実行された場合には、クエリの実行が開始され、メインスレッドが Parallelism に到達すると、並列度数に従って 4 つの子スレッドを起動します、従って、このクエリは、メインスレッド 1 つと子スレッド 4 つの合計 5 つのスレッドによって実行されることになります。<br>Producer は Parallelism の右側にある Sort - Filter - Table Scan を実行して Parallelism 上で Consumer に行を渡し、Consumer は 4 つの Producer から受け取った行をソート順を維持したままマージしてクエリの最終結果を生成し、クライアントに送ります。</p>
+<p>例えば、以下の実行プランが並列度 4 (degree of parallelism または DOP &#x3D; 4) で実行された場合には、クエリの実行が開始され、メインスレッドが Parallelism に到達すると、並列度数に従って 4 つの子スレッドを起動します、従って、このクエリは、メインスレッド 1 つと子スレッド 4 つの合計 5 つのスレッドによって実行されることになります。<br>Producer は Parallelism の右側にある Sort - Filter - Table Scan を実行して Parallelism 上で Consumer に行を渡し、Consumer は 4 つの Producer から受け取った行をソート順を維持したままマージしてクエリの最終結果を生成し、クライアントに送ります。</p>
 </BR>
 
 <p><img src="/blog/Performance/parallel-query-waits/threads.png"></p>
@@ -162,18 +162,18 @@
 <h4 id="確認ポイント-1-Stop-and-Go-オペレータを含む実行プランであるか"><a href="#確認ポイント-1-Stop-and-Go-オペレータを含む実行プランであるか" class="headerlink" title="- 確認ポイント 1: Stop and Go オペレータを含む実行プランであるか"></a>- 確認ポイント 1: Stop and Go オペレータを含む実行プランであるか</h4><p>例えば、以下の実行プランは Stop and Go オペレーターのひとつである Sort が子スレッドによって実行されています。Sort は指定されている順番に行を並べ、親オペレーターに対してソート順を維持したまま行を渡す必要があります。そのため、Sort がデータの受け渡しを開始できるようになるのは、すべての対象行を読み込んで指定されている順番に並び替えた後です。言い換えれば、Sort の Open から復帰した後です。<br>前述の通り、CXSYNC_PORT 待ちはすべてのスレッドがデータの受け渡しが可能になるのを待っている状態 (オペレーターの Open が完了して Port の Open をした状態) です。この例でいえば、各 Producer (Thread 1 ～ 4) は 50000 前後の行を読み取って並べ替えていますが、この 4 つの Producer スレッドすべてがこの処理を完了させるまでは Consumer (Thread 0) は CXSYNC_PORT 待ちです。つまり、このクエリは Consumer が CXSYNC_PORT 待ちの間にクエリ処理のほとんどを完了しており、CXSYNC_PORT 待ちが解消した後に行う必要のある処理は、Consumer が Producer 達からソート済みの結果を受け取って、ソート順を崩さないようにマージしてクライアントへ返送するだけです。</p>
 <p>このようなクエリについては、Consumer はクエリ全体の実行時間の多くを CXSYNC_PORT 待ちの状態で過ごすことが想定され、必ずしも CXSYNC_PORT 待ちを解消するために何かをする必要はない可能性があります。</p>
 <p><img src="/blog/Performance/parallel-query-waits/syncport.PNG"></p>
-<div class="alert is-info"><p class="alert-title">Note</p><p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/sql/relational-databases/system-dynamic-management-views/sys-dm-os-wait-stats-transact-sql?view=sql-server-ver16">sys.dm_os_wait_stats (Transact-SQL)</a> の CXSYNC_PORT の説明に「クエリ プランに長い並べ替え操作がある場合、Exchange 反復子ポートを同期する前に並べ替えを完了する必要があるため、 CXSYNC_PORT 待機が高くなる可能性があります。」(if a query plan has a long sort operation, CXSYNC_PORT waits might be higher because the sort must complete before the Exchange Iterator port can be synchronized.) と書かれているのはこの状況を指しています。</p></div>
+<div class="alert is-info"><p class="alert-title">Note</p><p><a href="https://learn.microsoft.com/ja-jp/sql/relational-databases/system-dynamic-management-views/sys-dm-os-wait-stats-transact-sql?view=sql-server-ver16">sys.dm_os_wait_stats (Transact-SQL)</a> の CXSYNC_PORT の説明に「クエリ プランに長い並べ替え操作がある場合、Exchange 反復子ポートを同期する前に並べ替えを完了する必要があるため、 CXSYNC_PORT 待機が高くなる可能性があります。」(if a query plan has a long sort operation, CXSYNC_PORT waits might be higher because the sort must complete before the Exchange Iterator port can be synchronized.) と書かれているのはこの状況を指しています。</p></div>
 </BR>
 
 <h4 id="確認ポイント-2-CXSYNC-PORT-待ちの原因となっているスレッドが何かを待っていないか"><a href="#確認ポイント-2-CXSYNC-PORT-待ちの原因となっているスレッドが何かを待っていないか" class="headerlink" title="- 確認ポイント 2: CXSYNC_PORT 待ちの原因となっているスレッドが何かを待っていないか"></a>- 確認ポイント 2: CXSYNC_PORT 待ちの原因となっているスレッドが何かを待っていないか</h4><p>CXSYNC_PORT 待ちになるのは Consumer だけとは限らず、Procuder が CXSYNC_PORT 待ちになる場合もあります。例えば、前述の例で、ひとつの Producer の処理が他の Producerよりも時間がかかる状況になれば、Consumer と先に処理を完了した Producer は CXSYNC_PORT 待ちになります。この状況の場合、対処すべきポイントとなる可能性があるのは CXSYNC_PORT 待ちのスレッドではなく、処理に時間のかかっている CXSYNC_PORT 待ちではない Producer です。</p>
 <p>このような場合、処理が完了していない Producer が何らかの待ち状態になっていないかどうかを確認する必要があります。<br>待ち状態になっているのであれば、その待ちを解消することでその他のスレッドの CXSYNC_PORT 待ちも解消することができます。</p>
-<p>実行中のクエリの各スレッドの待ちは <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/sql/relational-databases/system-dynamic-management-views/sys-dm-os-waiting-tasks-transact-sql?view=sql-server-ver16">sys.dm_os_waiting_tasks (Transact-SQL)</a> で確認することができます。</p>
+<p>実行中のクエリの各スレッドの待ちは <a href="https://learn.microsoft.com/ja-jp/sql/relational-databases/system-dynamic-management-views/sys-dm-os-waiting-tasks-transact-sql?view=sql-server-ver16">sys.dm_os_waiting_tasks (Transact-SQL)</a> で確認することができます。</p>
 <p>例えば、その Producer がロック獲得待ちになっているのであれば、そのロック待ち時間が最小になるようにすることで CXSYNC_PORT 待ちの時間も短くすることができます。ロック獲得待ちが発生する要因は、他のトランザクションと競合するロックを獲得しようとしているからであり、ロックが競合する確率は、獲得するロック数が多くなるほど高くなります。従って、CXSYNC_PORT 待ちとなっているクエリの観点においては、Producer が獲得する必要のあるロックが最小数になるようにチューニングすることが効果的です。そのためにはクエリのデータアクセス範囲が必要最小限になるようなインデックスが必要です。一方で、競合相手となっているトランザクションの観点においては、データアクセス範囲を最小限にするとともに、ロック保持期間、つまり、ロックを獲得してからトランザクションをコミットするまでの時間を最短にするためのチューニングが必要です。</p>
 </BR>
 
 <h4 id="上記確認ポイントに該当しない場合"><a href="#上記確認ポイントに該当しない場合" class="headerlink" title="- 上記確認ポイントに該当しない場合"></a>- 上記確認ポイントに該当しない場合</h4><p>おそらくそのクエリは最適に実行されていて、対処の必要はありません。</p>
 <p>もし、さらにパフォーマンスの改善余地があるのかどうかを確認したい場合は、クエリに対して適切なインデックスがあるか、統計情報が最新か、クエリ内で比較している列やパラメーターのデータ型が一致しているか、比較列を加工していないか、といった基本的な点を再確認し、デフラグのために対象テーブルやインデックスの再構築 (ALTER INDEX REBUILD, ALTER TABLE REBUILD) を行った後、改めてクエリを実行してパフォーマンスが改善するかどうか確認してみてください。</p>
-<div class="alert is-info"><p class="alert-title">Note</p><p>データ型を一致されることや比較列を加工しないようにすることの重要性については以下で説明しています。</p><p></BR></p><p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/archive/blogs/jpsql/dosdonts-2">絶対にやらなければいけないこと - データ型を一致させる</a></p><p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/archive/blogs/jpsql/dosdonts-4-where-join-on-123">やらない方がいいこと - クエリの 条件句 (WHERE や JOIN ON 等) で参照されている列の加工</a></p></div>
+<div class="alert is-info"><p class="alert-title">Note</p><p>データ型を一致されることや比較列を加工しないようにすることの重要性については以下で説明しています。</p><p></BR></p><p><a href="https://learn.microsoft.com/en-us/archive/blogs/jpsql/dosdonts-2">絶対にやらなければいけないこと - データ型を一致させる</a></p><p><a href="https://learn.microsoft.com/en-us/archive/blogs/jpsql/dosdonts-4-where-join-on-123">やらない方がいいこと - クエリの 条件句 (WHERE や JOIN ON 等) で参照されている列の加工</a></p></div>
 </BR>
 </BR>
 
@@ -238,6 +238,10 @@
       <ul>
         
           <li>
+            <a href="../../Management/2014-04-01-api-retirement/">古い API 廃止の通知「Upgrade Azure SQL Database 2014-04-01 APIs to a newer version」の対処法について</a>
+          </li>
+        
+          <li>
             <a href="../dtu-percent-high/">DTU 使用率が高騰した際の初動調査</a>
           </li>
         
@@ -251,10 +255,6 @@
         
           <li>
             <a href="../force-execution-plan/">実行プラン強制の注意点と手順</a>
-          </li>
-        
-          <li>
-            <a href="../parallel-query-cxpacket/">並列クエリにおける CXCONSUMER および CXPACKET 待ち</a>
           </li>
         
       </ul>
@@ -277,7 +277,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">アーカイブ</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/09/">2025 / 09</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/08/">2025 / 08</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/07/">2025 / 07</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/01/">2025 / 01</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/12/">2024 / 12</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/11/">2024 / 11</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/09/">2024 / 09</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/08/">2024 / 08</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/12/">2023 / 12</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/08/">2023 / 08</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/07/">2023 / 07</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/05/">2023 / 05</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/04/">2023 / 04</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/03/">2023 / 03</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2026/06/">2026 / 06</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/09/">2025 / 09</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/08/">2025 / 08</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/07/">2025 / 07</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/01/">2025 / 01</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/12/">2024 / 12</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/11/">2024 / 11</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/09/">2024 / 09</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/08/">2024 / 08</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/12/">2023 / 12</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/08/">2023 / 08</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/07/">2023 / 07</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/05/">2023 / 05</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/04/">2023 / 04</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/03/">2023 / 03</a></li></ul>
     </div>
   </div>
 
@@ -299,7 +299,7 @@
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2025 Microsoft SQL Cloud Support Team<br>
+      &copy; 2026 Microsoft SQL Cloud Support Team<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>

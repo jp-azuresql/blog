@@ -14,11 +14,11 @@
 <meta property="og:description" content="こんにちは。SQL Cloud サポート チームの太田です。 今回の投稿では、SQL Managed Instance (SQL MI) 上でTDE保護されたデータベースのCOPY_ONLYバックアップをとる方法をご紹介します。 ※本文は2019年5月19日にMicrosoft Tech Communityに投稿された記事の翻訳をベースにしています。Take a COPY_ONLY backup">
 <meta property="og:locale" content="ja_JP">
 <meta property="article:published_time" content="2024-09-03T06:00:00.000Z">
-<meta property="article:modified_time" content="2025-09-22T05:29:40.305Z">
+<meta property="article:modified_time" content="2026-06-29T07:38:19.042Z">
 <meta property="article:author" content="Microsoft SQL Cloud Support Team">
-<meta property="article:tag" content="SQL Managed Instance">
-<meta property="article:tag" content="Management">
 <meta property="article:tag" content="Backup">
+<meta property="article:tag" content="Management">
+<meta property="article:tag" content="SQL Managed Instance">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternate" href="../../atom.xml" title="Japan SQL Cloud Support Blog" type="application/atom+xml">
@@ -38,7 +38,7 @@
   
 <link rel="stylesheet" href="../../css/style.css">
 
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.1"></head>
 
 <body>
   <div id="container">
@@ -56,7 +56,7 @@
         
           <a class="main-nav-link" href="/blog/archives">Archives</a>
         
-        <a class="main-nav-link" target="_blank" rel="noopener" href="https://cssjpn.github.io/">サポート情報</a>
+        <a class="main-nav-link" href="https://cssjpn.github.io/">サポート情報</a>
       </nav>
       <nav id="sub-nav">
         
@@ -104,20 +104,20 @@
         
         <a href="https://github.com/jp-azuresql/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+122b3869-bd8b-5468-822e-fd2a958b116f%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5BAzure+SQL+Managed+Instance%E4%B8%8A%E3%81%A7%E9%80%8F%E9%81%8E%E7%9A%84%E3%81%AA%E3%83%87%E3%83%BC%E3%82%BF%E3%83%99%E3%83%BC%E3%82%B9%E6%9A%97%E5%8F%B7%E5%8C%96%28TDE%29%E3%81%AB%E3%82%88%E3%82%8A%E4%BF%9D%E8%AD%B7%E3%81%95%E3%82%8C%E3%81%9F%E3%83%87%E3%83%BC%E3%82%BF%E3%83%99%E3%83%BC%E3%82%B9%E3%81%AECOPY_ONLY%E3%83%90%E3%83%83%E3%82%AF%E3%82%A2%E3%83%83%E3%83%97%E3%82%92%E3%81%A8%E3%82%8B%5D%28https%3A%2F%2Fjp-azuresql.github.io%2Fblog%2FManagement%2FTDE_backup%2F%29%0A*+Content+Source%3A+%5Barticles%2FManagement%2FTDE_backup.md%5D%28https%3A%2F%2Fgithub.com%2Fjp-azuresql%2Fblog%2Fblob%2Fmain%2Farticles%2FManagement%2FTDE_backup.md%29%0A*+Author%3A+" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
         
-        <a data-url="https://jp-azuresql.github.io/blog/Management/TDE_backup/" data-id="cmfuossq3000b0nqz43o87yzj" class="article-share-link">共有</a>
+        <a data-url="https://jp-azuresql.github.io/blog/Management/TDE_backup/" data-id="cuidER9VjWmzTk8bx4UT_OCOb" class="article-share-link">共有</a>
       </div>
     
     <div class="article-entry" itemprop="articleBody">
       
         <p>こんにちは。SQL Cloud サポート チームの太田です。</p>
 <p>今回の投稿では、SQL Managed Instance (SQL MI) 上でTDE保護されたデータベースのCOPY_ONLYバックアップをとる方法をご紹介します。</p>
-<p>※本文は2019年5月19日にMicrosoft Tech Communityに投稿された記事の翻訳をベースにしています。<br><a target="_blank" rel="noopener" href="https://techcommunity.microsoft.com/t5/azure-sql-blog/take-a-copy-only-backup-of-tde-protected-database-on-azure-sql/ba-p/643407#:~:text=However%2C%20for%20TDE%20protected%20databases%20that%20use%20Service,take%20your%20data%2C%20and%20violate%20your%20security%20policy.">Take a COPY_ONLY backup of TDE protected database on Azure SQL Managed Instance</a></p>
+<p>※本文は2019年5月19日にMicrosoft Tech Communityに投稿された記事の翻訳をベースにしています。<br><a href="https://techcommunity.microsoft.com/t5/azure-sql-blog/take-a-copy-only-backup-of-tde-protected-database-on-azure-sql/ba-p/643407#:~:text=However%2C%20for%20TDE%20protected%20databases%20that%20use%20Service,take%20your%20data%2C%20and%20violate%20your%20security%20policy.">Take a COPY_ONLY backup of TDE protected database on Azure SQL Managed Instance</a></p>
 <span id="more"></span>
 
 
 <h2 id="TDEとは"><a href="#TDEとは" class="headerlink" title="TDEとは"></a>TDEとは</h2><hr>
 <p>TDE（Transparent Data Encryption）はセキュリティ機能の一つで、メモリと基礎となるストレージの間でやり取りされるページを透過的に暗号化します。</p>
-<p>&lt;関連ドキュメント&gt;<br><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/sql/relational-databases/security/encryption/transparent-data-encryption?view=sql-server-ver16">透過的なデータ暗号化 (TDE) - SQL Server | Microsoft Learn</a></p>
+<p>&lt;関連ドキュメント&gt;<br><a href="https://learn.microsoft.com/ja-jp/sql/relational-databases/security/encryption/transparent-data-encryption?view=sql-server-ver16">透過的なデータ暗号化 (TDE) - SQL Server | Microsoft Learn</a></p>
 <h2 id="バックアップの方法"><a href="#バックアップの方法" class="headerlink" title="バックアップの方法"></a>バックアップの方法</h2><hr>
 <p>SQL MI は、完全に暗号化されたAzureストレージ上に保存される自動バックアップを備えており、セキュリティを担保し、多くの機能を提供します。また、SQL MI では、独自の COPY_ONLY バックアップを取ることもできます。これは、組み込みの自動バックアップと比較すると用途は限られますが、有用な場合があります（例えば、保持期間を過ぎたバックアップを保持する場合など）。</p>
 <p>ただし、SQL MI でサービス管理キーを使用するTDE保護されたデータベースでは、手動でCOPY_ONLYバックアップを取ることはできません。バックアップを試みた場合、以下のエラーが表示されます。<br><em>Microsoft.Data.SqlClient.SqlError: The backup operation for a database with service-managed transparent data encryption is not supported on SQL Database Managed Instance. (Microsoft.SqlServer.Smo)</em></p>
@@ -128,31 +128,37 @@
 <p>ただし、この場合でも、データベース内に暗号化されたページがないことを確認し、復号化が完了するのを待ってからバックアップを取る必要があります。復号化が完了する前にデータベースをバックアップすると、別のインスタンスでバックアップを復元しようとしたときに以下のエラーが発生する可能性があります：<br> <strong>33111</strong> Cannot find server certificate with thumbprint …<br>SQL MI でデータベースをバックアップおよびリストアする推奨の方法は、組み込みの自動バックアップとインスタンス間のポイントインタイムリストアを使用することです。</p>
 <p>手動でCOPY_ONLYバックアップを使用する必要がある場合は、以下の手順に従ってください：</p>
 <ol>
-<li><p>バックアップを取るユーザーデータベースに接続します：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">USE <span class="operator">&lt;</span>dbname<span class="operator">&gt;</span> GO</span><br></pre></td></tr></table></figure></li>
-<li><p>DB が TDE で暗号化されているかどうかを確認します：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> sys.dm_database_encryption_keys</span><br></pre></td></tr></table></figure></li>
-<li><p>データベースが暗号化されている場合、暗号化をオフにするようにデータベースを変更します。この操作を実行するとき、実行中のトランザクションがないことに注意してください：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> DATABASE <span class="operator">&lt;</span>dbName<span class="operator">&gt;</span> <span class="keyword">SET</span> ENCRYPTION OFF</span><br></pre></td></tr></table></figure></li>
-<li><p>データベースのチェックポイントを実行します：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CHECKPOINT</span><br></pre></td></tr></table></figure></li>
-<li><p>データベース暗号化キー(DEK)を削除します：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DROP</span> DATABASE ENCRYPTION KEY</span><br></pre></td></tr></table></figure></li>
-<li><p>ログを切り捨てます：</p>
+<li>バックアップを取るユーザーデータベースに接続します：</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">USE <span class="operator">&lt;</span>dbname<span class="operator">&gt;</span> GO</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>DB が TDE で暗号化されているかどうかを確認します：</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> sys.dm_database_encryption_keys</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>データベースが暗号化されている場合、暗号化をオフにするようにデータベースを変更します。この操作を実行するとき、実行中のトランザクションがないことに注意してください：</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> DATABASE <span class="operator">&lt;</span>dbName<span class="operator">&gt;</span> <span class="keyword">SET</span> ENCRYPTION OFF</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>データベースのチェックポイントを実行します：</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CHECKPOINT</span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li>データベース暗号化キー(DEK)を削除します：</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DROP</span> DATABASE ENCRYPTION KEY</span><br></pre></td></tr></table></figure>
+<ol start="6">
+<li>ログを切り捨てます：</li>
+</ol>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DBCC SHRINKFILE ( <span class="operator">&lt;</span>logName<span class="operator">&gt;</span>, <span class="number">1</span>)</span><br></pre></td></tr></table></figure>
 <div class="alert is-info"><p class="alert-title">Note</p><p>ログファイルの名前は以下のコマンドにより取得が可能です。</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span></p><p></pre></td><td class="code"><pre><span class="line"><span class="operator">&gt;</span><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> sys.database_files</span></p><p></pre></td></tr></table></figure>
 <p>このクエリの結果からtype_descがLOGとなっているファイルの名前を指定してください。</p></div>
-</li>
-<li><p>以下のコマンドを実行します：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> sys.dm_db_log_info </span><br></pre></td></tr></table></figure>
-<p>これで、サムプリントで暗号化されたアクティブなVLFは表示されません。</p>
-</li>
-<li><p>バックアップを取ります。</p>
-</li>
-<li><p>バックアップを復元し、証明書を要求しないことを確認します。</p>
-</li>
+<ol start="7">
+<li>以下のコマンドを実行します：</li>
 </ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> sys.dm_db_log_info </span><br></pre></td></tr></table></figure>
+<p>これで、サムプリントで暗号化されたアクティブなVLFは表示されません。<br>8. バックアップを取ります。<br>9. バックアップを復元し、証明書を要求しないことを確認します。</p>
 
       
       
@@ -208,6 +214,10 @@
       <ul>
         
           <li>
+            <a href="../2014-04-01-api-retirement/">古い API 廃止の通知「Upgrade Azure SQL Database 2014-04-01 APIs to a newer version」の対処法について</a>
+          </li>
+        
+          <li>
             <a href="../../Performance/dtu-percent-high/">DTU 使用率が高騰した際の初動調査</a>
           </li>
         
@@ -221,10 +231,6 @@
         
           <li>
             <a href="../../Performance/force-execution-plan/">実行プラン強制の注意点と手順</a>
-          </li>
-        
-          <li>
-            <a href="../../Performance/parallel-query-cxpacket/">並列クエリにおける CXCONSUMER および CXPACKET 待ち</a>
           </li>
         
       </ul>
@@ -247,7 +253,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">アーカイブ</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/09/">2025 / 09</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/08/">2025 / 08</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/07/">2025 / 07</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/01/">2025 / 01</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/12/">2024 / 12</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/11/">2024 / 11</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/09/">2024 / 09</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/08/">2024 / 08</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/12/">2023 / 12</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/08/">2023 / 08</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/07/">2023 / 07</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/05/">2023 / 05</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/04/">2023 / 04</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/03/">2023 / 03</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2026/06/">2026 / 06</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/09/">2025 / 09</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/08/">2025 / 08</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/07/">2025 / 07</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/01/">2025 / 01</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/12/">2024 / 12</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/11/">2024 / 11</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/09/">2024 / 09</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/08/">2024 / 08</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/12/">2023 / 12</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/08/">2023 / 08</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/07/">2023 / 07</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/05/">2023 / 05</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/04/">2023 / 04</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/03/">2023 / 03</a></li></ul>
     </div>
   </div>
 
@@ -269,7 +275,7 @@
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2025 Microsoft SQL Cloud Support Team<br>
+      &copy; 2026 Microsoft SQL Cloud Support Team<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
