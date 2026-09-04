@@ -10,7 +10,29 @@
   <rights>All rights reserved 2026, Microsoft SQL Cloud Support Team</rights>
   <subtitle>日本マイクロソフト SQL Cloud チームによるサポートブログです。</subtitle>
   <title>Japan SQL Cloud Support Blog</title>
-  <updated>2026-06-29T07:38:19.041Z</updated>
+  <updated>2026-09-04T07:42:45.263Z</updated>
+  <entry>
+    <author>
+      <name>Microsoft SQL Cloud Support Team</name>
+    </author>
+    <category term="SQL Database" scheme="https://jp-azuresql.github.io/blog/tags/SQL-Database/"/>
+    <category term="Information" scheme="https://jp-azuresql.github.io/blog/tags/Information/"/>
+    <category term="Database Migration Service" scheme="https://jp-azuresql.github.io/blog/tags/Database-Migration-Service/"/>
+    <category term="Feature Request" scheme="https://jp-azuresql.github.io/blog/tags/Feature-Request/"/>
+    <category term="新機能" scheme="https://jp-azuresql.github.io/blog/tags/%E6%96%B0%E6%A9%9F%E8%83%BD/"/>
+    <category term="お問い合わせ" scheme="https://jp-azuresql.github.io/blog/tags/%E3%81%8A%E5%95%8F%E3%81%84%E5%90%88%E3%82%8F%E3%81%9B/"/>
+    <content>
+      <![CDATA[<p>SQL Cloud サポート チームの宮崎です。<br>今回の投稿では、Azure SQL Database (SQL DB) と Azure Database Migration Service（DMS）における、新機能のリクエスト（Feature Request）方法やプロセスについてご紹介します。</p><span id="more"></span><h2 id="目次"><a href="#目次" class="headerlink" title="目次"></a>目次</h2><hr><ul><li><a href="#%E7%9B%AE%E6%AC%A1">目次</a></li><li><a href="#%E6%A9%9F%E8%83%BD%E3%83%AA%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88%E3%81%AE%E6%96%B9%E6%B3%95">機能リクエストの方法</a></li><li><a href="#%E3%81%94%E8%B5%B7%E7%A5%A8%E3%81%84%E3%81%9F%E3%81%A0%E3%81%84%E3%81%9F%E6%A9%9F%E8%83%BD%E3%83%AA%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88%E3%81%AE%E5%8F%96%E3%82%8A%E6%89%B1%E3%81%84%EF%BD%9E%E3%82%B5%E3%83%9D%E3%83%BC%E3%83%88%E3%83%AA%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88%E3%82%AF%E3%83%AD%E3%83%BC%E3%82%BA%E3%81%BE%E3%81%A7%E3%81%AE%E6%B5%81%E3%82%8C">ご起票いただいた機能リクエストの取り扱い～サポートリクエストクローズまでの流れ</a></li><li><a href="#%E8%A3%9C%E8%B6%B3%EF%BC%9A%E6%8A%80%E8%A1%93%E3%82%B5%E3%83%9D%E3%83%BC%E3%83%88%E3%83%AA%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6">補足：技術サポートリクエストについて</a></li></ul><div class="alert is-warning"><p class="alert-title">警告</p><p>今回のブログの内容は、日本の Azure SQL Database と Azure Database Migration Service 担当チームにて対応可能なプロセスとしてご紹介しております。</p><p>執筆時点では、ほかの製品&#x2F;サービスには適用されず、同じ方法でリクエストいただいた場合でも、本記事の内容は適用されないことがございますため、あらかじめご留意ください。</p></div><h2 id="機能リクエストの方法"><a href="#機能リクエストの方法" class="headerlink" title="機能リクエストの方法"></a>機能リクエストの方法</h2><hr><p>SQL DB や DMS において、新しい機能のご希望や既存機能の改善案のご希望などがある場合、対象のサービス（SQL DB &#x2F; DMS）をご選択の上サポートリクエストをご起票ください。私どもサポートチームより、いただいた内容を弊社開発部門にフィードバックさせていただきます。</p><div class="alert is-info"><p class="alert-title">Note</p><p>リクエストいただいた機能を実装するかどうかの検討には最低でも数か月程度のお時間が必要であり、また、実装すると決まった場合でも、本番環境に適用されるまでに半年から数年程度かかることが想定されます。</p><p>また、開発上の優先順位や技術的な制約などにより、実装や製品への反映をお約束するものではなく、あくまで今後の製品開発&#x2F;改善を検討する際の 1 つの参考情報として取り扱われますので、あらかじめご了承ください。</p></div><p><strong>「すでに同様のリクエストがあるだろう」とお考えの場合でもお気軽にサポートリクエストをご起票ください。</strong><br><strong>複数のお客様より同様のリクエストが多くある場合は、多くのお客様に関心のあるリクエストであると判断することができますので、どのような内容のリクエストでもお気軽にご起票いただけますと幸いです。</strong></p><p>機能リクエストのお問い合わせは、例えば以下のようなテンプレートを基にご起票いただけますと迅速に受付することが可能です。あくまでも一例となりますので、必ずしも以下の形式に沿ったご起票とする必要はございませんが、機能リクエスト&#x2F;改善リクエストであることがわかるようにご起票いただけますと幸いです。</p><div class="alert is-info"><p class="alert-title">Note</p><p>1 サポートリクエストにつき 1 機能リクエストとしてご起票いただくようお願いいたします。</p></div><figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[例<span class="number">1</span>]</span><br><span class="line">お問い合わせ件名 - [新機能リクエスト] SQL Database で JavaScript コードを呼び出せるようにしたい</span><br><span class="line"></span><br><span class="line">お問い合わせ内容:</span><br><span class="line">機能詳細 - Azure SQL Database から JavaScript コードを直接実行できる機能を追加してほしい。例えば、JavaScript によるデータ変換処理や外部 API との連携処理をストアドプロシージャから呼び出せるようにしたい。</span><br><span class="line"></span><br><span class="line">現行仕様による制約と影響 - 現行のシステムでは、アプリケーション層や Azure Functions などの外部サービスにて JavaScript を実行しており、処理を分離する必要があり、システム構成が複雑になっている。</span><br><span class="line"></span><br><span class="line">当該機能実装によるメリット - 複雑なビジネスロジックをデータベース側で実行できるようになり、開発効率の向上やアーキテクチャの簡素化が期待できる。</span><br></pre></td></tr></table></figure></br><figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[例<span class="number">2</span>]</span><br><span class="line">お問い合わせ件名 - [新機能リクエスト] Azure DMS にて Azure portal の GUI で移行前の評価を行う機能</span><br><span class="line"></span><br><span class="line">お問い合わせ内容:</span><br><span class="line">機能詳細 - 現在 DMS では移行の実行は可能であるが、Azure Portal の GUI 上から移行前評価（Assessment）を実施できる機能を追加してほしい。Azure Data Studio が廃止されてしまったため、DMS にて移行前に互換性や機能制限事項、最適なサービスレベルを確認できるようにしたい。</span><br><span class="line"></span><br><span class="line">現行仕様による制約と影響 - 移行前評価を実施するために別ツールやスクリプトを利用する必要があり、評価手順が複雑になる。また、評価結果と移行ジョブが分離されているため、運用管理の負荷が発生する。</span><br><span class="line"></span><br><span class="line">当該機能実装によるメリット - Azure Portal 上で評価から移行までを一元的に実施できるようになり、移行計画の策定や事前確認が容易になる。移行作業の効率化や導入障壁の低減も期待できる。</span><br></pre></td></tr></table></figure></br><figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[例<span class="number">3</span>]</span><br><span class="line">お問い合わせ件名 - [機能改善リクエスト] Azure SQL Database の計画メンテナンスの事前通知とメンテナンス期間を Basic や Standard S0, S1 でもサポートしてほしい</span><br><span class="line"></span><br><span class="line">お問い合わせ内容:</span><br><span class="line">機能詳細 - 現在 SQL Database にて、計画メンテナンスの事前通知を受け取る場合、メンテナンス期間を &quot;システムの既定値&quot; 以外に設定した上でサービス正常性アラートによる設定が必要だが、DTU モデルの Basic や S0, S1 では、メンテナンス期間の変更がサポートされておらず、事前通知を受け取ることができないため、Basic や S0, S1 もサポートしてほしい。</span><br><span class="line"></span><br><span class="line">現行仕様による制約と影響 - 弊社環境では、ワークロードの少ない期間 S0 や S1 にスケールダウンして運用することがあり、そのタイミングで事前通知を受け取れないことがある。</span><br><span class="line"></span><br><span class="line">当該機能実装によるメリット - S0 や S1 といったサービスレベルで計画メンテナンスの事前通知を受け取ることができると、事前に対応の準備や利用ユーザー様への周知が可能となり、また、スケールダウンを安心して行える。</span><br></pre></td></tr></table></figure><p>以下のコミュニティ&#x2F;フィードバックサイトでもリクエストの受付をしておりますので、サポートリクエストのご起票権限のないお客様やサポートリクエストのご起票ができないご契約のお客様は、こちらをご活用いただけますと幸いです。</p><p><a href="https://feedback.azure.com/d365community/forum/ef2b2b38-2f25-ec11-b6e6-000d3a4f0f84">SQL Database | Microsoft Azure | Share your ideas</a><br><a href="https://feedback.azure.com/d365community/forum/2dd7eb75-ef24-ec11-b6e6-000d3a4f0da0">Azure Database Migration Service | Microsoft Azure | Share your ideas</a></p><h2 id="ご起票いただいた機能リクエストの取り扱い～サポートリクエストクローズまでの流れ"><a href="#ご起票いただいた機能リクエストの取り扱い～サポートリクエストクローズまでの流れ" class="headerlink" title="ご起票いただいた機能リクエストの取り扱い～サポートリクエストクローズまでの流れ"></a>ご起票いただいた機能リクエストの取り扱い～サポートリクエストクローズまでの流れ</h2><p>SQL DB や DMS において、新しい機能のご希望や既存機能の改善案のサポートリクエストをご起票いただけましたら、私どもサポートチームより、いただいた内容を弊社開発部門にフィードバックさせていただきます。<br>その際に、できる限りお客様のご希望に沿った形で開発部門に連携させていただくため、適宜サポートチームにてヒアリングをさせていただく場合がございますので、Teams 会議や電話、メールでのコミュニケーションにご協力いただけますと幸いです。 </p><p>機能追加や機能改善リクエストのお問い合わせに関しては、私どもサポート部門で内容を受領し、開発部門にフィードバックを行ったタイミングで対応を完了とする点にご理解いただけますと幸いです。<br>お客様へのヒアリング、弊社開発部門への連携の後、お客様との合意の上サポートリクエストのクローズに向けてのコミュニケーションを進めさせていただきます。</p><p>お問い合わせクローズ後に、頂いた機能リクエストの状況を確認されたい場合、数か月後等に別途お問い合わせを起票いただき、その際に、機能追加リクエストのお問い合わせ時に発行されたお問い合わせ番号と共にリクエストの状況を確認したい旨を記載いただけましたら、その時点での状況を回答させていただきます。 </p><p>なお、上記でお知らせの通り、優先度が高いご希望の場合も、実装や製品への反映をお約束ができるものではございません。機能リクエストには多くの制約と必要な期間が存在いたしますが、お客様の声を今後より良い製品に反映できるよう、サポートチームとして全力でご支援させていただきますので、上記の点についてはなにとぞご承知おきいただけますと幸いです。 </p><h2 id="補足：技術サポートリクエストについて"><a href="#補足：技術サポートリクエストについて" class="headerlink" title="補足：技術サポートリクエストについて"></a>補足：技術サポートリクエストについて</h2><hr><p>新機能リクエスト以外にも、現行機能に関する Q&amp;A アドバイザリーやトラブルシューティング、障害対応など、SQL DB や DMS に関してお困りごとがございましたら、お気軽にサポートリクエストをご起票ください。</p><p>また、トラブルシューティングや Q&amp;A 観点でお問い合わせいただいた際に、担当のサポートエンジニアに関連トピックの新機能や機能改善のリクエストをお伝えいただいた場合でも、フィードバックとしてお伺いが可能ですのでお気軽にお知らせください。ただし、原則 1 サポートリクエスト 1 トピックのご支援とさせていただきますので、新機能リクエスト用のお問い合わせの別途起票をお願いする場合がございます。その際はご協力お願いできますと幸いです。</p></br></br><div style="text-align: right">宮崎 雄右</div><div style="text-align: right">Azure SQL Cloud support, Microsoft</div></br><p><font color="LightGray">キーワード：#サポートリクエスト #機能リクエスト #追加機能 #機能改善</font></p>]]>
+    </content>
+    <id>https://jp-azuresql.github.io/blog/Information/feature-request-guidance/</id>
+    <link href="https://jp-azuresql.github.io/blog/Information/feature-request-guidance/"/>
+    <published>2026-09-04T08:00:00.000Z</published>
+    <summary>
+      <![CDATA[<p>SQL Cloud サポート チームの宮崎です。<br>今回の投稿では、Azure SQL Database (SQL DB) と Azure Database Migration Service（DMS）における、新機能のリクエスト（Feature Request）方法やプロセスについてご紹介します。</p>]]>
+    </summary>
+    <title>Azure SQL Database / Azure Database Migration Service に関する新機能のリクエスト（Feature Request）について</title>
+    <updated>2026-09-04T07:42:45.263Z</updated>
+  </entry>
   <entry>
     <author>
       <name>Microsoft SQL Cloud Support Team</name>
@@ -32,7 +54,7 @@
 <p>今回の投稿では、Azure SQL Database (SQL DB) において、<del>2026 年 6 月 30 日</del> <strong>2027 年 6 月 30 日</strong> に廃止される REST API バージョン 2014-04-01 の対処法についてご紹介します。</p>]]>
     </summary>
     <title>古い API 廃止の通知「Upgrade Azure SQL Database 2014-04-01 APIs to a newer version」の対処法について</title>
-    <updated>2026-06-29T07:38:19.041Z</updated>
+    <updated>2026-09-04T07:42:45.264Z</updated>
   </entry>
   <entry>
     <author>
@@ -53,7 +75,7 @@
       <![CDATA[<p>こんにちは。SQL Cloud サポート チームの Uneme です。<br>今回の投稿では、Azure SQL Database (SQL DB) において DTU 使用率が高騰した際の初動調査の方法を紹介します。</p>]]>
     </summary>
     <title>DTU 使用率が高騰した際の初動調査</title>
-    <updated>2026-06-29T07:38:19.048Z</updated>
+    <updated>2026-09-04T07:42:45.269Z</updated>
   </entry>
   <entry>
     <author>
@@ -74,7 +96,7 @@
       <![CDATA[<p>SQL 監査のサーバー監査仕様、データベース監査仕様には succeeded という名前の列があります。succeeded 列の値が 1 (成功) であったとしても、必ずしもその操作が成功したとは限りません。</p>]]>
     </summary>
     <title>SQL 監査の succeeded 列</title>
-    <updated>2026-06-29T07:38:19.098Z</updated>
+    <updated>2026-09-04T07:42:45.315Z</updated>
   </entry>
   <entry>
     <author>
@@ -96,7 +118,7 @@
       <![CDATA[<p>SQL Managed Instance (以降 SQL MI) において分散トランザクションを実行するために使用可能な機能は二つあります。ひとつはエラスティック データベース トランザクション、もうひとつが分散トランザクションコーディネーターです。<br>この文書では、それぞれの機能を使用する場合、もしくは、両方を併用する場合にネットワークセキュリティグループ (NSG) で許可すべき TCP ポートについて説明します。</p>]]>
     </summary>
     <title>SQL Managed Instance 分散トランザクション実行時に NSG で許可すべき TCP ポート</title>
-    <updated>2026-06-29T07:38:19.038Z</updated>
+    <updated>2026-09-04T07:42:45.260Z</updated>
   </entry>
   <entry>
     <author>
@@ -119,7 +141,7 @@
 <p>今回の投稿では、Azure SQL Database (SQL DB)、SQL Managed Instance (SQL MI) における、実行プラン強制の注意点と手順について紹介します。</p>]]>
     </summary>
     <title>実行プラン強制の注意点と手順</title>
-    <updated>2026-06-29T07:38:19.065Z</updated>
+    <updated>2026-09-04T07:42:45.284Z</updated>
   </entry>
   <entry>
     <author>
@@ -142,7 +164,7 @@
       <![CDATA[<p><strong>適用対象</strong><br>SQL Managed Instance<br>SQL Database<br>SQL Server 2022 以降</p>]]>
     </summary>
     <title>並列クエリにおける CXCONSUMER および CXPACKET 待ち</title>
-    <updated>2026-06-29T07:38:19.076Z</updated>
+    <updated>2026-09-04T07:42:45.294Z</updated>
   </entry>
   <entry>
     <author>
@@ -161,7 +183,7 @@
       <![CDATA[<p>こんにちは。SQL Cloud サポート チームの太田です。<br>今回の投稿では、SQL Managed Instance (SQL MI)における拡張イベントの採取方法についてご案内します。 </p>]]>
     </summary>
     <title>SQL Managed Instance における拡張イベントの採取方法</title>
-    <updated>2026-06-29T07:38:19.042Z</updated>
+    <updated>2026-09-04T07:42:45.264Z</updated>
   </entry>
   <entry>
     <author>
@@ -186,7 +208,7 @@
 <p><strong>適用対象</strong><br>SQL Managed Instance<br>SQL Database<br>SQL Server 2022 以降</p>]]>
     </summary>
     <title>並列クエリにおける CXSYNC_PORT 待ち</title>
-    <updated>2026-06-29T07:38:19.077Z</updated>
+    <updated>2026-09-04T07:42:45.295Z</updated>
   </entry>
   <entry>
     <author>
@@ -208,7 +230,7 @@
       <![CDATA[<p>SQL Cloud サポート チームの宮崎です。<br>今回の投稿では、Azure SQL Database (SQL DB) において、クエリタイムアウト（コマンドタイムアウト）が発生した際の調査方法を紹介します。</p>]]>
     </summary>
     <title>クエリタイムアウトが発生した際の調査方法</title>
-    <updated>2026-06-29T07:38:19.081Z</updated>
+    <updated>2026-09-04T07:42:45.299Z</updated>
   </entry>
   <entry>
     <author>
@@ -230,7 +252,7 @@ SQL Managed Instance (SQL MI) の計画メンテナンスの一覧を取得す�
 </BR>]]>
     </summary>
     <title>SQL Managed Instance の計画メンテナンス一覧を取得する方法</title>
-    <updated>2026-06-29T07:38:19.043Z</updated>
+    <updated>2026-09-04T07:42:45.265Z</updated>
   </entry>
   <entry>
     <author>
@@ -248,7 +270,7 @@ SQL Managed Instance (SQL MI) の計画メンテナンスの一覧を取得す�
       <![CDATA[<p>こんにちは。SQL Cloud サポート チームの太田です。<br>今回の投稿では、2024 年 10 月 31 日に予定されているTLS 1.0&#x2F;1.1の廃止と通信プロトコルの確認についてご紹介します。 </p>]]>
     </summary>
     <title>TLS 1.0/1.1の廃止と通信プロトコルの確認方法</title>
-    <updated>2026-06-29T07:38:19.040Z</updated>
+    <updated>2026-09-04T07:42:45.262Z</updated>
   </entry>
   <entry>
     <author>
@@ -269,7 +291,7 @@ SQL Managed Instance (SQL MI) の計画メンテナンスの一覧を取得す�
 <p>今回の投稿では、Azure SQL Database (SQL DB) にて接続エラーが発生した際の初動調査の実施手順をご紹介します。</p>]]>
     </summary>
     <title>接続エラー発生時の初動調査</title>
-    <updated>2026-06-29T07:38:19.000Z</updated>
+    <updated>2026-09-04T07:42:45.226Z</updated>
   </entry>
   <entry>
     <author>
@@ -290,7 +312,7 @@ SQL Managed Instance (SQL MI) の計画メンテナンスの一覧を取得す�
 <p>※本文は2019年5月19日にMicrosoft Tech Communityに投稿された記事の翻訳をベースにしています。<br><a href="https://techcommunity.microsoft.com/t5/azure-sql-blog/take-a-copy-only-backup-of-tde-protected-database-on-azure-sql/ba-p/643407#:~:text=However%2C%20for%20TDE%20protected%20databases%20that%20use%20Service,take%20your%20data%2C%20and%20violate%20your%20security%20policy.">Take a COPY_ONLY backup of TDE protected database on Azure SQL Managed Instance</a></p>]]>
     </summary>
     <title>Azure SQL Managed Instance上で透過的なデータベース暗号化(TDE)により保護されたデータベースのCOPY_ONLYバックアップをとる</title>
-    <updated>2026-06-29T07:38:19.042Z</updated>
+    <updated>2026-09-04T07:42:45.264Z</updated>
   </entry>
   <entry>
     <author>
@@ -313,7 +335,7 @@ SQL Managed Instance (SQL MI) の計画メンテナンスの一覧を取得す�
 <p>今回の投稿では、Azure SQL Database (SQL DB) の既定のタイムゾーンと、システム日時の取得結果を日本時間に変換する方法を紹介します。</p>]]>
     </summary>
     <title>Azure SQL Database のタイムゾーンは UTC で変更できません、日本時間（JST）を取得する場合は変換が必要です</title>
-    <updated>2026-06-29T07:38:19.044Z</updated>
+    <updated>2026-09-04T07:42:45.265Z</updated>
   </entry>
   <entry>
     <author>
@@ -334,7 +356,7 @@ SQL Managed Instance (SQL MI) の計画メンテナンスの一覧を取得す�
       <![CDATA[<p>こんにちは。SQL Cloud サポート チームの宮崎です。<br>今回の投稿では、Azure SQL Database (SQL DB) において、CPU 使用率が高騰した際の調査方法を紹介します。</p>]]>
     </summary>
     <title>CPU 使用率が高騰した際の調査方法</title>
-    <updated>2026-06-29T07:38:19.044Z</updated>
+    <updated>2026-09-04T07:42:45.265Z</updated>
   </entry>
   <entry>
     <author>
@@ -357,28 +379,7 @@ SQL Managed Instance (SQL MI) の計画メンテナンスの一覧を取得す�
 <p>今回の投稿では、Azure SQL Database (SQL DB)、SQL Managed Instance (SQL MI) において、パフォーマンスのトラブルシューティング時に使える実行プランの確認方法をご紹介します。</p>]]>
     </summary>
     <title>実行プランの確認方法</title>
-    <updated>2026-06-29T07:38:19.081Z</updated>
-  </entry>
-  <entry>
-    <author>
-      <name>Microsoft SQL Cloud Support Team</name>
-    </author>
-    <category term="SQL Database" scheme="https://jp-azuresql.github.io/blog/tags/SQL-Database/"/>
-    <category term="SQL Managed Instance" scheme="https://jp-azuresql.github.io/blog/tags/SQL-Managed-Instance/"/>
-    <category term="Management" scheme="https://jp-azuresql.github.io/blog/tags/Management/"/>
-    <category term="vulnerability assessment" scheme="https://jp-azuresql.github.io/blog/tags/vulnerability-assessment/"/>
-    <content>
-      <![CDATA[<p>こんにちは。SQL Cloud サポート チームの陳です。</p><p>今回の投稿では、Azure SQL Database (SQL DB)、SQL Managed Instance (SQL MI) における脆弱性評価に関してよく寄せられる質問に回答します。</p><span id="more"></span><h2 id="脆弱性評価とは"><a href="#脆弱性評価とは" class="headerlink" title="脆弱性評価とは"></a>脆弱性評価とは</h2><hr><p>SQL DB、SQL MI の脆弱性評価はデータベースの潜在的な脆弱性を検出、追跡、修復するのに役立つ、構成が容易なサービスであり、データベースの設定が<strong>意図通りであることの確認を促すものです</strong>。脆弱性評価の結果によりセキュリティに影響するデータベースまたはサーバーレベルの設定を容易にレビューできます。 </p><p>脆弱性評価の定義に関して、<a href="/blog/undefined/vulnerabilityAssessment/">Azure SQL Database &#x2F; SQL Managed Instance 脆弱性評価の概要と有効化&#x2F;無効化の手順</a>をご参考ください。</p><h2 id="脆弱性評価に関する一般的なご質問"><a href="#脆弱性評価に関する一般的なご質問" class="headerlink" title="脆弱性評価に関する一般的なご質問"></a>脆弱性評価に関する一般的なご質問</h2><hr><ol><li><p><strong>脆弱性評価スキャン結果に対する対処法</strong> </p><ul><li><p><strong>VA2065</strong><br> サーバーレベルのファイアウォール規則で全てのルール名及び許可しているIPアドレスが意図通りであることの確認を促すものです。<br> サーバーレベルのファイアウォール規則を確認し、問題があれば修正または削除を行い、意図通りの設定であり問題がなければベースラインとして承認します。</p></li><li><p><strong>VA2108</strong><br> 対象ユーザーデータベースに特定の固定データベースロール(db_owner &#x2F; db_accessadmin &#x2F; db_backupoperator &#x2F; db_ddladmin &#x2F; db_securityadmin &#x2F; bulkadmin)に所属するデータベースユーザーが意図通りであることの確認を促すものです。<br> データベースロールの割り当てが意図されたものであり、不必要なユーザーに前述の固定データベースロールが割り当てられていないかを確認し、必要に応じて修正を行います。<br> 検出結果に表示される固定データベースロースに所属するユーザーが意図通りであれば、ベースラインとして承認します。</p></li><li><p><strong>VA2129</strong><br> ストアドプロシージャやファンクションなどのオブジェクトに対する署名が変更されたかを確認することを促すものです。VA2129 通知を受け取った場合、証明付きモジュールに対し、証明書による署名に問題がない事を確認する対応します。<br> 尚、master データベースにて「##MS_SchemaSigningCertificate」で始まる証明書によって署名されたもの、msdb データベースにて「##MS_AgentSigningCertificate」で始まる証明書によって署名されたものは既定で存在するモジュールで、システムによって管理されている証明書となり、対応は不要ですので、ベースラインとして承認していただいて問題ございません。</p></li><li><p><strong>VA2130</strong><br> データベースへのアクセス権を持つユーザーとして承認されているユーザー以外がデータベースに存在する場合 (ベースラインとして登録されていないユーザーが存在する場合) に、そのユーザーがアクセス権を持っていることが意図通りであることの確認を促すものです。<br> 検出結果内の一覧されるすべてのユーザーがアクセス権を持っていることが意図通りであれば、ベースラインとして登録し、意図通りでなければ、意図していないユーザーは削除します。</p></li><li><p>以下にて脆弱性評価スキャン結果 VA2065 を例にし、具体的な対処の流れをご説明いたします。</p><blockquote><ul><li>master データベースのスキャン結果より VA2065 をクリックします。<br><img src="/blog/Security/vulnerabilityAssessmentQA/VA2065-1.png"></li></ul></blockquote><blockquote><ul><li>検出結果とサーバーの「ネットワーク」→「ファイアウォール」設定を比較します。</li></ul></blockquote><p>  <img src="/blog/Security/vulnerabilityAssessmentQA/VA2065-2.png" alt="＜脆弱性評価スキャンの検出結果＞"></p><p>  <img src="/blog/Security/vulnerabilityAssessmentQA/VA2065-3.png" alt="＜サーバーのファイアウォール設定＞"></p><blockquote><ul><li>本環境では、ルール名 “ClientIP_HOME” で許可されている IP 106.73.xxx.xxx および、”Azure サービスおよびリソースにこのサーバーへのアクセスを許可する” の有効化は想定された設定であるため、「すべての結果をベースラインとして追加」を選択し、ベースラインとして承認します。<br><img src="/blog/Security/vulnerabilityAssessmentQA/VA2065-4.png"></li></ul></blockquote><blockquote><ul><li>ベースラインの変更を行ったため、更新された結果を表示するには、新たにスキャンを実行します。<br><img src="/blog/Security/vulnerabilityAssessmentQA/VA2065-5.png"></li></ul></blockquote></li></ul></li><li><p><strong>SQL MI のシステムデータベースの脆弱性評価</strong><br>脆弱性評価のスキャンは SQL MI のシステムデータベースに対しては個別に手動で実行できず、ユーザーデータベースで実行された脆弱性評価スキャンと同時にスキャンされます。</p></li><li><p><strong>脆弱性評価 (クラシック構成) に利用されるストレージアカウント</strong><br>脆弱性評価の有効化により自動的に生成されるストレージアカウントは通常 sqlva で始まる名前を持ちます。対象ストレージアカウントの vulnerability-assessment コンテナーに脆弱性評価スキャンの結果とベースライン設定が保存されています。</p></li><li><p><strong>スキャン結果にあるベースラインと関連する状態の解釈 (クラシック構成)</strong><br>脆弱性評価スキャンを実施する際にデータベースで実際の設定値とベースラインの設定を比べます。データベースでの設定とベースラインの設定を比べる時、以下の３つの状態が発生する可能性があります。</p></li></ol><p><img src="/blog/Security/vulnerabilityAssessmentQA/vabaseline.png"></p><p>各状態の意味は以下の通りです。<br>「<strong>ベースライン内</strong>」は、該当結果はデータベースに存在し、ベースラインとして設定されています。<br>「<strong>ベースライン外</strong>」は、該当結果はデータベースに存在するものの、ベースラインとして追加されていません。<br>「<strong>ベースラインの不一致</strong>」は、該当結果はベースラインとして追加されているものの、データベースには存在していません。</p>]]>
-    </content>
-    <id>https://jp-azuresql.github.io/blog/Security/vulnerabilityAssessmentQA/</id>
-    <link href="https://jp-azuresql.github.io/blog/Security/vulnerabilityAssessmentQA/"/>
-    <published>2023-08-08T11:00:00.000Z</published>
-    <summary>
-      <![CDATA[<p>こんにちは。SQL Cloud サポート チームの陳です。</p>
-<p>今回の投稿では、Azure SQL Database (SQL DB)、SQL Managed Instance (SQL MI) における脆弱性評価に関してよく寄せられる質問に回答します。</p>]]>
-    </summary>
-    <title>Azure SQL Database / SQL Managed Instance の脆弱性評価に関する FAQ</title>
-    <updated>2026-06-29T07:38:19.103Z</updated>
+    <updated>2026-09-04T07:42:45.299Z</updated>
   </entry>
   <entry>
     <author>
@@ -399,7 +400,28 @@ SQL Managed Instance (SQL MI) の計画メンテナンスの一覧を取得す�
 <p>今回の投稿では、Azure SQL Database (SQL DB)、SQL Managed Instance (SQL MI) における脆弱性評価に関してご案内します。</p>]]>
     </summary>
     <title>Azure SQL Database / SQL Managed Instance 脆弱性評価の概要と有効化/無効化の手順</title>
-    <updated>2026-06-29T07:38:19.099Z</updated>
+    <updated>2026-09-04T07:42:45.316Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>Microsoft SQL Cloud Support Team</name>
+    </author>
+    <category term="SQL Database" scheme="https://jp-azuresql.github.io/blog/tags/SQL-Database/"/>
+    <category term="SQL Managed Instance" scheme="https://jp-azuresql.github.io/blog/tags/SQL-Managed-Instance/"/>
+    <category term="Management" scheme="https://jp-azuresql.github.io/blog/tags/Management/"/>
+    <category term="vulnerability assessment" scheme="https://jp-azuresql.github.io/blog/tags/vulnerability-assessment/"/>
+    <content>
+      <![CDATA[<p>こんにちは。SQL Cloud サポート チームの陳です。</p><p>今回の投稿では、Azure SQL Database (SQL DB)、SQL Managed Instance (SQL MI) における脆弱性評価に関してよく寄せられる質問に回答します。</p><span id="more"></span><h2 id="脆弱性評価とは"><a href="#脆弱性評価とは" class="headerlink" title="脆弱性評価とは"></a>脆弱性評価とは</h2><hr><p>SQL DB、SQL MI の脆弱性評価はデータベースの潜在的な脆弱性を検出、追跡、修復するのに役立つ、構成が容易なサービスであり、データベースの設定が<strong>意図通りであることの確認を促すものです</strong>。脆弱性評価の結果によりセキュリティに影響するデータベースまたはサーバーレベルの設定を容易にレビューできます。 </p><p>脆弱性評価の定義に関して、<a href="/blog/undefined/vulnerabilityAssessment/">Azure SQL Database &#x2F; SQL Managed Instance 脆弱性評価の概要と有効化&#x2F;無効化の手順</a>をご参考ください。</p><h2 id="脆弱性評価に関する一般的なご質問"><a href="#脆弱性評価に関する一般的なご質問" class="headerlink" title="脆弱性評価に関する一般的なご質問"></a>脆弱性評価に関する一般的なご質問</h2><hr><ol><li><p><strong>脆弱性評価スキャン結果に対する対処法</strong> </p><ul><li><p><strong>VA2065</strong><br> サーバーレベルのファイアウォール規則で全てのルール名及び許可しているIPアドレスが意図通りであることの確認を促すものです。<br> サーバーレベルのファイアウォール規則を確認し、問題があれば修正または削除を行い、意図通りの設定であり問題がなければベースラインとして承認します。</p></li><li><p><strong>VA2108</strong><br> 対象ユーザーデータベースに特定の固定データベースロール(db_owner &#x2F; db_accessadmin &#x2F; db_backupoperator &#x2F; db_ddladmin &#x2F; db_securityadmin &#x2F; bulkadmin)に所属するデータベースユーザーが意図通りであることの確認を促すものです。<br> データベースロールの割り当てが意図されたものであり、不必要なユーザーに前述の固定データベースロールが割り当てられていないかを確認し、必要に応じて修正を行います。<br> 検出結果に表示される固定データベースロースに所属するユーザーが意図通りであれば、ベースラインとして承認します。</p></li><li><p><strong>VA2129</strong><br> ストアドプロシージャやファンクションなどのオブジェクトに対する署名が変更されたかを確認することを促すものです。VA2129 通知を受け取った場合、証明付きモジュールに対し、証明書による署名に問題がない事を確認する対応します。<br> 尚、master データベースにて「##MS_SchemaSigningCertificate」で始まる証明書によって署名されたもの、msdb データベースにて「##MS_AgentSigningCertificate」で始まる証明書によって署名されたものは既定で存在するモジュールで、システムによって管理されている証明書となり、対応は不要ですので、ベースラインとして承認していただいて問題ございません。</p></li><li><p><strong>VA2130</strong><br> データベースへのアクセス権を持つユーザーとして承認されているユーザー以外がデータベースに存在する場合 (ベースラインとして登録されていないユーザーが存在する場合) に、そのユーザーがアクセス権を持っていることが意図通りであることの確認を促すものです。<br> 検出結果内の一覧されるすべてのユーザーがアクセス権を持っていることが意図通りであれば、ベースラインとして登録し、意図通りでなければ、意図していないユーザーは削除します。</p></li><li><p>以下にて脆弱性評価スキャン結果 VA2065 を例にし、具体的な対処の流れをご説明いたします。</p><blockquote><ul><li>master データベースのスキャン結果より VA2065 をクリックします。<br><img src="/blog/Security/vulnerabilityAssessmentQA/VA2065-1.png"></li></ul></blockquote><blockquote><ul><li>検出結果とサーバーの「ネットワーク」→「ファイアウォール」設定を比較します。</li></ul></blockquote><p>  <img src="/blog/Security/vulnerabilityAssessmentQA/VA2065-2.png" alt="＜脆弱性評価スキャンの検出結果＞"></p><p>  <img src="/blog/Security/vulnerabilityAssessmentQA/VA2065-3.png" alt="＜サーバーのファイアウォール設定＞"></p><blockquote><ul><li>本環境では、ルール名 “ClientIP_HOME” で許可されている IP 106.73.xxx.xxx および、”Azure サービスおよびリソースにこのサーバーへのアクセスを許可する” の有効化は想定された設定であるため、「すべての結果をベースラインとして追加」を選択し、ベースラインとして承認します。<br><img src="/blog/Security/vulnerabilityAssessmentQA/VA2065-4.png"></li></ul></blockquote><blockquote><ul><li>ベースラインの変更を行ったため、更新された結果を表示するには、新たにスキャンを実行します。<br><img src="/blog/Security/vulnerabilityAssessmentQA/VA2065-5.png"></li></ul></blockquote></li></ul></li><li><p><strong>SQL MI のシステムデータベースの脆弱性評価</strong><br>脆弱性評価のスキャンは SQL MI のシステムデータベースに対しては個別に手動で実行できず、ユーザーデータベースで実行された脆弱性評価スキャンと同時にスキャンされます。</p></li><li><p><strong>脆弱性評価 (クラシック構成) に利用されるストレージアカウント</strong><br>脆弱性評価の有効化により自動的に生成されるストレージアカウントは通常 sqlva で始まる名前を持ちます。対象ストレージアカウントの vulnerability-assessment コンテナーに脆弱性評価スキャンの結果とベースライン設定が保存されています。</p></li><li><p><strong>スキャン結果にあるベースラインと関連する状態の解釈 (クラシック構成)</strong><br>脆弱性評価スキャンを実施する際にデータベースで実際の設定値とベースラインの設定を比べます。データベースでの設定とベースラインの設定を比べる時、以下の３つの状態が発生する可能性があります。</p></li></ol><p><img src="/blog/Security/vulnerabilityAssessmentQA/vabaseline.png"></p><p>各状態の意味は以下の通りです。<br>「<strong>ベースライン内</strong>」は、該当結果はデータベースに存在し、ベースラインとして設定されています。<br>「<strong>ベースライン外</strong>」は、該当結果はデータベースに存在するものの、ベースラインとして追加されていません。<br>「<strong>ベースラインの不一致</strong>」は、該当結果はベースラインとして追加されているものの、データベースには存在していません。</p>]]>
+    </content>
+    <id>https://jp-azuresql.github.io/blog/Security/vulnerabilityAssessmentQA/</id>
+    <link href="https://jp-azuresql.github.io/blog/Security/vulnerabilityAssessmentQA/"/>
+    <published>2023-08-08T11:00:00.000Z</published>
+    <summary>
+      <![CDATA[<p>こんにちは。SQL Cloud サポート チームの陳です。</p>
+<p>今回の投稿では、Azure SQL Database (SQL DB)、SQL Managed Instance (SQL MI) における脆弱性評価に関してよく寄せられる質問に回答します。</p>]]>
+    </summary>
+    <title>Azure SQL Database / SQL Managed Instance の脆弱性評価に関する FAQ</title>
+    <updated>2026-09-04T07:42:45.319Z</updated>
   </entry>
   <entry>
     <author>
@@ -421,28 +443,6 @@ SQL Managed Instance (SQL MI) の計画メンテナンスの一覧を取得す�
 <p>今回の投稿では、Azure SQL Database (SQL DB) において、2023 年 8 月 31 日以降に実施予定のゲートウェイ IP アドレスの移行（追跡 ID - FK_B-9T8 &#x2F; WS_W-1T0 等）の概要とユーザー側での対応の要否、対処方法について説明します。</p>]]>
     </summary>
     <title>Azure SQL Database ゲートウェイ IP 移行の通知への対応について - FK_B-9T8 / WS_W-1T0 等</title>
-    <updated>2026-06-29T07:38:19.038Z</updated>
-  </entry>
-  <entry>
-    <author>
-      <name>Microsoft SQL Cloud Support Team</name>
-    </author>
-    <category term="SQL Database" scheme="https://jp-azuresql.github.io/blog/tags/SQL-Database/"/>
-    <category term="Troubleshooting" scheme="https://jp-azuresql.github.io/blog/tags/Troubleshooting/"/>
-    <category term="SQL Managed Instance" scheme="https://jp-azuresql.github.io/blog/tags/SQL-Managed-Instance/"/>
-    <category term="Performance" scheme="https://jp-azuresql.github.io/blog/tags/Performance/"/>
-    <category term="クエリストア" scheme="https://jp-azuresql.github.io/blog/tags/%E3%82%AF%E3%82%A8%E3%83%AA%E3%82%B9%E3%83%88%E3%82%A2/"/>
-    <content>
-      <![CDATA[<p>こんにちは。SQL Cloud サポート チームの川野辺です。</p><p>今回の投稿では、Azure SQL Database (SQL DB)、SQL Managed Instance (SQL MI) において、特定クエリのパフォーマンスが悪化した際の調査方法を紹介します。</p><span id="more"></span><h2 id="なぜクエリのパフォーマンスが悪化するのか"><a href="#なぜクエリのパフォーマンスが悪化するのか" class="headerlink" title="なぜクエリのパフォーマンスが悪化するのか"></a>なぜクエリのパフォーマンスが悪化するのか</h2><hr><p>SQL DB、SQL MI において、パフォーマンスが悪化し、実行時間が増加する場合には、データベースの負荷が高い、処理で待機が発生している、クエリの対象となるデータが多い、メモリへのアクセスと比較して低速なファイルへのアクセスが発生している、クエリの実行手順を決定する実行プランが変化したなどが考えられます。<br>これらの問題の切り分けには、既定で有効化されているクエリストアの情報を確認することが有効です。なお、クエリストアに関して、直近で新規に作成されたデータベースでは既定で有効化されておりますが、全てのクエリの実行情報を取得する設定ではなく、期待する結果が取得されていない可能性がありますのでご注意ください。詳細は以下の公開情報にあります。</p><p><a href="https://learn.microsoft.com/ja-jp/sql/relational-databases/performance/manage-the-query-store?view=sql-server-ver16&tabs=ssms">クエリ ストアを管理するためのベスト プラクティス</a></p><h2 id="パフォーマンスが悪化したクエリの調査手順"><a href="#パフォーマンスが悪化したクエリの調査手順" class="headerlink" title="パフォーマンスが悪化したクエリの調査手順"></a>パフォーマンスが悪化したクエリの調査手順</h2><hr><ol><li>対象クエリの Query ID を確認します。</li></ol><p>対象クエリの実行情報をクエリストアから確認するためには、Query ID を明らかにする必要がありますので、SQL Server Management Studio (SSMS) などから対象のデータベースに対して以下のクエリを実行してください。その際に、&lt;クエリ文&gt; に対象のクエリテキストを指定します。</p><figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SELECT q.query_id, qt.query_sql_text</span><br><span class="line">FROM sys.query_store_query_text AS qt</span><br><span class="line">JOIN sys.query_store_query AS q</span><br><span class="line">ON qt.query_text_id = q.query_text_id</span><br><span class="line">where qt.query_sql_text like &#x27;<span class="variable">%&lt;クエリ文&gt;%</span>&#x27;</span><br></pre></td></tr></table></figure><p>実行例：調査対象のクエリが SELECT getdate() で始まる場合</p><p><img src="/blog/Performance/performance-tsg/image001.png"></p><ol start="2"><li>SSMS の [追跡したクエリ] の [追跡中のクエリ] にて、手順 1 で取得した対象クエリの Query ID を入力します。</li></ol><p><img src="/blog/Performance/performance-tsg/image002.png"></p><ol start="3"><li>右上の [構成] にて期間を変更可能ですので、パフォーマンスの差異が生じた期間を含むように設定します。</li></ol><p>既定では、[メトリック] が [実行時間] になっているため、実行時間が長くなり、パフォーマンスが悪化するような状況をこちらから確認可能です。</p><p><img src="/blog/Performance/performance-tsg/image003.png"></p><ol start="4"><li>[メトリック] を変更し、実行時間の差異の原因を特定します。</li></ol><p>[待機時間] を選択すると、クエリにおける待機時間の差異を調査することができ、待機によって実行時間に差異が生じていたかを判断可能です。<br>その他には、[CPU 時間] や [物理読み取り] などからリソースの利用状況に関して確認可能です。[物理読み取り] に関しては、低速なファイルアクセスである物理読み取りの確認が可能ですので、こちらが増加している場合は、クエリの対象データが増加しているか、メモリ上のキャッシュにデータが存在していなかった可能性があります。</p><p><img src="/blog/Performance/performance-tsg/image004.png"></p><ol start="5"><li>実行プランを確認します。</li></ol><p>実行プランはクエリの実行順序やアルゴリズムを定義するものであり、こちらが異なることでパフォーマンスに差異が生じる可能性がありますので、実行プランの変化も合わせて確認します。実行時間が短い場合と長い場合で、実行プランが異なる際には、以下の公開情報に詳細があります。</p><p><a href="https://learn.microsoft.com/ja-jp/sql/relational-databases/performance/query-store-usage-scenarios?view=sql-server-ver15#identify-and-tune-top-resource-consuming-queries">実行プランの確認</a></p><ol start="6"><li>手順 4. で [待機時間] が高騰している場合、[クエリ待機統計]  より該当の時間の待機状態を確認可能です。</li></ol><p>待機カテゴリを選択すると原因となっていたクエリ ID を確認することが確認でき、対象のクエリでどのような待機が発生していたかを明らかにできる可能性があります。待機が発生していた場合、各待機の詳細に関しては、以下の公開情報に詳細な説明があります。</p><p><a href="https://docs.microsoft.com/ja-jp/sql/relational-databases/performance/monitoring-performance-by-using-the-query-store?view=sql-server-ver15#Waiting">待機クエリを見つける</a></p><p><img src="/blog/Performance/performance-tsg/image005.png"></p><h2 id="パフォーマンスの改善に実施できること"><a href="#パフォーマンスの改善に実施できること" class="headerlink" title="パフォーマンスの改善に実施できること"></a>パフォーマンスの改善に実施できること</h2><hr><p>上記の手順でパフォーマンスが悪化した原因が確認できましたら、以下の公開情報の対策でパフォーマンスを改善できる可能性があります。<br>なお、SQL DB や SQL MI は PaaS 製品であることから、柔軟にコンピューティングリソースの増減が可能です。調査コストなどを踏まえるとリソース変更が経済的な解決策になる可能性もありますので、合わせて検討します。</p><p><a href="https://learn.microsoft.com/ja-jp/archive/blogs/jpsql/sql-server-5">どうする？ SQL Server のクエリ パフォーマンスが低下した！</a></p><p><a href="https://learn.microsoft.com/ja-jp/archive/blogs/jpsql/microsoft-azure-sql-database-%E3%83%91%E3%83%95%E3%82%A9%E3%83%BC%E3%83%9E%E3%83%B3%E3%82%B9-%E3%83%81%E3%83%A5%E3%83%BC%E3%83%8B%E3%83%B3%E3%82%B0-%E7%AC%AC%EF%BC%91%E5%9B%9E">Azure SQL Database パフォーマンス チューニング</a></p>]]>
-    </content>
-    <id>https://jp-azuresql.github.io/blog/Performance/performance-tsg/</id>
-    <link href="https://jp-azuresql.github.io/blog/Performance/performance-tsg/"/>
-    <published>2023-07-26T08:00:00.000Z</published>
-    <summary>
-      <![CDATA[<p>こんにちは。SQL Cloud サポート チームの川野辺です。</p>
-<p>今回の投稿では、Azure SQL Database (SQL DB)、SQL Managed Instance (SQL MI) において、特定クエリのパフォーマンスが悪化した際の調査方法を紹介します。</p>]]>
-    </summary>
-    <title>クエリのパフォーマンスが悪化した際の調査方法</title>
-    <updated>2026-06-29T07:38:19.078Z</updated>
+    <updated>2026-09-04T07:42:45.260Z</updated>
   </entry>
 </feed>
