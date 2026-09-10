@@ -10,7 +10,29 @@
   <rights>All rights reserved 2026, Microsoft SQL Cloud Support Team</rights>
   <subtitle>日本マイクロソフト SQL Cloud チームによるサポートブログです。</subtitle>
   <title>Japan SQL Cloud Support Blog</title>
-  <updated>2026-09-04T07:42:45.263Z</updated>
+  <updated>2026-09-10T13:39:11.676Z</updated>
+  <entry>
+    <author>
+      <name>Microsoft SQL Cloud Support Team</name>
+    </author>
+    <category term="SQL Database" scheme="https://jp-azuresql.github.io/blog/tags/SQL-Database/"/>
+    <category term="Information" scheme="https://jp-azuresql.github.io/blog/tags/Information/"/>
+    <category term="Retirement" scheme="https://jp-azuresql.github.io/blog/tags/Retirement/"/>
+    <category term="サポート終了" scheme="https://jp-azuresql.github.io/blog/tags/%E3%82%B5%E3%83%9D%E3%83%BC%E3%83%88%E7%B5%82%E4%BA%86/"/>
+    <category term="Deprecated" scheme="https://jp-azuresql.github.io/blog/tags/Deprecated/"/>
+    <category term="EOS" scheme="https://jp-azuresql.github.io/blog/tags/EOS/"/>
+    <content>
+      <![CDATA[<p>こんにちは。SQL Cloud サポート チームです。<br>今回の投稿では、Azure SQL Database (SQL DB) 製品において、2026年9月10日現時点で、今後廃止&#x2F;サポート終了予定の機能についてご説明します。<br>該当の機能をご利用のユーザー様にはすでにメールでの通知を行っておりますが、メールの通知を受け取られていない場合でも、念のためご利用のシステムにおいて廃止予定の機能をご利用されていないかご確認いただけますと幸いです。</p><span id="more"></span><h2 id="目次"><a href="#目次" class="headerlink" title="目次"></a>目次</h2><hr><ul><li><a href="#%E7%9B%AE%E6%AC%A1">目次</a></li><li><a href="#%E5%BB%83%E6%AD%A2/%E3%82%B5%E3%83%9D%E3%83%BC%E3%83%88%E7%B5%82%E4%BA%86%E4%BA%88%E5%AE%9A%E6%A9%9F%E8%83%BD%E3%81%A8%E4%BA%88%E5%AE%9A%E6%97%A5">廃止&#x2F;サポート終了予定機能と予定日</a></li><li><a href="#%E3%82%B7%E3%83%A3%E3%83%BC%E3%83%89-%E3%83%9E%E3%83%83%E3%83%97-%E3%83%9E%E3%83%8D%E3%83%BC%E3%82%B8%E3%83%A3%E3%83%BC-%E3%83%A2%E3%83%BC%E3%83%89%E3%81%AE%E3%82%A8%E3%83%A9%E3%82%B9%E3%83%86%E3%82%A3%E3%83%83%E3%82%AF%E3%82%AF%E3%82%A8%E3%83%AA%E6%A9%9F%E8%83%BD">シャード マップ マネージャー モードのエラスティッククエリ機能</a></li><li><a href="#%E3%83%90%E3%83%BC%E3%82%B8%E3%83%A7%E3%83%B3-%222014-04-01%22-%E3%81%AE-REST-API">バージョン “2014-04-01” の REST API</a></li><li><a href="#SQL-%E3%83%87%E3%83%BC%E3%82%BF%E5%90%8C%E6%9C%9F%E6%A9%9F%E8%83%BD">SQL データ同期機能</a></li></ul><p><a id="廃止/サポート終了予定機能と予定日"></a></p><h2 id="廃止-サポート終了予定機能と予定日"><a href="#廃止-サポート終了予定機能と予定日" class="headerlink" title="廃止&#x2F;サポート終了予定機能と予定日"></a>廃止&#x2F;サポート終了予定機能と予定日</h2><hr><p>2026年9月10日現時点において、廃止&#x2F;サポート終了予定の機能は以下のとおりです。</p><table><thead><tr><th>機能名</th><th>廃止&#x2F;サポート終了予定日</th></tr></thead><tbody><tr><td>シャード マップ マネージャー モードのエラスティッククエリ機能</td><td>2027年3月31日</td></tr><tr><td>バージョン “2014-04-01” の REST API</td><td>2027年6月30日</td></tr><tr><td>SQL データ同期機能</td><td>2027年9月30日</td></tr></tbody></table><h2 id="シャード-マップ-マネージャー-モードのエラスティッククエリ機能"><a href="#シャード-マップ-マネージャー-モードのエラスティッククエリ機能" class="headerlink" title="シャード マップ マネージャー モードのエラスティッククエリ機能"></a>シャード マップ マネージャー モードのエラスティッククエリ機能</h2><hr><p>シャード マップ マネージャー モードを使ったエラスティッククエリのサポートが2027年3月31日に終了します。<br>この日付を過ぎても作成済みのシャード マップ マネージャー モードのエラスティッククエリは引き続き機能しますが、新規作成や変更などの操作、また、弊社でのサポートの提供ができなくなります。<br>そのため、現在ご利用いただいているユーザー様におかれましては、他の製品やサービス (例: Azure Data Facotry のご利用や Azure SQL Managed Instance への切り替え等) のご利用をご検討いただけますと幸いです。</p><p>下記のドキュメントに移行先の代替製品&#x2F;サービスの詳細がまとまっておりますので、よろしければご参照ください。</p><p><a href="https://learn.microsoft.com/ja-jp/azure/azure-sql/database/elastic-query-horizontal-partitioning-migration?view=azuresql">エラスティック クエリ シャード マップ マネージャー モードからの移行</a></p><p>サポート終了予定のシャード マップ マネージャー モードを使ったエラスティッククエリの利用状況がわからない場合や、移行先の製品&#x2F;サービスに悩まれている場合、私どもサポートでご支援が可能ですのでご遠慮なくお問い合わせください。<br>その際には、お問い合わせ対応をスムーズに進められるよう、お問い合わせ時の件名、もしくは本文に “[サポート終了予定のエラスティック クエリ シャード マップ マネージャー モードの質問]” と記載いただけますと幸いです。</p><p><a id='バージョン-"2014-04-01"-の-REST-API'></a></p><h2 id="バージョン-“2014-04-01”-の-REST-API"><a href="#バージョン-“2014-04-01”-の-REST-API" class="headerlink" title="バージョン “2014-04-01” の REST API"></a>バージョン “2014-04-01” の REST API</h2><hr><p>SQL DB や一部の Azure Synapse Analytics の専用 SQL プール (旧 SQL DW) に対するバージョン “2014-04-01” の REST API が 2027年6月30日に廃止されます。<br>(以前は、2026年6月30日廃止予定でしたが、2027年6月30日まで廃止予定日を延長いたしました。)<br>そのため、この日を過ぎると当該バージョンの API をご利用いただけなくなる予定です。<br>廃止予定の REST API をご利用しているアプリケーションやスクリプトがないか確認いただき、ご利用されている場合は早期に新しいバージョン (例: 2021-11-01 や 2025-01-01 等) に切り替えていただくようお願いいたします。</p><p>廃止予定の REST API 一覧については以下をご参照ください。</p><p><a href="https://learn.microsoft.com/ja-jp/rest/api/sql/retirement">Azure SQL Database REST API 2014-04-01 提供終了のお知らせ</a></p><p>私どもサポートチームのブログにも詳細を記載しておりますので、よろしければ併せてこちらもご参照ください。</p><p><a href="https://jp-azuresql.github.io/blog/Management/2014-04-01-api-retirement/">古い API 廃止の通知「Upgrade Azure SQL Database 2014-04-01 APIs to a newer version」の対処法について</a></p><p>また、廃止予定の REST API の利用有無がわからない場合、Azure Portal 等から私どもサポート部門までお問い合わせいただけましたら、ご利用状況の確認が可能ですのでご必要の際にはご遠慮なくお問い合わせください。<br>その際には、お問い合わせ対応をスムーズに進められるよう、お問い合わせ時の件名、もしくは本文に “[廃止予定 REST API 2014-04-01 確認依頼]” と記載いただけますと幸いです。</p><h2 id="SQL-データ同期機能"><a href="#SQL-データ同期機能" class="headerlink" title="SQL データ同期機能"></a>SQL データ同期機能</h2><hr><p>Azure SQL Database や SQL Server など他のデータベースとのデータの同期を行う機能である SQL データ同期機能が2027年9月30日に廃止されます。<br>この日を過ぎると SQL データ同期機能を使った別のデータベースへのデータ同期ができなくなります。<br>そのため、SQL データ同期機能をご利用されている場合、別の製品やサービス (例: Azure Data Factory や Microsoft Fabric を使ったミラーリング等) のご利用をご検討ください。</p><p>以下のドキュメントに、データ同期のご利用シナリオごとの代替ソリューションがまとまっておりますので、よろしければご参照ください。</p><p><a href="https://learn.microsoft.com/ja-jp/azure/azure-sql/database/sql-data-sync-retirement-migration?view=azuresql">SQL データ同期廃止: 代替ソリューションに移行</a></p><p>また、SQL データ同期の利用有無がわからない場合や移行先に悩まれている場合、Azure Portal 等から私どもサポート部門までお問い合わせいただけましたら、ご利用状況の確認や代替案のご相談にのらせていただくことが可能ですのでご必要の際にはご遠慮なくお問い合わせください。<br>その際には、お問い合わせ対応をスムーズに進められるよう、お問い合わせ時の件名、もしくは本文に “[廃止予定 SQL データ同期確認依頼]” と記載いただけますと幸いです。</p><p>少しでも皆様のご参考になりましたら幸いです。</p></br></br><div style="text-align: right">Azure SQL Cloud support, Microsoft</div></br><p><font color="LightGray">キーワード：#サポートリクエスト #廃止予定 #対応方法 #廃止機能</font></p>]]>
+    </content>
+    <id>https://jp-azuresql.github.io/blog/Information/retirement-feature-2026/</id>
+    <link href="https://jp-azuresql.github.io/blog/Information/retirement-feature-2026/"/>
+    <published>2026-09-10T08:00:00.000Z</published>
+    <summary>
+      <![CDATA[<p>こんにちは。SQL Cloud サポート チームです。<br>今回の投稿では、Azure SQL Database (SQL DB) 製品において、2026年9月10日現時点で、今後廃止&#x2F;サポート終了予定の機能についてご説明します。<br>該当の機能をご利用のユーザー様にはすでにメールでの通知を行っておりますが、メールの通知を受け取られていない場合でも、念のためご利用のシステムにおいて廃止予定の機能をご利用されていないかご確認いただけますと幸いです。</p>]]>
+    </summary>
+    <title>Azure SQL Database の廃止予定/サポート終了予定の機能について（2026/9/10 現在）</title>
+    <updated>2026-09-10T13:39:11.676Z</updated>
+  </entry>
   <entry>
     <author>
       <name>Microsoft SQL Cloud Support Team</name>
@@ -31,14 +53,14 @@
       <![CDATA[<p>SQL Cloud サポート チームの宮崎です。<br>今回の投稿では、Azure SQL Database (SQL DB) と Azure Database Migration Service（DMS）における、新機能のリクエスト（Feature Request）方法やプロセスについてご紹介します。</p>]]>
     </summary>
     <title>Azure SQL Database / Azure Database Migration Service に関する新機能のリクエスト（Feature Request）について</title>
-    <updated>2026-09-04T07:42:45.263Z</updated>
+    <updated>2026-09-10T13:39:11.675Z</updated>
   </entry>
   <entry>
     <author>
       <name>Microsoft SQL Cloud Support Team</name>
     </author>
-    <category term="SQL Database" scheme="https://jp-azuresql.github.io/blog/tags/SQL-Database/"/>
     <category term="Troubleshooting" scheme="https://jp-azuresql.github.io/blog/tags/Troubleshooting/"/>
+    <category term="SQL Database" scheme="https://jp-azuresql.github.io/blog/tags/SQL-Database/"/>
     <category term="Management" scheme="https://jp-azuresql.github.io/blog/tags/Management/"/>
     <category term="API 廃止" scheme="https://jp-azuresql.github.io/blog/tags/API-%E5%BB%83%E6%AD%A2/"/>
     <category term="事前通知" scheme="https://jp-azuresql.github.io/blog/tags/%E4%BA%8B%E5%89%8D%E9%80%9A%E7%9F%A5/"/>
@@ -54,14 +76,14 @@
 <p>今回の投稿では、Azure SQL Database (SQL DB) において、<del>2026 年 6 月 30 日</del> <strong>2027 年 6 月 30 日</strong> に廃止される REST API バージョン 2014-04-01 の対処法についてご紹介します。</p>]]>
     </summary>
     <title>古い API 廃止の通知「Upgrade Azure SQL Database 2014-04-01 APIs to a newer version」の対処法について</title>
-    <updated>2026-09-04T07:42:45.264Z</updated>
+    <updated>2026-09-10T13:39:11.676Z</updated>
   </entry>
   <entry>
     <author>
       <name>Microsoft SQL Cloud Support Team</name>
     </author>
-    <category term="SQL Database" scheme="https://jp-azuresql.github.io/blog/tags/SQL-Database/"/>
     <category term="Troubleshooting" scheme="https://jp-azuresql.github.io/blog/tags/Troubleshooting/"/>
+    <category term="SQL Database" scheme="https://jp-azuresql.github.io/blog/tags/SQL-Database/"/>
     <category term="Performance" scheme="https://jp-azuresql.github.io/blog/tags/Performance/"/>
     <category term="DTU" scheme="https://jp-azuresql.github.io/blog/tags/DTU/"/>
     <category term="リソース負荷" scheme="https://jp-azuresql.github.io/blog/tags/%E3%83%AA%E3%82%BD%E3%83%BC%E3%82%B9%E8%B2%A0%E8%8D%B7/"/>
@@ -75,7 +97,7 @@
       <![CDATA[<p>こんにちは。SQL Cloud サポート チームの Uneme です。<br>今回の投稿では、Azure SQL Database (SQL DB) において DTU 使用率が高騰した際の初動調査の方法を紹介します。</p>]]>
     </summary>
     <title>DTU 使用率が高騰した際の初動調査</title>
-    <updated>2026-09-04T07:42:45.269Z</updated>
+    <updated>2026-09-10T13:39:11.681Z</updated>
   </entry>
   <entry>
     <author>
@@ -96,7 +118,7 @@
       <![CDATA[<p>SQL 監査のサーバー監査仕様、データベース監査仕様には succeeded という名前の列があります。succeeded 列の値が 1 (成功) であったとしても、必ずしもその操作が成功したとは限りません。</p>]]>
     </summary>
     <title>SQL 監査の succeeded 列</title>
-    <updated>2026-09-04T07:42:45.315Z</updated>
+    <updated>2026-09-10T13:39:11.727Z</updated>
   </entry>
   <entry>
     <author>
@@ -118,14 +140,14 @@
       <![CDATA[<p>SQL Managed Instance (以降 SQL MI) において分散トランザクションを実行するために使用可能な機能は二つあります。ひとつはエラスティック データベース トランザクション、もうひとつが分散トランザクションコーディネーターです。<br>この文書では、それぞれの機能を使用する場合、もしくは、両方を併用する場合にネットワークセキュリティグループ (NSG) で許可すべき TCP ポートについて説明します。</p>]]>
     </summary>
     <title>SQL Managed Instance 分散トランザクション実行時に NSG で許可すべき TCP ポート</title>
-    <updated>2026-09-04T07:42:45.260Z</updated>
+    <updated>2026-09-10T13:39:11.672Z</updated>
   </entry>
   <entry>
     <author>
       <name>Microsoft SQL Cloud Support Team</name>
     </author>
-    <category term="SQL Database" scheme="https://jp-azuresql.github.io/blog/tags/SQL-Database/"/>
     <category term="Troubleshooting" scheme="https://jp-azuresql.github.io/blog/tags/Troubleshooting/"/>
+    <category term="SQL Database" scheme="https://jp-azuresql.github.io/blog/tags/SQL-Database/"/>
     <category term="SQL Managed Instance" scheme="https://jp-azuresql.github.io/blog/tags/SQL-Managed-Instance/"/>
     <category term="Performance" scheme="https://jp-azuresql.github.io/blog/tags/Performance/"/>
     <category term="チューニング" scheme="https://jp-azuresql.github.io/blog/tags/%E3%83%81%E3%83%A5%E3%83%BC%E3%83%8B%E3%83%B3%E3%82%B0/"/>
@@ -141,7 +163,7 @@
 <p>今回の投稿では、Azure SQL Database (SQL DB)、SQL Managed Instance (SQL MI) における、実行プラン強制の注意点と手順について紹介します。</p>]]>
     </summary>
     <title>実行プラン強制の注意点と手順</title>
-    <updated>2026-09-04T07:42:45.284Z</updated>
+    <updated>2026-09-10T13:39:11.696Z</updated>
   </entry>
   <entry>
     <author>
@@ -164,7 +186,7 @@
       <![CDATA[<p><strong>適用対象</strong><br>SQL Managed Instance<br>SQL Database<br>SQL Server 2022 以降</p>]]>
     </summary>
     <title>並列クエリにおける CXCONSUMER および CXPACKET 待ち</title>
-    <updated>2026-09-04T07:42:45.294Z</updated>
+    <updated>2026-09-10T13:39:11.706Z</updated>
   </entry>
   <entry>
     <author>
@@ -183,7 +205,7 @@
       <![CDATA[<p>こんにちは。SQL Cloud サポート チームの太田です。<br>今回の投稿では、SQL Managed Instance (SQL MI)における拡張イベントの採取方法についてご案内します。 </p>]]>
     </summary>
     <title>SQL Managed Instance における拡張イベントの採取方法</title>
-    <updated>2026-09-04T07:42:45.264Z</updated>
+    <updated>2026-09-10T13:39:11.676Z</updated>
   </entry>
   <entry>
     <author>
@@ -208,14 +230,14 @@
 <p><strong>適用対象</strong><br>SQL Managed Instance<br>SQL Database<br>SQL Server 2022 以降</p>]]>
     </summary>
     <title>並列クエリにおける CXSYNC_PORT 待ち</title>
-    <updated>2026-09-04T07:42:45.295Z</updated>
+    <updated>2026-09-10T13:39:11.708Z</updated>
   </entry>
   <entry>
     <author>
       <name>Microsoft SQL Cloud Support Team</name>
     </author>
-    <category term="SQL Database" scheme="https://jp-azuresql.github.io/blog/tags/SQL-Database/"/>
     <category term="Troubleshooting" scheme="https://jp-azuresql.github.io/blog/tags/Troubleshooting/"/>
+    <category term="SQL Database" scheme="https://jp-azuresql.github.io/blog/tags/SQL-Database/"/>
     <category term="Performance" scheme="https://jp-azuresql.github.io/blog/tags/Performance/"/>
     <category term="クエリストア" scheme="https://jp-azuresql.github.io/blog/tags/%E3%82%AF%E3%82%A8%E3%83%AA%E3%82%B9%E3%83%88%E3%82%A2/"/>
     <category term="コマンドタイムアウト" scheme="https://jp-azuresql.github.io/blog/tags/%E3%82%B3%E3%83%9E%E3%83%B3%E3%83%89%E3%82%BF%E3%82%A4%E3%83%A0%E3%82%A2%E3%82%A6%E3%83%88/"/>
@@ -230,7 +252,7 @@
       <![CDATA[<p>SQL Cloud サポート チームの宮崎です。<br>今回の投稿では、Azure SQL Database (SQL DB) において、クエリタイムアウト（コマンドタイムアウト）が発生した際の調査方法を紹介します。</p>]]>
     </summary>
     <title>クエリタイムアウトが発生した際の調査方法</title>
-    <updated>2026-09-04T07:42:45.299Z</updated>
+    <updated>2026-09-10T13:39:11.711Z</updated>
   </entry>
   <entry>
     <author>
@@ -252,7 +274,7 @@ SQL Managed Instance (SQL MI) の計画メンテナンスの一覧を取得す�
 </BR>]]>
     </summary>
     <title>SQL Managed Instance の計画メンテナンス一覧を取得する方法</title>
-    <updated>2026-09-04T07:42:45.265Z</updated>
+    <updated>2026-09-10T13:39:11.677Z</updated>
   </entry>
   <entry>
     <author>
@@ -270,15 +292,15 @@ SQL Managed Instance (SQL MI) の計画メンテナンスの一覧を取得す�
       <![CDATA[<p>こんにちは。SQL Cloud サポート チームの太田です。<br>今回の投稿では、2024 年 10 月 31 日に予定されているTLS 1.0&#x2F;1.1の廃止と通信プロトコルの確認についてご紹介します。 </p>]]>
     </summary>
     <title>TLS 1.0/1.1の廃止と通信プロトコルの確認方法</title>
-    <updated>2026-09-04T07:42:45.262Z</updated>
+    <updated>2026-09-10T13:39:11.674Z</updated>
   </entry>
   <entry>
     <author>
       <name>Microsoft SQL Cloud Support Team</name>
     </author>
     <category term="Connectivity" scheme="https://jp-azuresql.github.io/blog/tags/Connectivity/"/>
-    <category term="SQL Database" scheme="https://jp-azuresql.github.io/blog/tags/SQL-Database/"/>
     <category term="Troubleshooting" scheme="https://jp-azuresql.github.io/blog/tags/Troubleshooting/"/>
+    <category term="SQL Database" scheme="https://jp-azuresql.github.io/blog/tags/SQL-Database/"/>
     <category term="Metric" scheme="https://jp-azuresql.github.io/blog/tags/Metric/"/>
     <content>
       <![CDATA[<p>こんにちは。SQL Cloud サポート チームの Ramona Xu です。</p><p>今回の投稿では、Azure SQL Database (SQL DB) にて接続エラーが発生した際の初動調査の実施手順をご紹介します。</p><span id="more"></span><h2 id="目次"><a href="#目次" class="headerlink" title="目次"></a>目次</h2><hr><ul><li><a href="#%E7%9B%AE%E6%AC%A1">目次</a></li><li><a href="#%E6%8E%A5%E7%B6%9A%E3%82%A8%E3%83%A9%E3%83%BC%E3%81%8C%E7%99%BA%E7%94%9F%E3%81%97%E3%81%9F%E9%9A%9B%E3%81%AE%E5%88%9D%E5%8B%95%E8%AA%BF%E6%9F%BB%E3%81%AE%E5%AE%9F%E6%96%BD%E6%89%8B%E9%A0%86">接続エラーが発生した際の初動調査の実施手順</a><ul><li><a href="#step-1-%E3%82%A8%E3%83%A9%E3%83%BC%E3%83%A1%E3%83%83%E3%82%BB%E3%83%BC%E3%82%B8%E3%81%AE%E7%A2%BA%E8%AA%8D">step 1. エラーメッセージの確認</a></li><li><a href="#step-2-%E3%83%A1%E3%83%88%E3%83%AA%E3%83%83%E3%82%AF%E3%81%AE%E7%A2%BA%E8%AA%8D">step 2. メトリックの確認</a><ul><li><a href="#%E3%83%87%E3%83%BC%E3%82%BF%E3%83%99%E3%83%BC%E3%82%B9%E3%81%AE%E6%8E%A5%E7%B6%9A%E5%A4%B1%E6%95%97%E3%81%AE%E7%A2%BA%E8%AA%8D">データベースの接続失敗の確認</a></li><li><a href="#%E3%83%87%E3%83%BC%E3%82%BF%E3%83%99%E3%83%BC%E3%82%B9%E5%81%B4%E3%81%AE%E3%83%95%E3%82%A1%E3%82%A4%E3%82%A2%E3%82%A6%E3%82%A9%E3%83%BC%E3%83%AB%E3%81%AE%E3%83%96%E3%83%AD%E3%83%83%E3%82%AF%E7%8A%B6%E6%B3%81%E3%81%AE%E7%A2%BA%E8%AA%8D">データベース側のファイアウォールのブロック状況の確認</a></li></ul></li><li><a href="#step-3-%E7%9B%A3%E6%9F%BB%E3%83%AD%E3%82%B0%E3%81%AE%E7%A2%BA%E8%AA%8D">step 3. 監査ログの確認</a><ul><li><a href="#Azure-%E3%82%B9%E3%83%88%E3%83%AC%E3%83%BC%E3%82%B8%E3%81%AB%E4%BF%9D%E5%AD%98%E3%81%95%E3%82%8C%E3%81%9F%E7%9B%A3%E6%9F%BB%E3%83%AD%E3%82%B0%E3%81%AE%E7%A2%BA%E8%AA%8D">Azure ストレージに保存された監査ログの確認</a></li><li><a href="#Log-Analytics-%E3%81%AB%E4%BF%9D%E5%AD%98%E3%81%95%E3%82%8C%E3%81%9F%E7%9B%A3%E6%9F%BB%E3%83%AD%E3%82%B0%E3%81%AE%E7%A2%BA%E8%AA%8D">Log Analytics に保存された監査ログの確認</a></li></ul></li><li><a href="#step-4-%E6%8E%A5%E7%B6%9A%E3%82%A8%E3%83%A9%E3%83%BC%E3%81%AE%E3%83%88%E3%83%A9%E3%83%96%E3%83%AB%E3%82%B7%E3%83%A5%E3%83%BC%E3%83%86%E3%82%A3%E3%83%B3%E3%82%B0%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6">step 4. 接続エラーのトラブルシューティングについて</a></li></ul></li></ul><h2 id="接続エラーが発生した際の初動調査の実施手順"><a href="#接続エラーが発生した際の初動調査の実施手順" class="headerlink" title="接続エラーが発生した際の初動調査の実施手順"></a>接続エラーが発生した際の初動調査の実施手順</h2><hr><h3 id="step-1-エラーメッセージの確認"><a href="#step-1-エラーメッセージの確認" class="headerlink" title="step 1. エラーメッセージの確認"></a>step 1. エラーメッセージの確認</h3><p>多くの場合データベースから返されるエラーメッセージにエラーの原因が記載されています。<br>エラー発生時にクライアント側に返されるデータベースのエラーメッセージのログをご確認することで、問題の正確な把握が容易になります。</p><p>例えば 、論理 SQL サーバー側のファイアウォールにて、接続元クライアントのパブリック IP アドレスが許可されていない場合は、以下のようなエラーメッセージがクライアント側に返されます。<br>エラーメッセージを読むことで、エラーの原因が特定できます。</p><figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Cannot open server &#x27;server_name&#x27; requested by the login. Client with IP address &#x27;***.***.***.***&#x27; is <span class="keyword">not</span> allowed to access the server. </span><br><span class="line">To enable access, use the Azure Management Portal or run sp_set_firewall_rule on the master database to create a firewall rule <span class="keyword">for</span> this IP address or address range. </span><br><span class="line">It may take up to five minutes <span class="keyword">for</span> this change to take effect. </span><br></pre></td></tr></table></figure><h3 id="step-2-メトリックの確認"><a href="#step-2-メトリックの確認" class="headerlink" title="step 2. メトリックの確認"></a>step 2. メトリックの確認</h3><p>Azure Portal にて、ご利用の SQL DB の「メトリック」からデータベースの利用状況を確認できます。<br>メトリックにて、データベースへの接続エラーの発生有無も記録しているため、調査には有用です。</p><h4 id="データベースの接続失敗の確認"><a href="#データベースの接続失敗の確認" class="headerlink" title="データベースの接続失敗の確認"></a>データベースの接続失敗の確認</h4><p>Azure Portalより、Failed Connections メトリックにて、データベースへの接続失敗の有無を確認することができます。</p><p>SQL database &gt; 監視 &gt; メトリック &gt; Failed Connections<br><img src="/blog/Connectivity/connectivity-initial-investigation/failed_connections.png"></p><p>Failed Connections メトリックには 2 つ種類があり、「Failed Connections: System Errors」 は、メンテナンス時のフェールオーバーや仮想コア数の増減といったスケーリング操作時のように、データベース基盤側に起因して発生した接続失敗を意味します。<br>一方、「Failed Connections: User Errors」は、ユーザー名・パスワードの指定間違いや、データベースユーザーの設定不備など、システム起因以外のユーザー側の問題に起因して発生した接続失敗を意味します。</p><p>Failed Connections: System Errors に記録がある場合、併せて以下を確認します。</p><ul><li><p><a href="https://learn.microsoft.com/ja-jp/azure/azure-sql/database/resource-health-to-troubleshoot-connectivity?view=azuresql">リソース正常性</a></p></li><li><p>スケーリングが行われたか</p><ul><li><a href="https://learn.microsoft.com/ja-jp/azure/azure-sql/database/monitoring-sql-database-azure-monitor?view=azuresql#azure-activity-log">アクティビティログ</a>で確認する</li><li>以下はスケールアップの例<br><img src="/blog/Connectivity/connectivity-initial-investigation/scaleuplog.png"></li></ul></li><li><p>フェールオーバーが行われたか</p><ul><li>アクティビティログで確認する</li><li>以下はユーザーによる手動フェールオーバーの例</li><li><img src="/blog/Connectivity/connectivity-initial-investigation/failoverlog.png"></li></ul></li><li><p>メンテナンスイベントが行われたか（<a href="https://learn.microsoft.com/ja-jp/azure/azure-sql/database/planned-maintenance?view=azuresql#maintenance-windows-and-advance-notifications">メンテナンス期間と事前通知</a>を設定している場合）</p></li></ul><h4 id="データベース側のファイアウォールによるブロック状況の確認"><a href="#データベース側のファイアウォールによるブロック状況の確認" class="headerlink" title="データベース側のファイアウォールによるブロック状況の確認"></a>データベース側のファイアウォールによるブロック状況の確認</h4><p>Azure SQL Database のファイアウォールでは、既定ではすべての接続をブロックし、許可された接続のみアクセスできる方式（ホワイトリスト方式）となっているため、ファイアウォールにて許可されていない接続元からの接続は、ファイアウォールにてブロックされ、メトリックにも記録されます。</p><p>SQL database &gt; 監視 &gt; メトリック &gt; Blocked by Firewall<br><img src="/blog/Connectivity/connectivity-initial-investigation/blocked_by_firewall.png"> </p><h3 id="step-3-監査ログの確認"><a href="#step-3-監査ログの確認" class="headerlink" title="step 3. 監査ログの確認"></a>step 3. 監査ログの確認</h3><p>データベースイベントを追跡する監査ログ（既定では無効）を活用することで、接続エラーの履歴を確認することができます。<br>過去の事象でエラーメッセージを確認する場合は、監査ログを活用することも有用です。また監査ログには接続元クライアント IP アドレスや、ホスト名も記録されるため、接続試行が行われたクライアントマシンを確認することもできます。</p><div class="alert is-warning"><p class="alert-title">警告</p><p>Azure portal のメトリックも監査ログもデータベースへ接続が届いていない場合は記録されません。例えば、クライアントマシン側のファイアウォールでブロックされた場合や、名前解決が失敗しデータベースへ通信が届かない場合は、記録されません。</p></div><p><a href="https://learn.microsoft.com/ja-jp/azure/azure-sql/database/auditing-overview?view=azuresql">監査の概要</a><br><a href="https://learn.microsoft.com/ja-jp/azure/azure-sql/database/auditing-setup?view=azuresql">監査の設定方法</a>  </p><p>以下は、監査ログを Azure ストレージ・Log Analytics へ保存した場合の監査ログの確認方法の例です。</p><h4 id="Azure-ストレージに保存された監査ログの確認"><a href="#Azure-ストレージに保存された監査ログの確認" class="headerlink" title="Azure ストレージに保存された監査ログの確認"></a>Azure ストレージに保存された監査ログの確認</h4><p>Azure ストレージに保存された監査ログは以下の方法で Azure Portal より確認できます。</p><p>STEP 1.  ログファイルの URL を確認する<br>ストレージアカウント &gt; ストレージブラウザー（もしくはデータストレージ “コンテナー”） &gt; BLOBコンテナー &gt; sqldbauditlogs &gt; 該当ファイル名をクリックする &gt; URLをコピーする<br><img src="/blog/Connectivity/connectivity-initial-investigation/storagebrowser.png"></p><p>STEP 2. 監査ログを確認する<br>SQLデータベース &gt; クエリエディター &gt; 以下のステートメントを実行する<br>Azure portal のクエリエディター以外にも、SQL Server Management Studio（SSMS）からクエリを実行することでも監査ログの内容を確認できます。<br>※複数のログファイルが存在している場合、ログファイル名を省略した形（「sys.fn_get_audit_file(‘…&#x2F;YYYY-MM-DD&#x2F;‘, default, default)」）で実行することも可能です。</p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> TOP <span class="number">100</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> sys.fn_get_audit_file(<span class="string">&#x27;&lt;コピーしたURL&gt;&#x27;</span>, <span class="keyword">default</span>, <span class="keyword">default</span>)</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> event_time <span class="keyword">DESC</span></span><br></pre></td></tr></table></figure><p><img src="/blog/Connectivity/connectivity-initial-investigation/queryeditor.png"></p><p><a href="https://learn.microsoft.com/ja-jp/sql/relational-databases/system-functions/sys-fn-get-audit-file-transact-sql?view=sql-server-ver16&tabs=sqlserver">sys.fn_get_audit_file のドキュメント</a></p><div class="alert is-info"><p class="alert-title">Note</p><p>Azure ストレージに保存された監査ログファイルをローカルマシンにダウンロードし、SSMS から監査ログファイルを読み込み内容を確認することも可能です。</p></div><h4 id="Log-Analytics-に保存された監査ログの確認"><a href="#Log-Analytics-に保存された監査ログの確認" class="headerlink" title="Log Analytics に保存された監査ログの確認"></a>Log Analytics に保存された監査ログの確認</h4><p>Log Analytics に保存された監査ログは以下の方法で Azure Portal より確認できます。<br>Azure SQL Database の監査ログは、Log Analytics の AzureDiagnostics テーブルに記録され、Category 項目が “SQLSecuriyAuditEvents” となります。 </p><p>SQL データベース &gt; セキュリティ &gt; 監査 &gt; 監査ログの表示<br><img src="/blog/Connectivity/connectivity-initial-investigation/auditlog.png"></p><p>Log Analytics<br><img src="/blog/Connectivity/connectivity-initial-investigation/loganalytics.png"></p><p>クエリが自動で生成されます。KQL クエリを修正して、取得した情報を絞ったりフィルターを行ったりすることも可能です。<br>※Log Analytics ワークスペースのリソース画面の “ログ” ページからもログクエリ（KQL）を実行できます。<br><img src="/blog/Connectivity/connectivity-initial-investigation/loganalyticscode.png"></p><p><a href="https://learn.microsoft.com/ja-jp/azure/azure-monitor/logs/log-analytics-tutorial">Log Analytics のドキュメント</a></p><h3 id="step-4-接続エラーのトラブルシューティングについて"><a href="#step-4-接続エラーのトラブルシューティングについて" class="headerlink" title="step 4. 接続エラーのトラブルシューティングについて"></a>step 4. 接続エラーのトラブルシューティングについて</h3><p>接続エラーが解消しない場合のトラブルシューティング方法は過去の記事にて紹介しています。<br>以下の記事も併せてご参照ください。<br><a href="https://jp-azuresql.github.io/blog/Connectivity/connectivity-troubleshooting/">接続エラーのトラブルシューティングに関して</a> </p>]]>
@@ -291,7 +313,7 @@ SQL Managed Instance (SQL MI) の計画メンテナンスの一覧を取得す�
 <p>今回の投稿では、Azure SQL Database (SQL DB) にて接続エラーが発生した際の初動調査の実施手順をご紹介します。</p>]]>
     </summary>
     <title>接続エラー発生時の初動調査</title>
-    <updated>2026-09-04T07:42:45.226Z</updated>
+    <updated>2026-09-10T13:39:11.638Z</updated>
   </entry>
   <entry>
     <author>
@@ -312,7 +334,7 @@ SQL Managed Instance (SQL MI) の計画メンテナンスの一覧を取得す�
 <p>※本文は2019年5月19日にMicrosoft Tech Communityに投稿された記事の翻訳をベースにしています。<br><a href="https://techcommunity.microsoft.com/t5/azure-sql-blog/take-a-copy-only-backup-of-tde-protected-database-on-azure-sql/ba-p/643407#:~:text=However%2C%20for%20TDE%20protected%20databases%20that%20use%20Service,take%20your%20data%2C%20and%20violate%20your%20security%20policy.">Take a COPY_ONLY backup of TDE protected database on Azure SQL Managed Instance</a></p>]]>
     </summary>
     <title>Azure SQL Managed Instance上で透過的なデータベース暗号化(TDE)により保護されたデータベースのCOPY_ONLYバックアップをとる</title>
-    <updated>2026-09-04T07:42:45.264Z</updated>
+    <updated>2026-09-10T13:39:11.676Z</updated>
   </entry>
   <entry>
     <author>
@@ -335,14 +357,14 @@ SQL Managed Instance (SQL MI) の計画メンテナンスの一覧を取得す�
 <p>今回の投稿では、Azure SQL Database (SQL DB) の既定のタイムゾーンと、システム日時の取得結果を日本時間に変換する方法を紹介します。</p>]]>
     </summary>
     <title>Azure SQL Database のタイムゾーンは UTC で変更できません、日本時間（JST）を取得する場合は変換が必要です</title>
-    <updated>2026-09-04T07:42:45.265Z</updated>
+    <updated>2026-09-10T13:39:11.677Z</updated>
   </entry>
   <entry>
     <author>
       <name>Microsoft SQL Cloud Support Team</name>
     </author>
-    <category term="SQL Database" scheme="https://jp-azuresql.github.io/blog/tags/SQL-Database/"/>
     <category term="Troubleshooting" scheme="https://jp-azuresql.github.io/blog/tags/Troubleshooting/"/>
+    <category term="SQL Database" scheme="https://jp-azuresql.github.io/blog/tags/SQL-Database/"/>
     <category term="Performance" scheme="https://jp-azuresql.github.io/blog/tags/Performance/"/>
     <category term="クエリストア" scheme="https://jp-azuresql.github.io/blog/tags/%E3%82%AF%E3%82%A8%E3%83%AA%E3%82%B9%E3%83%88%E3%82%A2/"/>
     <category term="CPU 使用率" scheme="https://jp-azuresql.github.io/blog/tags/CPU-%E4%BD%BF%E7%94%A8%E7%8E%87/"/>
@@ -356,14 +378,14 @@ SQL Managed Instance (SQL MI) の計画メンテナンスの一覧を取得す�
       <![CDATA[<p>こんにちは。SQL Cloud サポート チームの宮崎です。<br>今回の投稿では、Azure SQL Database (SQL DB) において、CPU 使用率が高騰した際の調査方法を紹介します。</p>]]>
     </summary>
     <title>CPU 使用率が高騰した際の調査方法</title>
-    <updated>2026-09-04T07:42:45.265Z</updated>
+    <updated>2026-09-10T13:39:11.677Z</updated>
   </entry>
   <entry>
     <author>
       <name>Microsoft SQL Cloud Support Team</name>
     </author>
-    <category term="SQL Database" scheme="https://jp-azuresql.github.io/blog/tags/SQL-Database/"/>
     <category term="Troubleshooting" scheme="https://jp-azuresql.github.io/blog/tags/Troubleshooting/"/>
+    <category term="SQL Database" scheme="https://jp-azuresql.github.io/blog/tags/SQL-Database/"/>
     <category term="SQL Managed Instance" scheme="https://jp-azuresql.github.io/blog/tags/SQL-Managed-Instance/"/>
     <category term="Performance" scheme="https://jp-azuresql.github.io/blog/tags/Performance/"/>
     <category term="クエリストア" scheme="https://jp-azuresql.github.io/blog/tags/%E3%82%AF%E3%82%A8%E3%83%AA%E3%82%B9%E3%83%88%E3%82%A2/"/>
@@ -379,7 +401,7 @@ SQL Managed Instance (SQL MI) の計画メンテナンスの一覧を取得す�
 <p>今回の投稿では、Azure SQL Database (SQL DB)、SQL Managed Instance (SQL MI) において、パフォーマンスのトラブルシューティング時に使える実行プランの確認方法をご紹介します。</p>]]>
     </summary>
     <title>実行プランの確認方法</title>
-    <updated>2026-09-04T07:42:45.299Z</updated>
+    <updated>2026-09-10T13:39:11.711Z</updated>
   </entry>
   <entry>
     <author>
@@ -400,7 +422,7 @@ SQL Managed Instance (SQL MI) の計画メンテナンスの一覧を取得す�
 <p>今回の投稿では、Azure SQL Database (SQL DB)、SQL Managed Instance (SQL MI) における脆弱性評価に関してご案内します。</p>]]>
     </summary>
     <title>Azure SQL Database / SQL Managed Instance 脆弱性評価の概要と有効化/無効化の手順</title>
-    <updated>2026-09-04T07:42:45.316Z</updated>
+    <updated>2026-09-10T13:39:11.728Z</updated>
   </entry>
   <entry>
     <author>
@@ -421,28 +443,6 @@ SQL Managed Instance (SQL MI) の計画メンテナンスの一覧を取得す�
 <p>今回の投稿では、Azure SQL Database (SQL DB)、SQL Managed Instance (SQL MI) における脆弱性評価に関してよく寄せられる質問に回答します。</p>]]>
     </summary>
     <title>Azure SQL Database / SQL Managed Instance の脆弱性評価に関する FAQ</title>
-    <updated>2026-09-04T07:42:45.319Z</updated>
-  </entry>
-  <entry>
-    <author>
-      <name>Microsoft SQL Cloud Support Team</name>
-    </author>
-    <category term="Connectivity" scheme="https://jp-azuresql.github.io/blog/tags/Connectivity/"/>
-    <category term="SQL Database" scheme="https://jp-azuresql.github.io/blog/tags/SQL-Database/"/>
-    <category term="Gateway" scheme="https://jp-azuresql.github.io/blog/tags/Gateway/"/>
-    <category term="Alert" scheme="https://jp-azuresql.github.io/blog/tags/Alert/"/>
-    <category term="Migration" scheme="https://jp-azuresql.github.io/blog/tags/Migration/"/>
-    <content>
-      <![CDATA[<p>こんにちは。SQL Cloud サポート チームの宮崎です。</p><p>今回の投稿では、Azure SQL Database (SQL DB) において、2023 年 8 月 31 日以降に実施予定のゲートウェイ IP アドレスの移行（追跡 ID - FK_B-9T8 &#x2F; WS_W-1T0 等）の概要とユーザー側での対応の要否、対処方法について説明します。</p><span id="more"></span><h2 id="Azure-SQL-Database-ゲートウェイ-IP-アドレス移行の概要"><a href="#Azure-SQL-Database-ゲートウェイ-IP-アドレス移行の概要" class="headerlink" title="Azure SQL Database ゲートウェイ IP アドレス移行の概要"></a>Azure SQL Database ゲートウェイ IP アドレス移行の概要</h2><hr><p>SQL DB の接続アーキテクチャでは、アプリケーションから SQL DB へ接続する際に Azure 内部のゲートウェイを経由します。</p><p><img src="/blog/Connectivity/gateway-ip-migration-2023/connectivity-architecture.png"></p><p>今回の追跡 ID （FK_B-9T8&#x2F;WS_W-1T0 等）の通知は、この度このゲートウェイの IP アドレスが追加されることにより、アプリケーションが動作するクライアントマシンのファイアウォールや仮想ネットワークのネットワークセキュリティグループ（NSG）にて通信の送受信を制限している場合、その制限ルールによっては変更後のゲートウェイへの通信がブロックされてしまうため、ユーザー側で新しいゲートウェイの IP アドレスへの通信を許可する必要がある、という内容です。</p><div class="alert is-info"><p class="alert-title">Note</p><p>今回のゲートウェイ IP の移行は、特定の SQL DB リソースのみではなく、すべての SQL Database が対象となります。</p></div><h2 id="ユーザー側の対応の要否と対処方法について"><a href="#ユーザー側の対応の要否と対処方法について" class="headerlink" title="ユーザー側の対応の要否と対処方法について"></a>ユーザー側の対応の要否と対処方法について</h2><hr><h3 id="対応が必要な通信経路"><a href="#対応が必要な通信経路" class="headerlink" title="対応が必要な通信経路"></a>対応が必要な通信経路</h3><p>アプリケーションから SQL DB に接続する場合、以下の 3 つの経路（接続方式）があります。</p><p>A. パブリックネットワークアクセス<br>B. 仮想ネットワークからサービスエンドポイント経由の接続<br>C. プライベートエンドポイント経由でのプライベート接続</p><p>今回通知の影響を受ける接続方式は、A と B のみとなります。</p><div class="alert is-important"><p class="alert-title">重要</p><p>プライベートエンドポイント接続のみをご利用の場合は、当該通知による影響の対象外となりユーザー側での対応は不要です。</p><p>アプリケーションからプライベートエンドポイントへの接続となり、プライベートエンドポイントからゲートウェイへの通信制御は Azure 内部で行われるためです。</p></div><h3 id="ゲートウェイへの通信可否の確認方法と対処方法"><a href="#ゲートウェイへの通信可否の確認方法と対処方法" class="headerlink" title="ゲートウェイへの通信可否の確認方法と対処方法"></a>ゲートウェイへの通信可否の確認方法と対処方法</h3><p>当該通知に関してユーザー側で対応が必要かどうかに関しては、SQL DB へ接続を行うアプリケーション（クライアントマシン）のネットワーク設定や仮想ネットワーク&#x2F;サブネットのネットワークセキュリティグループ（NSG）のアウトバウンド通信ルール、OS のファイアウォールルールなどを確認します。<br>以下ドキュメントに記載の対象リージョン（使用している SQL DB が存在するリージョン）のゲートウェイ IP アドレスとゲートウェイ IP アドレスのサブネットレンジすべてへの通信が行える状態になっているか（ファイアウォールのアウトバウンド通信制御にてゲートウェイアドレスへの通信がブロックされる設定になっていないか等）を確認する必要があります。</p><p><a href="https://learn.microsoft.com/ja-jp/azure/azure-sql/database/connectivity-architecture?view=azuresql-db#gateway-ip-addresses">ゲートウェイ IP アドレス</a></p><p>以下東日本リージョンのゲートウェイ IP アドレスとゲートウェイ IP アドレス サブネットの抜粋</p><table><thead><tr><th>Region name</th><th>Gateway IP addresses</th><th>Gateway IP address subnets</th></tr></thead><tbody><tr><td>Japan East</td><td>40.79.184.8, 40.79.192.5,<br> 13.78.104.32, 40.79.184.32</td><td>13.78.104.32&#x2F;29, 40.79.184.32&#x2F;29,<br> 40.79.192.32&#x2F;29, 20.191.165.160&#x2F;27</td></tr></tbody></table><p>以下西日本リージョンのゲートウェイ IP アドレスとゲートウェイ IP アドレス サブネットの抜粋</p><table><thead><tr><th>Region name</th><th>Gateway IP addresses</th><th>Gateway IP address subnets</th></tr></thead><tbody><tr><td>Japan West</td><td>104.214.148.156, 40.74.97.10</td><td>40.74.96.32&#x2F;29, 20.18.179.192&#x2F;29, <br> 20.189.225.160&#x2F;27</td></tr></tbody></table><div class="alert is-info"><p class="alert-title">Note</p><p>上記ドキュメントに記載のゲートウェイアドレス&#x2F;サブネットに関して、現時点ではまだ稼働していないゲートウェイのアドレス（今後利用予定のアドレス）もあるため、Test-NetConnection 等のゲートウェイアドレスに対する疎通確認コマンドにてすべてのゲートウェイアドレスへの通信可否を確認することはできません。</p><p>そのため、アプリケーション側のネットワーク、ファイアウォールの設定を確認する必要があります。</p></div><h4 id="NSG-ルール"><a href="#NSG-ルール" class="headerlink" title="NSG ルール"></a>NSG ルール</h4><p>NSG のアウトバウンド通信設定を確認する場合は、Azure portal より該当の NSG の「送信セキュリティ規則」画面から、設定されているルールを確認します。<br>SQL DB のゲートウェイへのアウトバウンド通信がブロックされるような Deny ルールがある場合は、より高い優先度（優先度の値が低い）で、すべての SQL DB のゲートウェイ IP アドレスとゲートウェイ IP アドレスのサブネットレンジへの通信を許可するルールを追加します。</p><p><img src="/blog/Connectivity/gateway-ip-migration-2023/nsg.png"></p><div class="alert is-important"><p class="alert-title">重要</p><p>NSG の送信セキュリティ規則にて、SQL DB（ゲートウェイ）への通信の宛先にサービスタグ Sql.&lt;リージョン&gt; を設定している場合は NSG のルールの変更や追加は不要です。</p><p>サービスタグ Sql.&lt;リージョン&gt; には、該当リージョンのすべてのゲートウェイ IP アドレスとゲートウェイ IP アドレスのサブネットレンジが含まれています。</p></div><h4 id="アプリケーション側（クライアントマシン）にインストールされたファイアウォールソフト"><a href="#アプリケーション側（クライアントマシン）にインストールされたファイアウォールソフト" class="headerlink" title="アプリケーション側（クライアントマシン）にインストールされたファイアウォールソフト"></a>アプリケーション側（クライアントマシン）にインストールされたファイアウォールソフト</h4><p>アプリケーション側（クライアントマシン）の OS 上にインストールされたファイアウォールソフトに関しては、使用しているソフトによって設定が異なるため、確認方法はソフトウェア提供ベンダーに確認ください。</p><p>参考までに、Windows Defender のファイアウォールを使用している場合、Windows Defender のファイアウォール画面から「詳細設定」より、「送信の規則」にて現在の送信規則を確認できます。<br>SQL DB のゲートウェイへのアウトバウンド通信がブロックされるような Block ルールがある場合は、すべての SQL DB のゲートウェイ IP アドレスとゲートウェイ IP アドレスのサブネットレンジへの通信を許可するルールを設定ください。</p><p><img src="/blog/Connectivity/gateway-ip-migration-2023/windows-defender.png"></p><div class="alert is-info"><p class="alert-title">Note</p><p>ゲートウェイへの通信ルールの宛先ポートは「TCP 1433 ポート」となります。</p></div><p><font color="LightGray">キーワード：#ゲートウェイ移行 #トラフィック移行 #パブリックアドレス変更 #FK_B-9T8 #WS_W-1T0</font></p>]]>
-    </content>
-    <id>https://jp-azuresql.github.io/blog/Connectivity/gateway-ip-migration-2023/</id>
-    <link href="https://jp-azuresql.github.io/blog/Connectivity/gateway-ip-migration-2023/"/>
-    <published>2023-08-01T06:00:00.000Z</published>
-    <summary>
-      <![CDATA[<p>こんにちは。SQL Cloud サポート チームの宮崎です。</p>
-<p>今回の投稿では、Azure SQL Database (SQL DB) において、2023 年 8 月 31 日以降に実施予定のゲートウェイ IP アドレスの移行（追跡 ID - FK_B-9T8 &#x2F; WS_W-1T0 等）の概要とユーザー側での対応の要否、対処方法について説明します。</p>]]>
-    </summary>
-    <title>Azure SQL Database ゲートウェイ IP 移行の通知への対応について - FK_B-9T8 / WS_W-1T0 等</title>
-    <updated>2026-09-04T07:42:45.260Z</updated>
+    <updated>2026-09-10T13:39:11.731Z</updated>
   </entry>
 </feed>
